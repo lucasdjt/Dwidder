@@ -32,18 +32,6 @@ Un Paramètre ne peut être assigné qu'à un User
 ## CONDITIONS EN CAS DE PROBLEME
 Si l'Admin supprime son compte, il est obligé de léguer le leader du grp à qq1, sinon il sera léguer au hasard
 Si un Abonnement est refusé, alors il se supprime automatiquement de la table Abonnement
-## REGLES
-- User peut créer Fils de discussion avec 1 ou plusieurs personnes
-- User peut poster des "posts" dans différents Fils
-- User peut lire les mess des autres abonnées de ce Fils
-- User peut se créer un compte
-- User peut s'authentifier
-- User peut créer, gérer, poster, visualier ses fils de discussions
-- User peut gérer ses abonnées
-- User peut gérer les like/unlike sur les messages
-- User peut poster des images
-- User peut donnée une durée de vie aux messages
-- User peut savoir quels sont ses fils follows
 
 ## EXEMPLE D'UTILISATION
 
@@ -90,3 +78,13 @@ Une fois connecté, il peut aussi allez sur son profil pour :
 Ou allez dans les paramètres pour :
 - Changer ses paramètres
 - Supprimer son compte
+
+L'utilisateur peut créer un groupe dont il devient l'admin et y ajouter quelques potes dans ce groupe, comme ça l'user peut poster dans ce groupe pour que seuls ses amis de ce groupe peuvent voir, mais aussi il peut poster dans un groupe etc...
+
+Dans son groupe, il peut supprimer les posts, épingler celui qui le plaît, créer ses propres posts, et visualiser les différents posts
+
+Certains utilisateurs ne plaît pas au user, donc il peut les supprimer de ses abonnées et enlever leurs likes sur ses différents posts
+
+User peut poster une image mais qui durera que 10min, pour pas que tout le monde le voit
+
+User peut voir la liste des listes qu'il follow sur son profil

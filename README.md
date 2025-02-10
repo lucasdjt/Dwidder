@@ -1,5 +1,9 @@
 # HFM [HardFrenchMedia]
 
+## Introduction
+
+Projet réalisé dans le cadre de la **SAE 4.02.01 - Développement d'une application**
+
 ## Description
 
 Ce projet est un réseau social où les utilisateurs du domaine de la hardmusic peuvent s'inscrire, se connecter, publier des messages, commenter et interagir avec d'autres utilisateurs. 

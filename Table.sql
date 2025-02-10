@@ -37,7 +37,7 @@ Post (
     media VARCHAR(255)
     date_pub DATE
     duree_post INTERVAL
-    privacy CHAR(6) CHECK (privacy IN ('public','friend','privee','meonly'))
+    privacy CHAR(6) CHECK (privacy IN ('public','groupe','friend','privee','meonly'))
     epingle BOOLEAN
 
     #uid
