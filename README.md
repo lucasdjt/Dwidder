@@ -1,4 +1,4 @@
-# HFM [HardFrenchMedia]
+# UND
 
 ## Introduction
 
@@ -6,7 +6,7 @@ Projet réalisé dans le cadre de la **SAE 4.02.01 - Développement d'une applic
 
 ## Description
 
-Ce projet est un réseau social où les utilisateurs du domaine de la hardmusic peuvent s'inscrire, se connecter, publier des messages, commenter et interagir avec d'autres utilisateurs. 
+Ce projet est un réseau social où les utilisateurs d'un même domaine peuvent s'inscrire, se connecter, publier des messages, commenter et interagir avec d'autres utilisateurs. 
 
 L'objectif est de créer une plateforme conviviale où chacun peuvent communiquer de leurs passions communes et échanger avec d'autres membres dans le même thème.
 
