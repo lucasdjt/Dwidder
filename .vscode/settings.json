@@ -1,0 +1,43 @@
+{
+    "java.project.sourcePaths": [
+        "."
+    ],
+    "java.project.referencedLibraries": [
+        "c:\\Users\\dragg\\Desktop\\PROJETS\\tomcat\\lib\\annotations-api.jar",
+        "c:\\Users\\dragg\\Desktop\\PROJETS\\tomcat\\lib\\catalina.jar",
+        "c:\\Users\\dragg\\Desktop\\PROJETS\\tomcat\\lib\\catalina-ant.jar",
+        "c:\\Users\\dragg\\Desktop\\PROJETS\\tomcat\\lib\\catalina-ha.jar",
+        "c:\\Users\\dragg\\Desktop\\PROJETS\\tomcat\\lib\\catalina-ssi.jar",
+        "c:\\Users\\dragg\\Desktop\\PROJETS\\tomcat\\lib\\catalina-storeconfig.jar",
+        "c:\\Users\\dragg\\Desktop\\PROJETS\\tomcat\\lib\\catalina-tribes.jar",
+        "c:\\Users\\dragg\\Desktop\\PROJETS\\tomcat\\lib\\ecj-4.27.jar",
+        "c:\\Users\\dragg\\Desktop\\PROJETS\\tomcat\\lib\\el-api.jar",
+        "c:\\Users\\dragg\\Desktop\\PROJETS\\tomcat\\lib\\jakartaee-migration-1.0.9-shaded.jar",
+        "c:\\Users\\dragg\\Desktop\\PROJETS\\tomcat\\lib\\jasper.jar",
+        "c:\\Users\\dragg\\Desktop\\PROJETS\\tomcat\\lib\\jasper-el.jar",
+        "c:\\Users\\dragg\\Desktop\\PROJETS\\tomcat\\lib\\jaspic-api.jar",
+        "c:\\Users\\dragg\\Desktop\\PROJETS\\tomcat\\lib\\jsp-api.jar",
+        "c:\\Users\\dragg\\Desktop\\PROJETS\\tomcat\\lib\\postgresql.jar",
+        "c:\\Users\\dragg\\Desktop\\PROJETS\\tomcat\\lib\\servlet-api.jar",
+        "c:\\Users\\dragg\\Desktop\\PROJETS\\tomcat\\lib\\tomcat-api.jar",
+        "c:\\Users\\dragg\\Desktop\\PROJETS\\tomcat\\lib\\tomcat-coyote.jar",
+        "c:\\Users\\dragg\\Desktop\\PROJETS\\tomcat\\lib\\tomcat-coyote-ffm.jar",
+        "c:\\Users\\dragg\\Desktop\\PROJETS\\tomcat\\lib\\tomcat-dbcp.jar",
+        "c:\\Users\\dragg\\Desktop\\PROJETS\\tomcat\\lib\\tomcat-i18n-cs.jar",
+        "c:\\Users\\dragg\\Desktop\\PROJETS\\tomcat\\lib\\tomcat-i18n-de.jar",
+        "c:\\Users\\dragg\\Desktop\\PROJETS\\tomcat\\lib\\tomcat-i18n-es.jar",
+        "c:\\Users\\dragg\\Desktop\\PROJETS\\tomcat\\lib\\tomcat-i18n-fr.jar",
+        "c:\\Users\\dragg\\Desktop\\PROJETS\\tomcat\\lib\\tomcat-i18n-ja.jar",
+        "c:\\Users\\dragg\\Desktop\\PROJETS\\tomcat\\lib\\tomcat-i18n-ko.jar",
+        "c:\\Users\\dragg\\Desktop\\PROJETS\\tomcat\\lib\\tomcat-i18n-pt-BR.jar",
+        "c:\\Users\\dragg\\Desktop\\PROJETS\\tomcat\\lib\\tomcat-i18n-ru.jar",
+        "c:\\Users\\dragg\\Desktop\\PROJETS\\tomcat\\lib\\tomcat-i18n-zh-CN.jar",
+        "c:\\Users\\dragg\\Desktop\\PROJETS\\tomcat\\lib\\tomcat-jdbc.jar",
+        "c:\\Users\\dragg\\Desktop\\PROJETS\\tomcat\\lib\\tomcat-jni.jar",
+        "c:\\Users\\dragg\\Desktop\\PROJETS\\tomcat\\lib\\tomcat-util.jar",
+        "c:\\Users\\dragg\\Desktop\\PROJETS\\tomcat\\lib\\tomcat-util-scan.jar",
+        "c:\\Users\\dragg\\Desktop\\PROJETS\\tomcat\\lib\\tomcat-websocket.jar",
+        "c:\\Users\\dragg\\Desktop\\PROJETS\\tomcat\\lib\\websocket-api.jar",
+        "c:\\Users\\dragg\\Desktop\\PROJETS\\tomcat\\lib\\websocket-client-api.jar"
+    ]
+}

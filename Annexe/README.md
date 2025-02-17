@@ -41,3 +41,13 @@ Rien de plus simple, vous avez juste à accéder au lien qui est disponible sur 
 **__Auteur :__** Lucas De Jesus Teixeira
 
 **Tout droits réservés**
+
+## COMMANDES POUR MOI 
+
+dans classes : 
+pg_ctl -D "C:\Program Files\PostgreSQL\17\data" restart
+psql -U postgres -d reseau_social
+javac -cp ".;../../../../lib/servlet-api.jar;../../../../lib" *.java
+
+dans bin : 
+.\startup.bat
