@@ -16,7 +16,6 @@ L'objectif est de créer une plateforme conviviale où chacun peuvent communique
 - **Fil d'actualités** : Affichage des publications des utilisateurs suivis dans un flux chronologique.
 - **Publications** : Les utilisateurs peuvent publier des textes, des photos ou des vidéos.
 - **Commentaires** : Possibilité de commenter sur les publications d'autres utilisateurs.
-- **Notifications** : Alerte les utilisateurs lorsqu'il y a des interactions sur leurs publications ou quand quelqu'un les suit.
 - **Profil utilisateur** : Chaque utilisateur possède un profil personnalisé où il peut gérer ses informations et ses publications.
 
 ## Accès au site
