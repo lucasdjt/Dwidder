@@ -1,16 +1,7 @@
-package dao;
+package modele.dao;
 
-import java.sql.*;
+import java.sql.Connection;
 
-public class DS {
-
-    Connection getConnection() throws Exception{    
-        Class.forName("org.postgresql.Driver");
-        String url = "jdbc:postgresql://psqlserv/but2";
-        String nom = "lucasdejesusteixeiraetu";
-        String mdp = "moi";
-        
-        return DriverManager.getConnection(url,nom,mdp);
-    }
-        
+public interface DS {
+    Connection getConnection() throws Exception; 
 }

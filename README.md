@@ -43,16 +43,31 @@ Rien de plus simple, vous avez juste à accéder au lien qui est disponible sur 
 
 ## COMMANDES POUR MOI 
 
-dans classes : 
-javac -cp ".;../../../../lib/servlet-api.jar;../../../../lib" *.java
+### WINDOWS
+- dans Annexe/SQL : 
+pg_ctl -D "C:\Program Files\PostgreSQL\17\data" restart
+psql -U postgres -d reseau_social
 
-dans Annexe/SQL (Linux) : 
-WINDOWS>pg_ctl -D "C:\Program Files\PostgreSQL\17\data" restart
-WINDOWS>psql -U postgres -d reseau_social
-LINUX>psql -h psqlserv -U lucasdejesusteixeiraetu but2
+- dans classes : 
+javac -cp ".;../../../../lib/servlet-api.jar;../../../../lib" ../src/modele/*/*.java -d .
+javac -cp ".;../../../../lib/servlet-api.jar;../../../../lib" ../src/controleur/*.java -d .
 
-dans bin : 
-WINDOWS>.\startup.bat
-LINUX>./startup.sh
-LINUX>./catalina.sh run
-LINUX>killall java
+- dans le répertoire BIN : 
+.\startup.bat
+
+### LINUX
+- dans Annexe/SQL : 
+psql -h psqlserv -U lucasdejesusteixeiraetu but2
+\i create.sh
+\i error.sh
+\i select.sh
+\i delete.sh
+
+- dans classes : 
+javac ../src/modele/*/*.java -d .
+javac ../src/controleur/*.java -d .
+
+- dans le répertoire BIN : 
+./startup.sh
+./catalina.sh run
+killall java
