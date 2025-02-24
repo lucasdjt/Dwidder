@@ -1,16 +1,4 @@
-## MLD final du Projet
-Users (*uid, id_pseudo, pseudo, prenom, nom_user, email, mdp, bio, pdp, dateinsc, datenaiss, loca, sexe, num_tel, langue, admin, [cover], [private], [verified])
-Post (*pid, #uid, #gid, #pid_parent, contenu, media, date_pub, duree_post, [privacy])
-Groupes (*gid, #uid_admin, #pid_epingle, nom_grp, description, date_creation, [grp_private]) // Fils de discussion
-Conversations (*cid, #uid_envoyeur, #uid_receveur)
-MessPrv (*mid, #cid, contenu, date_mess, [supprime], [lu], [duree_mess])
-Abonnements (*(#uid_abonne, #uid_abonnement), date_abonnement, [validation])
-Favoris (*(#uid, #pid), date_favori)
-Reactions (*(#uid, #pid), type, date_react)
-Mbr_Groupes (*(#uid, #gid), date_join, [role])
-[Paramètres (*#uid, email_recup, a2f, notif_email, notif_push)]
-
-## Utilisation du site
+# GUIDE DU PROJET
 ### Préface
 - L'interface est adapté pour toutes plateformes Mobile/PC
 ### Page principale
@@ -107,7 +95,6 @@ x Photo de Profil
 x Date de Naissance
 x Localisation
 x Sexe
-x Privacy
 - Un Bouton "Abonnés"
 Affiche :
 x Le nombre d'abonnés
@@ -128,7 +115,6 @@ x Durée du post
 x Nbr Réactions sur le post
 x Bouton "Commenter"
 x Bouton "Mettre en Favori"
-x Bouton "Changer de Privacy"
 x Bouton "Supprimer le Post"
 ### Page de Messages Privés
 La Liste des conversations avec chaque personne (du plus récent au plus ancien)
@@ -141,7 +127,86 @@ En allant sur cette page on peut :
 - la langue
 Ajouter/Changer numéro de tel
 Supprimer son compte
-### Autres ajouts
-- Droits Admin
+
+# GUIDE SQL
+## Les étapes du SQL
+- Création des tables - CREATE TABLE
+- Insertion des données - INSERT INTO
+- Modification des données - UPDATE
+- Supression des données - DELETE
+- Récupération des données [Transformation en Vues pour Simplifier les requêtes] - SELECT
+## Les Requêtes du SQL
+### CREATE TABLE
+1 - Users (*uid, id_pseudo, pseudo, prenom, nom_user, email, mdp, bio, pdp, date_insc, date_naiss, loca, sexe, num_tel, langue, admin)
+2 - Posts (*pid, #uid, #gid, #pid_parent, contenu, media, date_pub, duree_post)
+3 - Groupes (*gid, #uid_admin, #pid_epingle, nom_grp, description, date_creation) // Fils de discussion
+4 - Conversations (*cid, #uid_envoyeur, #uid_receveur)
+5 - Messages (*mid, #cid, contenu, date_mess)
+6 - Abonnements (*(#uid_abonne, #uid_abonnement), date_abonnement)
+7 - Favoris (*(#uid, #pid), date_favori)
+8 - Reactions (*(#uid, #pid), type, date_react)
+9 - Membres (*(#uid, #gid), date_join)
+### INSERT INTO
+- 1 L'utilisateur peut se créer un compte avec id_pseudo*/pseudo*/prenom/nom_user/email*/mdp*/datenaiss/loca/num_tel/sexe*/langue*
+- 2 L'utilisateur peut créer un post avec uid*/gid/pid_parent/contenu*/media/date_pub*/duree_post*
+- 3 L'utilisateur peut créer un groupe avec uid_admin*/nom_grp*/description/date_creation*
+- 4 L'utilisateur peut créer une conversation avec uid_envoyeur*/uid_receveur*
+- 5 L'utilisateur peut créer un message privé avec cid*/contenu*/date_mess*
+- 6 L'utilisateur peut ajouter un abonné avec uid_abonne*/uid_abonnement*/date_abonnement*
+- 7 L'utilisateur peut ajouter un post dans ses favoris avec uid*/pid*/date_favori*
+- 8 L'utilisateur peut ajouter une réaction à son post avec uid*/pid*/type*/date_react*
+- 9 L'utilisateur peut ajouter un membre à son groupe avec uid*/gid*/date_join*
+### UPDATE
+- 1 L'utilisateur peut changer ses infos USERS
+- 3 L'utilisateur peut changer ses infos GROUPE
+### DELETE
+- 1 L'utilisateur peut supprimer son compte
+- 2 L'utilisateur peut supprimer son post
+- 3 L'utilisateur peut supprimer son groupe
+- 4 L'utilisateur peut supprimer sa conversation
+- 5 L'utilisateur peut supprimer son message privé
+- 6 L'utilisateur peut supprimer son abonné
+- 7 L'utilisateur peut supprimer son favori
+- 8 L'utilisateur peut supprimer sa réaction
+- 9 L'utilisateur peut supprimer un membre à son groupe
+### SELECT
+- On peut obtenir les informations de l'utilisateur [Pour Se Connecter / Pour le Profil Public]
+- On peut obtenir les posts d'un utilisateur
+- On peut obtenir les posts trié par date la plus récente
+- On peut obtenir les posts trié par le plus liké
+- On peut obtenir les posts d'un groupe trié par date la plus récente
+- On peut obtenir les posts d'un groupe trié par le plus liké
+- On peut obtenir les réponses d'un post trié par le plus liké
+- On peut obtenir les réponses d'un post trié par le plus récent
+- On peut obtenir la liste des membres d'un groupe
+- On peut obtenir la liste des groupes que nous avons rejoint
+- On peut obtenir les infos d'un groupe
+- On peut obtenir la liste des conversations d'un utilisateur
+- On peut obtenir les messages privés d'une conversation trié par date
+- On peut obtenir les abonnées d'un utilisateur
+- On peut obtenir les abonnements d'un utilisateur
+- On peut obtenir les favoris fait par un utilisateur
+- On peut obtenir le nombre de posts fait par un utilisateur
+- On peut obtenir le nombre de groupes rejoint par l'utilisateur
+- On peut obtenir le nombre d'abonnés d'un utilisateur
+- On peut obtenir le nombre d'abonnements d'un utilisateur
+- On peut obtenir le nombre de réactions qu'il y a sur un post
+- On peut obtenir le nombre de commentaires qu'il y a sur un post
+- On peut obtenir le nombre de membres qu'il y a sur un groupe
+- On peut obtenir le post épinglé du groupe
+
+---
+
+# AVANCEE
+## MLD FINAL DU PROJET
+Users --> Ajout cover, private, verified
+Posts --> Ajout privacy
+Groupes --> Ajout grp_private
+Messages --> Ajout supprime, lu, duree_mess
+Abonnements --> Ajout validation
+Membres --> Ajout role
+Ajout Paramètres (*#uid, email_recup, a2f, notif_email, notif_push)
+## Autres ajouts
+- Ajouts Interface Droits Admin
 - Pas possible de injection SQL...
 - Réinitialiser MDP
