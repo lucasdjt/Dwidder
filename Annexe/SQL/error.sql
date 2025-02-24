@@ -4,12 +4,6 @@
 INSERT INTO Groupes (uid_admin, pid_epingle, nom_grp, description, date_creation) 
 VALUES (1, NULL, 'DraggasCorp', 'Groupe en doublon', CURRENT_DATE);
 
-\echo 'Ajout Doublon Conversation (Lucas DJT - Draggas)'
-INSERT INTO Conversations (uid_envoyeur, uid_receveur) VALUES (2, 1);
-
-\echo 'Ajout Doublon Conversation (Draggas - Lucas DJT)'
-INSERT INTO Conversations (uid_envoyeur, uid_receveur) VALUES (1, 2);
-
 \echo 'Ajout Conversation Soi-Même (Draggas - Draggas)'
 INSERT INTO Conversations (uid_envoyeur, uid_receveur) VALUES (1, 1);
 

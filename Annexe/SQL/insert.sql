@@ -83,5 +83,5 @@ INSERT INTO Reactions (uid, pid, type, date_react) VALUES
 (3, 1, 'JOYYY', CURRENT_DATE), -- John ajoute "JOYYY" Post 1
 (3, 2, 'SADDD', CURRENT_DATE), -- John ajoute "SADDD" Post 2
 (3, 3, 'THIFT', '2000-01-01'), -- John ajoute "THIFT" Post 3 [le plus vieux]
-(3, 5, 'THIFT', '2030-01-01'); -- John ajoute "THIFT" Post 5 [dans le futur]
-(3, 7, 'ANGER', CURRENT_DATE), -- John ajoute "ANGER" Post 7
+(3, 5, 'THIFT', '2030-01-01'), -- John ajoute "THIFT" Post 5 [dans le futur]
+(3, 7, 'ANGER', CURRENT_DATE); -- John ajoute "ANGER" Post 7

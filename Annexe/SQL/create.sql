@@ -5,8 +5,8 @@
 \echo '1/ Création de la table Users'
 CREATE TABLE IF NOT EXISTS Users (
     uid serial PRIMARY KEY,
-    id_pseudo varchar(15) UNIQUE NOT NULL CHECK (LENGTH(id_pseudo) >= 5),
-    pseudo varchar(20) NOT NULL CHECK (LENGTH(pseudo) >= 5),
+    id_pseudo varchar(15) UNIQUE NOT NULL CHECK (LENGTH(id_pseudo) >= 3),
+    pseudo varchar(20) NOT NULL CHECK (LENGTH(pseudo) >= 1),
     prenom varchar(20),
     nom_user varchar(50),
     email varchar(255) UNIQUE NOT NULL,
@@ -21,6 +21,17 @@ CREATE TABLE IF NOT EXISTS Users (
     langue char(2) NOT NULL CHECK (langue IN ('FR', 'EN')),
     admin BOOLEAN NOT NULL
 );
+
+\echo '3/ Création de la table Groupes'
+CREATE TABLE IF NOT EXISTS Groupes (
+    gid serial PRIMARY KEY,
+    uid_admin int NOT NULL,
+    nom_grp varchar(30) UNIQUE NOT NULL,
+    description varchar(200),
+    date_creation TIMESTAMP NOT NULL DEFAULT NOW(),
+    CONSTRAINT fk_user_admin FOREIGN KEY (uid_admin) REFERENCES Users(uid) ON DELETE CASCADE
+);
+CREATE INDEX idx_groupes_uid_admin ON Groupes(uid_admin);
 
 \echo '2/ Création de la table Posts'
 CREATE TABLE IF NOT EXISTS Posts (
@@ -41,18 +52,9 @@ CREATE INDEX idx_posts_uid ON Posts(uid);
 CREATE INDEX idx_posts_gid ON Posts(gid);
 CREATE INDEX idx_posts_pid_parent ON Posts(pid_parent);
 
-\echo '3/ Création de la table Groupes'
-CREATE TABLE IF NOT EXISTS Groupes (
-    gid serial PRIMARY KEY,
-    uid_admin int NOT NULL,
-    pid_epingle int,
-    nom_grp varchar(30) UNIQUE NOT NULL,
-    description varchar(200),
-    date_creation TIMESTAMP NOT NULL DEFAULT NOW(),
-    CONSTRAINT fk_user_admin FOREIGN KEY (uid_admin) REFERENCES Users(uid) ON DELETE CASCADE,
-    CONSTRAINT fk_post_epingle FOREIGN KEY (pid_epingle) REFERENCES Posts(pid) ON DELETE CASCADE
-);
-CREATE INDEX idx_groupes_uid_admin ON Groupes(uid_admin);
+ALTER TABLE Groupes
+ADD pid_epingle int,
+ADD CONSTRAINT fk_post_epingle FOREIGN KEY (pid_epingle) REFERENCES Posts(pid) ON DELETE CASCADE;
 
 \echo '4/ Création de la table Conversations'
 CREATE TABLE IF NOT EXISTS Conversations (
@@ -61,7 +63,6 @@ CREATE TABLE IF NOT EXISTS Conversations (
     uid_receveur int NOT NULL,
     CONSTRAINT fk_user_envoyeur FOREIGN KEY (uid_envoyeur) REFERENCES Users(uid) ON DELETE CASCADE,
     CONSTRAINT fk_user_receveur FOREIGN KEY (uid_receveur) REFERENCES Users(uid) ON DELETE CASCADE,
-    CONSTRAINT unique_conversation_pair UNIQUE (LEAST(uid_envoyeur, uid_receveur), GREATEST(uid_envoyeur, uid_receveur)),
     CONSTRAINT no_self_conversation CHECK (uid_envoyeur <> uid_receveur)
 );
 CREATE INDEX idx_conversations_env ON Conversations(uid_envoyeur);
