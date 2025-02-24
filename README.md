@@ -44,9 +44,15 @@ Rien de plus simple, vous avez juste à accéder au lien qui est disponible sur 
 ## COMMANDES POUR MOI 
 
 dans classes : 
-pg_ctl -D "C:\Program Files\PostgreSQL\17\data" restart
-psql -U postgres -d reseau_social
 javac -cp ".;../../../../lib/servlet-api.jar;../../../../lib" *.java
 
+dans Annexe/SQL (Linux) : 
+WINDOWS>pg_ctl -D "C:\Program Files\PostgreSQL\17\data" restart
+WINDOWS>psql -U postgres -d reseau_social
+LINUX>psql -h psqlserv -U lucasdejesusteixeiraetu but2
+
 dans bin : 
-.\startup.bat
+WINDOWS>.\startup.bat
+LINUX>./startup.sh
+LINUX>./catalina.sh run
+LINUX>killall java
