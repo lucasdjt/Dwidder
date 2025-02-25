@@ -1,6 +1,8 @@
 package controleur;
 
 import java.io.*;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -12,7 +14,9 @@ import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.WebServlet;
 
 @WebServlet("/users/*")
-public class UserRestAPI extends HttpServlet {
+public class UserAPI extends HttpServlet {
+    final String vuelink = "WEB-INF/vue/user.jsp";
+
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         res.setContentType("application/json;charset=UTF-8");
         UsersDAO dao = new UsersDAO();
@@ -21,7 +25,7 @@ public class UserRestAPI extends HttpServlet {
         if(info == null || info.equals("/")) {
             List<User> users = dao.selectAll();
             req.setAttribute("users", users);
-            RequestDispatcher dispatcher = req.getRequestDispatcher("/vue/user.jsp");
+            RequestDispatcher dispatcher = req.getRequestDispatcher(vuelink);
             dispatcher.forward(req, res);
             return;
         }
@@ -39,7 +43,7 @@ public class UserRestAPI extends HttpServlet {
             return;
         }
         req.setAttribute("user", u);
-        RequestDispatcher dispatcher = req.getRequestDispatcher("/vue/user.jsp");
+        RequestDispatcher dispatcher = req.getRequestDispatcher(vuelink);
         dispatcher.forward(req, res);
         return;
 
@@ -52,12 +56,25 @@ public class UserRestAPI extends HttpServlet {
         while ((line = reader.readLine()) != null) {
             data.append(line);
         }
-        ObjectMapper objectMapper = new ObjectMapper();
-        User newUser = objectMapper.readValue(data.toString(), User.class);
+        User newUser = new User();
+        newUser.setId_pseudo(req.getParameter("id_pseudo"));
+        newUser.setPseudo(req.getParameter("pseudo"));
+        newUser.setPrenom(req.getParameter("prenom"));
+        newUser.setNom_user(req.getParameter("nom_user"));
+        newUser.setEmail(req.getParameter("email"));
+        newUser.setMdp(req.getParameter("mdp"));
+        newUser.setBio(req.getParameter("bio"));
+        newUser.setPdp(req.getParameter("pdp"));
+        newUser.setDate_insc(new Date().toString());
+        newUser.setDate_naiss(Date.req.getParameter("date_naiss"));
+        newUser.setLoca(req.getParameter("loca"));
+        newUser.setSexe(req.getParameter("sexe"));
+        newUser.setNum_tel(req.getParameter("num_tel"));
+        newUser.setLangue(req.getParameter("langue"));
         UsersDAO dao = new UsersDAO();
         dao.insert(newUser);
         req.setAttribute("add", "Ajout réussi");
-        RequestDispatcher dispatcher = req.getRequestDispatcher("/vue/user.jsp");
+        RequestDispatcher dispatcher = req.getRequestDispatcher(vuelink);
         dispatcher.forward(req, res);
     }
 }
