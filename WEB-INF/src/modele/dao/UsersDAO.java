@@ -1,6 +1,8 @@
 package modele.dao;
 
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,8 +27,8 @@ public class UsersDAO {
                     String mdp = rs.getString("mdp");
                     String bio = rs.getString("bio");
                     String pdp = rs.getString("pdp");
-                    Date date_insc = rs.getDate("date_insc");
-                    Date date_naiss = rs.getDate("date_naiss");
+                    LocalDateTime date_insc = rs.getTimestamp("date_insc").toLocalDateTime();
+                    LocalDate date_naiss = rs.getDate("date_naiss") != null ? rs.getDate("date_naiss").toLocalDate() : null;
                     String loca = rs.getString("loca");
                     String sexe = rs.getString("sexe");
                     String num_tel = rs.getString("num_tel");
@@ -57,8 +59,8 @@ public class UsersDAO {
                         String mdp = rs.getString("mdp");
                         String bio = rs.getString("bio");
                         String pdp = rs.getString("pdp");
-                        Date date_insc = rs.getDate("date_insc");
-                        Date date_naiss = rs.getDate("date_naiss");
+                        LocalDateTime date_insc = rs.getTimestamp("date_insc").toLocalDateTime();
+                        LocalDate date_naiss = rs.getDate("date_naiss").toLocalDate();
                         String loca = rs.getString("loca");
                         String sexe = rs.getString("sexe");
                         String num_tel = rs.getString("num_tel");
@@ -90,8 +92,8 @@ public class UsersDAO {
                         String mdp = rs.getString("mdp");
                         String bio = rs.getString("bio");
                         String pdp = rs.getString("pdp");
-                        Date date_insc = rs.getDate("date_insc");
-                        Date date_naiss = rs.getDate("date_naiss");
+                        LocalDateTime date_insc = rs.getTimestamp("date_insc").toLocalDateTime();
+                        LocalDate date_naiss = rs.getDate("date_naiss").toLocalDate();
                         String loca = rs.getString("loca");
                         String sexe = rs.getString("sexe");
                         String num_tel = rs.getString("num_tel");
@@ -119,7 +121,7 @@ public class UsersDAO {
                 pstmt.setString(6, user.getMdp());
                 pstmt.setString(7, user.getBio());
                 pstmt.setString(8, user.getPdp());
-                pstmt.setDate(9, user.getDate_naiss());
+                pstmt.setDate(9, Date.valueOf(user.getDate_naiss()));
                 pstmt.setString(10, user.getLoca());
                 pstmt.setString(11, user.getSexe());
                 pstmt.setString(12, user.getNum_tel());
@@ -144,8 +146,8 @@ public class UsersDAO {
                 pstmt.setString(6, user.getMdp());
                 pstmt.setString(7, user.getBio());
                 pstmt.setString(8, user.getPdp());
-                pstmt.setDate(9, user.getDate_insc());
-                pstmt.setDate(10, user.getDate_naiss());
+                pstmt.setTimestamp(9, Timestamp.valueOf(user.getDate_insc()));
+                pstmt.setDate(10, Date.valueOf(user.getDate_naiss()));
                 pstmt.setString(11, user.getLoca());
                 pstmt.setString(12, user.getSexe());
                 pstmt.setString(13, user.getNum_tel());

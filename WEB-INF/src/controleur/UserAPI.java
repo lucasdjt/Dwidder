@@ -1,11 +1,9 @@
 package controleur;
 
 import java.io.*;
-import java.sql.Date;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import modele.dao.*;
 import modele.dto.User;
@@ -65,8 +63,10 @@ public class UserAPI extends HttpServlet {
         newUser.setMdp(req.getParameter("mdp"));
         newUser.setBio(req.getParameter("bio"));
         newUser.setPdp(req.getParameter("pdp"));
-        newUser.setDate_insc(new Date().toString());
-        newUser.setDate_naiss(Date.req.getParameter("date_naiss"));
+        newUser.setDate_insc(LocalDateTime.now());
+        System.out.println(req.getParameter("date_naiss"));
+        newUser.setDate_naiss(req.getParameter("date_naiss") == null ? null : LocalDate.parse(req.getParameter("date_naiss")));
+        System.out.println("test2");
         newUser.setLoca(req.getParameter("loca"));
         newUser.setSexe(req.getParameter("sexe"));
         newUser.setNum_tel(req.getParameter("num_tel"));
@@ -76,5 +76,6 @@ public class UserAPI extends HttpServlet {
         req.setAttribute("add", "Ajout réussi");
         RequestDispatcher dispatcher = req.getRequestDispatcher(vuelink);
         dispatcher.forward(req, res);
+        //BOUCLE
     }
 }

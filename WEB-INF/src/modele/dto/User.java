@@ -1,6 +1,6 @@
 package modele.dto;
 
-import java.util.Date;
+import java.time.*;
 
 public class User {
     private int uid;
@@ -12,15 +12,15 @@ public class User {
     private String mdp;
     private String bio;
     private String pdp;
-    private Date date_insc;
-    private Date date_naiss;
+    private LocalDateTime date_insc;
+    private LocalDate date_naiss;
     private String loca;
     private String sexe;
     private String num_tel;
     private String langue;
     private String admin;
 
-    public User(int uid, String id_pseudo, String pseudo, String prenom, String nom_user, String email, String mdp, String bio, String pdp, Date date_insc, Date date_naiss, String loca, String sexe, String num_tel, String langue, String admin) {
+    public User(int uid, String id_pseudo, String pseudo, String prenom, String nom_user, String email, String mdp, String bio, String pdp, LocalDateTime date_insc, LocalDate date_naiss, String loca, String sexe, String num_tel, String langue, String admin) {
         this.uid = uid;
         this.id_pseudo = id_pseudo;
         this.pseudo = pseudo;
@@ -40,6 +40,26 @@ public class User {
     }
 
     public User() {}
+
+    @Override
+    public String toString() {
+        return "USER - uid: " + uid +
+               ", id_pseudo: " + id_pseudo +
+               ", pseudo: " + pseudo +
+               ", prenom: " + prenom +
+               ", nom_user: " + nom_user +
+               ", email: " + email +
+               ", mdp: " + mdp +
+               ", bio: " + bio +
+               ", pdp: " + pdp +
+               ", date_insc: " + date_insc +
+               ", date_naiss: " + date_naiss +
+               ", loca: " + loca +
+               ", sexe: " + sexe +
+               ", num_tel: " + num_tel +
+               ", langue: " + langue +
+               ", admin: " + admin;
+    }
 
     // Getters and Setters
     public int getUid() {
@@ -114,19 +134,19 @@ public class User {
         this.pdp = pdp;
     }
 
-    public Date getDate_insc() {
+    public LocalDateTime getDate_insc() {
         return date_insc;
     }
 
-    public void setDate_insc(Date date_insc) {
+    public void setDate_insc(LocalDateTime date_insc) {
         this.date_insc = date_insc;
     }
 
-    public Date getDate_naiss() {
+    public LocalDate getDate_naiss() {
         return date_naiss;
     }
 
-    public void setDate_naiss(Date date_naiss) {
+    public void setDate_naiss(LocalDate date_naiss) {
         this.date_naiss = date_naiss;
     }
 
