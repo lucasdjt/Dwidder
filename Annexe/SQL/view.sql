@@ -1,8 +1,3 @@
--- Vue pour récupérer les informations d'un utilisateur
-CREATE VIEW UserInfo AS
-SELECT uid, id_pseudo, pseudo, prenom, nom_user, email, bio, pdp, date_insc, date_naiss, loca, sexe, num_tel, langue
-FROM Users;
-
 -- Vue pour récupérer les groupes d'un utilisateur
 CREATE VIEW UserGroups AS
 SELECT uid, gid, nom_grp, description, date_creation

@@ -43,22 +43,10 @@ public class User {
 
     @Override
     public String toString() {
-        return "USER - uid: " + uid +
-               ", id_pseudo: " + id_pseudo +
-               ", pseudo: " + pseudo +
-               ", prenom: " + prenom +
-               ", nom_user: " + nom_user +
-               ", email: " + email +
-               ", mdp: " + mdp +
-               ", bio: " + bio +
-               ", pdp: " + pdp +
-               ", date_insc: " + date_insc +
-               ", date_naiss: " + date_naiss +
-               ", loca: " + loca +
-               ", sexe: " + sexe +
-               ", num_tel: " + num_tel +
-               ", langue: " + langue +
-               ", admin: " + admin;
+        return "User [uid=" + uid + ", id_pseudo=" + id_pseudo + ", pseudo=" + pseudo + ", prenom=" + prenom
+                + ", nom_user=" + nom_user + ", email=" + email + ", mdp=" + mdp + ", bio=" + bio + ", pdp=" + pdp
+                + ", date_insc=" + date_insc + ", date_naiss=" + date_naiss + ", loca=" + loca + ", sexe=" + sexe
+                + ", num_tel=" + num_tel + ", langue=" + langue + ", admin=" + admin + "]";
     }
 
     // Getters and Setters

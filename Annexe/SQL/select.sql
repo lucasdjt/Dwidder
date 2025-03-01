@@ -3,7 +3,7 @@
 \echo '------------------------------------------------------'
 
 \echo '- On peut obtenir les infos d une personne'
-SELECT * FROM UserInfo WHERE id_pseudo = 'draggas'; -- Obtenir tous les infos
+SELECT * FROM Users WHERE id_pseudo = 'draggas'; -- Obtenir tous les infos
 SELECT pseudo FROM Users WHERE uid = 1; -- Obtenir pseudo
 \echo '- On peut chercher les infos correspondant aux infos de connexion id_pseudo/mail et mdp'
 SELECT * FROM Users WHERE (id_pseudo = 'Lucas' OR email = 'lucasdjtpro@gmail.com') AND mdp = 'lucas';
