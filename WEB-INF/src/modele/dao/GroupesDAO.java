@@ -75,4 +75,26 @@ public class GroupesDAO {
             e.printStackTrace();
         }
     }
+
+    public List<Membre> getGroupeMembers(int gid){
+        return null;
+        /*
+SELECT * FROM GroupMembers WHERE gid = 1 ORDER BY date_join DESC; -- obtenir la liste des membres d un groupe trié par date
+SELECT COUNT(*) FROM GroupMembers WHERE gid = 1; -- le nombre de membres d'un groupe
+        */
+    }
+
+    public Post getGroupePost(int pid){
+        return null;
+        /*
+SELECT P.* FROM Posts P JOIN Groupes G ON P.pid = G.pid_epingle WHERE G.gid = 1; -- post épinglé
+        */
+    }
+
+    public Post getGroupeAdmin(int uid){
+        return null;
+        /*
+SELECT U.* FROM Users U JOIN Groupes G ON U.uid = G.uid_admin WHERE G.gid = 1; -- l'admin du groupe
+        */
+    }
 }

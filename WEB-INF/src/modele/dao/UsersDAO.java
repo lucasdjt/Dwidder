@@ -159,15 +159,71 @@ public class UsersDAO {
         }
     }
     
-    public void delete(User user) {
+    public void delete(String id_pseudo) {
         try (Connection con = ds.getConnection()) {
             String requetePrepare = "DELETE FROM Users WHERE id_pseudo = ?";
             try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
-                pstmt.setString(1, user.getIdPseudo());
+                pstmt.setString(1, id_pseudo);
                 pstmt.executeUpdate();
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public List<Groupe> getUserGroups(int uid) {
+        List<Groupe> groupes = new ArrayList<>();
+        try (Connection con = ds.getConnection()) {
+            String requetePrepare = "SELECT G.* FROM GROUPES G INNER JOIN Membres M ON G.gid = M.gid WHERE M.uid = ?";
+            try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
+                pstmt.setInt(1, uid);
+                try (ResultSet rs = pstmt.executeQuery()) {
+                    while (rs.next()) {
+                        int gid = rs.getInt("gid");
+                        int uidAdmin = rs.getInt("uid_admin");
+                        int pidEpingle = rs.getInt("pid_epingle");
+                        String nomGrp = rs.getString("nom_grp");
+                        String description = rs.getString("description");
+                        LocalDateTime dateCreation = BAO.conversion(rs.getTimestamp("date_creation"));
+                        groupes.add(new Groupe(gid, uidAdmin, pidEpingle, nomGrp, description, dateCreation));
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return groupes;
+    }
+
+    public List<User> getUserFollows(int uid){ // Nouvelle classe UserFollowers
+        return null;
+        /*
+SELECT * FROM UserFollowers WHERE uid_abonne = 1 ORDER BY date_abonnement DESC; -- liste d'abonné trié par date
+SELECT COUNT(*) FROM UserFollowers WHERE uid_abonnement = 1; -- nombre d'abonnés
+        */
+    }
+
+    public List<User> getUserFollowers(int uid){ // Nouvelle classe UserFollowers
+        return null;
+        /*
+SELECT * FROM UserFollowers WHERE uid_abonnement = 1 ORDER BY date_abonnement DESC; -- liste d'abonné trié par date
+SELECT COUNT(*) FROM UserFollowers WHERE uid_abonnement = 1; -- nombre d'abonnés
+        */
+    }
+
+    public List<Favori> getUserFavoris(int uid){
+        return null;
+        /*
+SELECT * FROM UserFavorites WHERE uid = 1 ORDER BY date_favori DESC;
+SELECT COUNT(*) FROM UserFavorites WHERE uid = 1; -- nombre de favoris
+        */
+    }
+
+    public List<Conversation> getUserConversations(int uid){
+        return null;
+        /*
+SELECT DISTINCT C.*, U.id_pseudo FROM Conversations C JOIN Users U ON (C.uid_envoyeur = U.uid OR C.uid_receveur = uid) 
+WHERE C.uid_envoyeur = 1 OR C.uid_receveur = 1 ORDER BY C.cid DESC;
+        */
     }
 }

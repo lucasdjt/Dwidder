@@ -53,4 +53,20 @@ public class ConversationsDAO {
             e.printStackTrace();
         }
     }
+    
+    public List<Message> getMessageConv(int cid){
+        return null;
+        /*
+- On peut obtenir les messages privés d une conversation trié par date
+SELECT * FROM UserMessages WHERE cid = 1 ORDER BY date_mess DESC;
+        */
+    }
+    
+    public Message getInfoMessage(int mid){ // Message remplacé par une Classe de Vue
+        return null;
+        /*
+- On peut obtenir les infos d un message
+SELECT * FROM UserMessages WHERE mid = 1;
+        */
+    }
 }

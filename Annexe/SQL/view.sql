@@ -1,13 +1,10 @@
--- Vue pour récupérer les groupes d'un utilisateur
-CREATE VIEW UserGroups AS
-SELECT uid, gid, nom_grp, description, date_creation
-FROM Membres JOIN Groupes USING(gid);
-
+/*VUES UTILISES*/
 -- Vue pour les abonnés et abonnements
 CREATE VIEW UserFollowers AS
 SELECT uid_abonne, U.id_pseudo AS pseudo_abonne, uid_abonnement, U2.id_pseudo AS pseudo_abonnement, date_abonnement
 FROM Abonnements JOIN Users U ON uid_abonne = U.uid JOIN Users U2 ON uid_abonnement = U2.uid;
 
+/*VUES NON UTILISES*/
 -- Vue pour les posts avec leurs infos globales
 CREATE VIEW PostDetails AS
 SELECT P.pid, P.uid, P.gid, P.pid_parent, U.pseudo, P.contenu, P.media, P.date_pub, G.nom_grp, 

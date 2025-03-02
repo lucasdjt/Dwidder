@@ -8,7 +8,7 @@ SELECT pseudo FROM Users WHERE uid = 1; -- Obtenir pseudo
 \echo '- On peut chercher les infos correspondant aux infos de connexion id_pseudo/mail et mdp'
 SELECT * FROM Users WHERE (id_pseudo = 'Lucas' OR email = 'lucasdjtpro@gmail.com') AND mdp = 'lucas';
 \echo '- On peut obtenir la liste des groupes que nous avons rejoint'
-SELECT * FROM UserGroups WHERE uid = 1;
+SELECT G.* FROM GROUPES G INNER JOIN Membres M ON G.gid = M.gid WHERE M.uid = 1;
 \echo '- On peut obtenir la liste des posts'
 SELECT * FROM PostDetails WHERE uid = 1 ORDER BY date_pub DESC; -- trié par date
 SELECT * FROM PostDetails WHERE uid = 1 ORDER BY nb_reactions DESC; -- trié par réactions

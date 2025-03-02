@@ -63,4 +63,32 @@ public class PostsDAO {
             e.printStackTrace();
         }
     }
+
+    /*
+- Les infos complet d un post
+SELECT * FROM PostDetails WHERE pid = 1;
+
+- On peut obtenir la liste des posts
+SELECT * FROM PostDetails WHERE uid = 1 ORDER BY date_pub DESC; -- trié par date
+SELECT * FROM PostDetails WHERE uid = 1 ORDER BY nb_reactions DESC; -- trié par réactions
+SELECT COUNT(*) FROM PostDetails WHERE uid = 1; -- le nombre de posts
+
+- On peut obtenir le nombre de favoris et de réactions sur un post
+SELECT nb_favoris FROM PostDetails WHERE pid = 1;
+SELECT nb_reactions FROM PostDetails WHERE pid = 1;
+
+- On peut obtenir le liste des réactions sur un post avec les infos de ses réactions
+SELECT * FROM PostReactions WHERE pid = 1 ORDER BY date_react DESC;
+
+- Du fil public sans parent/groupe
+SELECT * FROM PostDetails WHERE gid IS NULL AND pid_parent IS NULL ORDER BY date_pub DESC; -- trié par date
+SELECT * FROM PostDetails WHERE gid IS NULL AND pid_parent IS NULL ORDER BY nb_reactions, nb_favoris DESC; -- trié par réactions
+- D un groupe particulier sans parent
+SELECT * FROM PostDetails WHERE gid = 1 AND pid_parent IS NULL ORDER BY date_pub DESC; -- trié par date
+SELECT * FROM PostDetails WHERE gid = 1 AND pid_parent IS NULL ORDER BY nb_reactions, nb_favoris DESC; -- trié par réactions
+SELECT COUNT(*) FROM PostDetails WHERE gid = 1; -- nombre de posts du groupe
+- Réponses d un post particulier trié par réaction
+SELECT * FROM PostDetails WHERE pid_parent = 1 ORDER BY nb_reactions DESC;
+
+     */
 }
