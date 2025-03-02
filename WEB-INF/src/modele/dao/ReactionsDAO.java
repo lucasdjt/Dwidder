@@ -1,11 +1,11 @@
 package modele.dao;
 
-import java.time.LocalDateTime;
+import java.time.*;
 import java.sql.*;
 import java.util.*;
 
-import modele.dto.Reaction;
-import modele.utils.BAO;
+import modele.dto.*;
+import modele.utils.*;
 
 public class ReactionsDAO {
     DS ds = new DataIUT();
@@ -20,7 +20,7 @@ public class ReactionsDAO {
                     int uid = rs.getInt("uid");
                     int pid = rs.getInt("pid");
                     String type = rs.getString("type");
-                    LocalDateTime dateReact = BAO.conversion(rs.getTimestamp("dateReact"));
+                    LocalDateTime dateReact = BAO.conversion(rs.getTimestamp("date_react"));
                     reactions.add(new Reaction(uid, pid, type, dateReact));
                 }
             }

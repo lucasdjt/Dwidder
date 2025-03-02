@@ -2,7 +2,6 @@ package controleur;
 
 import java.io.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import modele.dao.*;
@@ -55,27 +54,23 @@ public class UserAPI extends HttpServlet {
             data.append(line);
         }
         User newUser = new User();
-        newUser.setId_pseudo(req.getParameter("id_pseudo"));
+        newUser.setIdPseudo(req.getParameter("id_pseudo"));
         newUser.setPseudo(req.getParameter("pseudo"));
         newUser.setPrenom(req.getParameter("prenom"));
-        newUser.setNom_user(req.getParameter("nom_user"));
+        newUser.setNomUser(req.getParameter("nom_user"));
         newUser.setEmail(req.getParameter("email"));
         newUser.setMdp(req.getParameter("mdp"));
         newUser.setBio(req.getParameter("bio"));
         newUser.setPdp(req.getParameter("pdp"));
-        newUser.setDate_insc(LocalDateTime.now());
-        System.out.println(req.getParameter("date_naiss"));
-        newUser.setDate_naiss(req.getParameter("date_naiss") == null ? null : LocalDate.parse(req.getParameter("date_naiss")));
-        System.out.println("test2");
+        newUser.setDateNaiss(req.getParameter("date_naiss") == null ? null : LocalDate.parse(req.getParameter("date_naiss")));
         newUser.setLoca(req.getParameter("loca"));
         newUser.setSexe(req.getParameter("sexe"));
-        newUser.setNum_tel(req.getParameter("num_tel"));
+        newUser.setNumTel(req.getParameter("num_tel"));
         newUser.setLangue(req.getParameter("langue"));
         UsersDAO dao = new UsersDAO();
         dao.insert(newUser);
         req.setAttribute("add", "Ajout réussi");
         RequestDispatcher dispatcher = req.getRequestDispatcher(vuelink);
         dispatcher.forward(req, res);
-        //BOUCLE
     }
 }

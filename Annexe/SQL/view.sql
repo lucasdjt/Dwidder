@@ -31,7 +31,7 @@ JOIN Posts P ON F.pid = P.pid;
 
 -- Vue pour les messages et conversations
 CREATE VIEW UserMessages AS
-SELECT mid, cid, uid, pseudo, contenu, date_mess
+SELECT mid, cid, uid, pseudo, corps, date_mess
 FROM Messages JOIN Users USING(uid);
 
 -- Vue pour les membres des groupes

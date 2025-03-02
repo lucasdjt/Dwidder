@@ -73,7 +73,7 @@ CREATE TABLE IF NOT EXISTS Messages (
     mid serial PRIMARY KEY,
     cid int NOT NULL,
     uid int NOT NULL,
-    contenu varchar(200) NOT NULL,
+    corps varchar(200) NOT NULL,
     date_mess TIMESTAMP NOT NULL DEFAULT NOW(),
     CONSTRAINT fk_user FOREIGN KEY (uid) REFERENCES Users(uid) ON DELETE CASCADE,
     CONSTRAINT fk_conversation FOREIGN KEY (cid) REFERENCES Conversations(cid) ON DELETE CASCADE

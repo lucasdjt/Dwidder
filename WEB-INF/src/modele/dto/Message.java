@@ -6,20 +6,20 @@ public class Message {
     private int mid;
     private int cid;
     private int uid;
-    private String contenu;
+    private String corps;
     private LocalDateTime dateMess;
     
-    public Message(int mid, int cid, int uid, String contenu, LocalDateTime dateMess) {
+    public Message(int mid, int cid, int uid, String corps, LocalDateTime dateMess) {
         this.mid = mid;
         this.cid = cid;
         this.uid = uid;
-        this.contenu = contenu;
+        this.corps = corps;
         this.dateMess = dateMess;
     }
 
     @Override
     public String toString() {
-        return "Message [mid=" + mid + ", cid=" + cid + ", uid=" + uid + ", contenu=" + contenu + ", dateMess="
+        return "Message [mid=" + mid + ", cid=" + cid + ", uid=" + uid + ", corps=" + corps + ", dateMess="
                 + dateMess + "]";
     }
 
@@ -47,12 +47,12 @@ public class Message {
         this.uid = uid;
     }
 
-    public String getContenu() {
-        return contenu;
+    public String getCorps() {
+        return corps;
     }
 
-    public void setContenu(String contenu) {
-        this.contenu = contenu;
+    public void setCorps(String corps) {
+        this.corps = corps;
     }
 
     public LocalDateTime getDateMess() {

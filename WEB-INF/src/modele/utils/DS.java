@@ -1,4 +1,4 @@
-package modele.dao;
+package modele.utils;
 
 import java.sql.Connection;
 

@@ -4,52 +4,56 @@ import java.time.*;
 
 public class User {
     private int uid;
-    private String id_pseudo;
+    private String idPseudo;
     private String pseudo;
     private String prenom;
-    private String nom_user;
+    private String nomUser;
     private String email;
     private String mdp;
     private String bio;
     private String pdp;
-    private LocalDateTime date_insc;
-    private LocalDate date_naiss;
+    private LocalDateTime dateInsc;
+    private LocalDate dateNaiss;
     private String loca;
     private String sexe;
-    private String num_tel;
+    private String numTel;
     private String langue;
-    private String admin;
+    private boolean admin;
 
-    public User(int uid, String id_pseudo, String pseudo, String prenom, String nom_user, String email, String mdp, String bio, String pdp, LocalDateTime date_insc, LocalDate date_naiss, String loca, String sexe, String num_tel, String langue, String admin) {
+    public User(int uid, String idPseudo, String pseudo, String prenom, String nomUser, String email, String mdp,
+            String bio, String pdp, LocalDateTime dateInsc, LocalDate dateNaiss, String loca, String sexe,
+            String numTel, String langue, boolean admin) {
         this.uid = uid;
-        this.id_pseudo = id_pseudo;
+        this.idPseudo = idPseudo;
         this.pseudo = pseudo;
         this.prenom = prenom;
-        this.nom_user = nom_user;
+        this.nomUser = nomUser;
         this.email = email;
         this.mdp = mdp;
         this.bio = bio;
         this.pdp = pdp;
-        this.date_insc = date_insc;
-        this.date_naiss = date_naiss;
+        this.dateInsc = dateInsc;
+        this.dateNaiss = dateNaiss;
         this.loca = loca;
         this.sexe = sexe;
-        this.num_tel = num_tel;
+        this.numTel = numTel;
         this.langue = langue;
         this.admin = admin;
     }
 
-    public User() {}
+    public User(){
+        this.dateInsc = LocalDateTime.now();
+        this.admin = false;
+    }
 
     @Override
     public String toString() {
-        return "User [uid=" + uid + ", id_pseudo=" + id_pseudo + ", pseudo=" + pseudo + ", prenom=" + prenom
-                + ", nom_user=" + nom_user + ", email=" + email + ", mdp=" + mdp + ", bio=" + bio + ", pdp=" + pdp
-                + ", date_insc=" + date_insc + ", date_naiss=" + date_naiss + ", loca=" + loca + ", sexe=" + sexe
-                + ", num_tel=" + num_tel + ", langue=" + langue + ", admin=" + admin + "]";
+        return "User [uid=" + uid + ", idPseudo=" + idPseudo + ", pseudo=" + pseudo + ", prenom=" + prenom
+                + ", nomUser=" + nomUser + ", email=" + email + ", mdp=" + mdp + ", bio=" + bio + ", pdp=" + pdp
+                + ", dateInsc=" + dateInsc + ", dateNaiss=" + dateNaiss + ", loca=" + loca + ", sexe=" + sexe
+                + ", numTel=" + numTel + ", langue=" + langue + ", admin=" + admin + "]";
     }
 
-    // Getters and Setters
     public int getUid() {
         return uid;
     }
@@ -58,12 +62,12 @@ public class User {
         this.uid = uid;
     }
 
-    public String getId_pseudo() {
-        return id_pseudo;
+    public String getIdPseudo() {
+        return idPseudo;
     }
 
-    public void setId_pseudo(String id_pseudo) {
-        this.id_pseudo = id_pseudo;
+    public void setIdPseudo(String idPseudo) {
+        this.idPseudo = idPseudo;
     }
 
     public String getPseudo() {
@@ -82,12 +86,12 @@ public class User {
         this.prenom = prenom;
     }
 
-    public String getNom_user() {
-        return nom_user;
+    public String getNomUser() {
+        return nomUser;
     }
 
-    public void setNom_user(String nom_user) {
-        this.nom_user = nom_user;
+    public void setNomUser(String nomUser) {
+        this.nomUser = nomUser;
     }
 
     public String getEmail() {
@@ -122,20 +126,20 @@ public class User {
         this.pdp = pdp;
     }
 
-    public LocalDateTime getDate_insc() {
-        return date_insc;
+    public LocalDateTime getDateInsc() {
+        return dateInsc;
     }
 
-    public void setDate_insc(LocalDateTime date_insc) {
-        this.date_insc = date_insc;
+    public void setDateInsc(LocalDateTime dateInsc) {
+        this.dateInsc = dateInsc;
     }
 
-    public LocalDate getDate_naiss() {
-        return date_naiss;
+    public LocalDate getDateNaiss() {
+        return dateNaiss;
     }
 
-    public void setDate_naiss(LocalDate date_naiss) {
-        this.date_naiss = date_naiss;
+    public void setDateNaiss(LocalDate dateNaiss) {
+        this.dateNaiss = dateNaiss;
     }
 
     public String getLoca() {
@@ -154,12 +158,12 @@ public class User {
         this.sexe = sexe;
     }
 
-    public String getNum_tel() {
-        return num_tel;
+    public String getNumTel() {
+        return numTel;
     }
 
-    public void setNum_tel(String num_tel) {
-        this.num_tel = num_tel;
+    public void setNumTel(String numTel) {
+        this.numTel = numTel;
     }
 
     public String getLangue() {
@@ -170,11 +174,11 @@ public class User {
         this.langue = langue;
     }
 
-    public String getAdmin() {
+    public boolean getAdmin() {
         return admin;
     }
 
-    public void setAdmin(String admin) {
+    public void setAdmin(boolean admin) {
         this.admin = admin;
     }
 }

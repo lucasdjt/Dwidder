@@ -1,17 +1,27 @@
 package modele.dto;
 
 public class Conversation {
+    private int cid;
     private int uidEnvoyeur;
     private int uidReceveur;
 
-    public Conversation(int uidEnvoyeur, int uidReceveur) {
+    public Conversation(int cid, int uidEnvoyeur, int uidReceveur) {
+        this.cid = cid;
         this.uidEnvoyeur = uidEnvoyeur;
         this.uidReceveur = uidReceveur;
     }
 
     @Override
     public String toString() {
-        return "Conversation [uidEnvoyeur=" + uidEnvoyeur + ", uidReceveur=" + uidReceveur + "]";
+        return "Conversation [cid=" + cid + ", uidEnvoyeur=" + uidEnvoyeur + ", uidReceveur=" + uidReceveur + "]";
+    }
+
+    public int getCid() {
+        return cid;
+    }
+
+    public void setCid(int cid) {
+        this.cid = cid;
     }
 
     public int getUidEnvoyeur() {
@@ -29,4 +39,5 @@ public class Conversation {
     public void setUidReceveur(int uidReceveur) {
         this.uidReceveur = uidReceveur;
     }
+
 }

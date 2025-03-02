@@ -7,35 +7,35 @@ import java.util.*;
 import modele.dto.*;
 import modele.utils.*;
 
-public class FavorisDAO {
+public class MembresDAO {
     DS ds = new DataIUT();
 
-    public List<Favori> selectAll() {
-        List<Favori> favoris = new ArrayList<>();
+    public List<Membre> selectAll() {
+        List<Membre> membres = new ArrayList<>();
         try (Connection con = ds.getConnection()) {
-            String requete = "SELECT * FROM Favoris";
+            String requete = "SELECT * FROM Membres";
             try (Statement stmt = con.createStatement();
                  ResultSet rs = stmt.executeQuery(requete)) {
                 while (rs.next()) {
-                    int uid = rs.getInt("uid");
-                    int pid = rs.getInt("pid");
-                    LocalDateTime dateFavori = BAO.conversion(rs.getTimestamp("date_favori"));
-                    favoris.add(new Favori(uid, pid, dateFavori));
+                    int uid = rs.getInt("uidAbonne");
+                    int gid = rs.getInt("uidAbonnement");
+                    LocalDateTime dateJoin = BAO.conversion(rs.getTimestamp("date_join"));
+                    membres.add(new Membre(uid, gid, dateJoin));
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return favoris;
+        return membres;
     }
 
-    public void insert(Favori favori) {
+    public void insert(Membre membre) {
         try (Connection con = ds.getConnection()) {
-            String requetePrepare = "INSERT INTO Favoris (uid, pid, date_favori) VALUES (?, ?, ?)";
+            String requetePrepare = "INSERT INTO Membres (uid, gid, date_join) VALUES (?, ?, ?)";
             try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
-                pstmt.setInt(1, favori.getUid());
-                pstmt.setInt(2, favori.getPid());
-                pstmt.setTimestamp(3, BAO.conversion(favori.getDateFavori()));
+                pstmt.setInt(1, membre.getUid());
+                pstmt.setInt(2, membre.getGid());
+                pstmt.setTimestamp(3, BAO.conversion(membre.getDateJoin()));
                 pstmt.executeUpdate();
             }
         } catch (Exception e) {
@@ -43,12 +43,12 @@ public class FavorisDAO {
         }
     }
 
-    public void delete(Favori favori) {
+    public void delete(Membre membre) {
         try (Connection con = ds.getConnection()) {
-            String requetePrepare = "DELETE FROM Favoris WHERE uid = ? AND pid = ?";
+            String requetePrepare = "DELETE FROM Membres WHERE uid = ? AND gid = ?";
             try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
-                pstmt.setInt(1, favori.getUid());
-                pstmt.setInt(2, favori.getPid());
+                pstmt.setInt(1, membre.getUid());
+                pstmt.setInt(2, membre.getGid());
                 pstmt.executeUpdate();
             }
         } catch (Exception e) {

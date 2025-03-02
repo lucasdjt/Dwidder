@@ -47,7 +47,7 @@ INSERT INTO Conversations (uid_envoyeur, uid_receveur) VALUES
 (1, 4); -- Création de conversation entre Draggas et Tom
 
 \echo '5/ Création de Messages'
-INSERT INTO Messages (cid, uid, contenu, date_mess) VALUES
+INSERT INTO Messages (cid, uid, corps, date_mess) VALUES
 (1, 2, 'Slt Draggas', NOW() - INTERVAL '1 hour'), -- Conv1 - Message1 (Lucas DJT -> Draggas)
 (1, 1, 'Slt Lucas ça va ?', NOW()), -- Conv1 - Message2 (Draggas -> Lucas DJT)
 (2, 1, 'Slt John dans le passé', '2000-01-01'), -- Conv2 - Message (Draggas -> John Doe) [le plus vieux]
