@@ -5,17 +5,17 @@ import java.time.LocalDateTime;
 public class Membre {
     private int uid;
     private int gid;
-    private LocalDateTime dateJoin;
+    private LocalDateTime djoin;
     
-    public Membre(int uid, int gid, LocalDateTime dateJoin) {
+    public Membre(int uid, int gid, LocalDateTime djoin) {
         this.uid = uid;
         this.gid = gid;
-        this.dateJoin = dateJoin;
+        this.djoin = djoin;
     }
 
     @Override
     public String toString() {
-        return "Membre [uid=" + uid + ", gid=" + gid + ", dateJoin=" + dateJoin + "]";
+        return "Membre [uid=" + uid + ", gid=" + gid + ", djoin=" + djoin + "]";
     }
 
     public int getUid() {
@@ -34,12 +34,12 @@ public class Membre {
         this.gid = gid;
     }
 
-    public LocalDateTime getDateJoin() {
-        return dateJoin;
+    public LocalDateTime getDjoin() {
+        return djoin;
     }
 
-    public void setDateJoin(LocalDateTime dateJoin) {
-        this.dateJoin = dateJoin;
+    public void setDjoin(LocalDateTime djoin) {
+        this.djoin = djoin;
     }
 }
 

@@ -62,10 +62,10 @@ public class UserAPI extends HttpServlet {
         newUser.setMdp(req.getParameter("mdp"));
         newUser.setBio(req.getParameter("bio"));
         newUser.setPdp(req.getParameter("pdp"));
-        newUser.setDateNaiss(req.getParameter("date_naiss") == null ? null : LocalDate.parse(req.getParameter("date_naiss")));
+        newUser.setDnaiss(req.getParameter("date_naiss") == null ? null : LocalDate.parse(req.getParameter("date_naiss")));
         newUser.setLoca(req.getParameter("loca"));
         newUser.setSexe(req.getParameter("sexe"));
-        newUser.setNumTel(req.getParameter("num_tel"));
+        newUser.setTel(req.getParameter("num_tel"));
         newUser.setLangue(req.getParameter("langue"));
         UsersDAO dao = new UsersDAO();
         dao.insert(newUser);

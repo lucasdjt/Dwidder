@@ -6,18 +6,18 @@ public class Reaction {
     private int uid;
     private int pid;
     private String type;
-    private LocalDateTime dateReact;
+    private LocalDateTime dreact;
     
-    public Reaction(int uid, int pid, String type, LocalDateTime dateReact) {
+    public Reaction(int uid, int pid, String type, LocalDateTime dreact) {
         this.uid = uid;
         this.pid = pid;
         this.type = type;
-        this.dateReact = dateReact;
+        this.dreact = dreact;
     }
 
     @Override
     public String toString() {
-        return "Reaction [uid=" + uid + ", pid=" + pid + ", type=" + type + ", dateReact=" + dateReact + "]";
+        return "Reaction [uid=" + uid + ", pid=" + pid + ", type=" + type + ", dreact=" + dreact + "]";
     }
 
     public int getUid() {
@@ -44,12 +44,12 @@ public class Reaction {
         this.type = type;
     }
 
-    public LocalDateTime getDateReact() {
-        return dateReact;
+    public LocalDateTime getDreact() {
+        return dreact;
     }
 
-    public void setDateReact(LocalDateTime dateReact) {
-        this.dateReact = dateReact;
+    public void setDreact(LocalDateTime dreact) {
+        this.dreact = dreact;
     }
 }
 

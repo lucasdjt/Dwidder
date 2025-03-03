@@ -4,25 +4,25 @@ import java.time.LocalDateTime;
 
 public class Groupe {
     private int gid;
-    private int uidAdmin;
-    private int pidEpingle;
+    private int uid;
+    private int pid;
     private String nomGrp;
     private String description;
-    private LocalDateTime dateCreation;
+    private LocalDateTime dcreat;
     
-    public Groupe(int gid, int uidAdmin, int pidEpingle, String nomGrp, String description, LocalDateTime dateCreation) {
+    public Groupe(int gid, int uid, int pid, String nomGrp, String description, LocalDateTime dcreat) {
         this.gid = gid;
-        this.uidAdmin = uidAdmin;
-        this.pidEpingle = pidEpingle;
+        this.uid = uid;
+        this.pid = pid;
         this.nomGrp = nomGrp;
         this.description = description;
-        this.dateCreation = dateCreation;
+        this.dcreat = dcreat;
     }
 
     @Override
     public String toString() {
-        return "Groupe [gid=" + gid + ", uidAdmin=" + uidAdmin + ", pidEpingle=" + pidEpingle + ", nomGrp=" + nomGrp
-                + ", description=" + description + ", dateCreation=" + dateCreation + "]";
+        return "Groupe [gid=" + gid + ", uid=" + uid + ", pid=" + pid + ", nomGrp=" + nomGrp + ", description="
+                + description + ", dcreat=" + dcreat + "]";
     }
 
     public int getGid() {
@@ -33,20 +33,20 @@ public class Groupe {
         this.gid = gid;
     }
 
-    public int getUidAdmin() {
-        return uidAdmin;
+    public int getUid() {
+        return uid;
     }
 
-    public void setUidAdmin(int uidAdmin) {
-        this.uidAdmin = uidAdmin;
-    }
-    
-    public int getPidEpingle() {
-        return pidEpingle;
+    public void setUid(int uid) {
+        this.uid = uid;
     }
 
-    public void setPidEpingle(int pidEpingle) {
-        this.pidEpingle = pidEpingle;
+    public int getPid() {
+        return pid;
+    }
+
+    public void setPid(int pid) {
+        this.pid = pid;
     }
 
     public String getNomGrp() {
@@ -65,11 +65,11 @@ public class Groupe {
         this.description = description;
     }
 
-    public LocalDateTime getDateCreation() {
-        return dateCreation;
+    public LocalDateTime getDcreat() {
+        return dcreat;
     }
 
-    public void setDateCreation(LocalDateTime dateCreation) {
-        this.dateCreation = dateCreation;
+    public void setDcreat(LocalDateTime dcreat) {
+        this.dcreat = dcreat;
     }
 }

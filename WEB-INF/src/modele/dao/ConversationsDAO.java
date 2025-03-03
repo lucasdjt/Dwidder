@@ -17,8 +17,8 @@ public class ConversationsDAO {
                  ResultSet rs = stmt.executeQuery(requete)) {
                 while (rs.next()) {
                     int cid = rs.getInt("cid");
-                    int uidEnvoyeur = rs.getInt("uid_envoyeur");
-                    int uidReceveur = rs.getInt("uid_receveur");
+                    int uidEnvoyeur = rs.getInt("uidEnvoyeur");
+                    int uidReceveur = rs.getInt("uidReceveur");
                     conversations.add(new Conversation(cid, uidEnvoyeur, uidReceveur));
                 }
             }
@@ -30,7 +30,7 @@ public class ConversationsDAO {
 
     public void insert(Conversation conversation) {
         try (Connection con = ds.getConnection()) {
-            String requetePrepare = "INSERT INTO Conversations (uid_envoyeur, uid_receveur) VALUES (?, ?)";
+            String requetePrepare = "INSERT INTO Conversations (uidEnvoyeur, uidReceveur) VALUES (?, ?)";
             try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
                 pstmt.setInt(1, conversation.getUidEnvoyeur());
                 pstmt.setInt(2, conversation.getUidReceveur());
@@ -43,7 +43,7 @@ public class ConversationsDAO {
 
     public void delete(Conversation conversation) {
         try (Connection con = ds.getConnection()) {
-            String requetePrepare = "DELETE FROM Conversations WHERE uid_envoyeur = ? AND uid_receveur = ?";
+            String requetePrepare = "DELETE FROM Conversations WHERE uidEnvoyeur = ? AND uidReceveur = ?";
             try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
                 pstmt.setInt(1, conversation.getUidEnvoyeur());
                 pstmt.setInt(2, conversation.getUidReceveur());

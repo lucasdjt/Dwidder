@@ -19,8 +19,8 @@ public class AbonnementsDAO {
                 while (rs.next()) {
                     int uidAbonne = rs.getInt("uidAbonne");
                     int uidAbonnement = rs.getInt("uidAbonnement");
-                    LocalDateTime dateAbonnement = BAO.conversion(rs.getTimestamp("dateAbonnement"));
-                    abonnements.add(new Abonnement(uidAbonne, uidAbonnement, dateAbonnement));
+                    LocalDateTime dabonnement = BAO.conversion(rs.getTimestamp("dabonnement"));
+                    abonnements.add(new Abonnement(uidAbonne, uidAbonnement, dabonnement));
                 }
             }
         } catch (Exception e) {
@@ -31,11 +31,11 @@ public class AbonnementsDAO {
 
     public void insert(Abonnement abonnement) {
         try (Connection con = ds.getConnection()) {
-            String requetePrepare = "INSERT INTO Abonnements (uid_abonne, uid_abonnement, date_abonnement) VALUES (?, ?, ?)";
+            String requetePrepare = "INSERT INTO Abonnements (uidAbonne, uidAbonnement, dabonnement) VALUES (?, ?, ?)";
             try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
                 pstmt.setInt(1, abonnement.getUidAbonne());
                 pstmt.setInt(2, abonnement.getUidAbonnement());
-                pstmt.setTimestamp(3, BAO.conversion(abonnement.getDateAbonnement()));
+                pstmt.setTimestamp(3, BAO.conversion(abonnement.getDabonnement()));
                 pstmt.executeUpdate();
             }
         } catch (Exception e) {
@@ -45,7 +45,7 @@ public class AbonnementsDAO {
 
     public void delete(Abonnement abonnement) {
         try (Connection con = ds.getConnection()) {
-            String requetePrepare = "DELETE FROM Abonnements WHERE uid_abonne = ? AND uid_abonnement = ?";
+            String requetePrepare = "DELETE FROM Abonnements WHERE uidAbonne = ? AND uidAbonnement = ?";
             try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
                 pstmt.setInt(1, abonnement.getUidAbonne());
                 pstmt.setInt(2, abonnement.getUidAbonnement());

@@ -17,10 +17,10 @@ public class MembresDAO {
             try (Statement stmt = con.createStatement();
                  ResultSet rs = stmt.executeQuery(requete)) {
                 while (rs.next()) {
-                    int uid = rs.getInt("uidAbonne");
-                    int gid = rs.getInt("uidAbonnement");
-                    LocalDateTime dateJoin = BAO.conversion(rs.getTimestamp("date_join"));
-                    membres.add(new Membre(uid, gid, dateJoin));
+                    int uid = rs.getInt("uid");
+                    int gid = rs.getInt("gid");
+                    LocalDateTime djoin = BAO.conversion(rs.getTimestamp("djoin"));
+                    membres.add(new Membre(uid, gid, djoin));
                 }
             }
         } catch (Exception e) {
@@ -31,11 +31,11 @@ public class MembresDAO {
 
     public void insert(Membre membre) {
         try (Connection con = ds.getConnection()) {
-            String requetePrepare = "INSERT INTO Membres (uid, gid, date_join) VALUES (?, ?, ?)";
+            String requetePrepare = "INSERT INTO Membres (uid, gid, djoin) VALUES (?, ?, ?)";
             try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
                 pstmt.setInt(1, membre.getUid());
                 pstmt.setInt(2, membre.getGid());
-                pstmt.setTimestamp(3, BAO.conversion(membre.getDateJoin()));
+                pstmt.setTimestamp(3, BAO.conversion(membre.getDjoin()));
                 pstmt.executeUpdate();
             }
         } catch (Exception e) {

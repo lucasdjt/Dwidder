@@ -12,17 +12,17 @@ public class User {
     private String mdp;
     private String bio;
     private String pdp;
-    private LocalDateTime dateInsc;
-    private LocalDate dateNaiss;
+    private LocalDateTime dinsc;
+    private LocalDate dnaiss;
     private String loca;
     private String sexe;
-    private String numTel;
+    private String tel;
     private String langue;
     private boolean admin;
 
     public User(int uid, String idPseudo, String pseudo, String prenom, String nomUser, String email, String mdp,
-            String bio, String pdp, LocalDateTime dateInsc, LocalDate dateNaiss, String loca, String sexe,
-            String numTel, String langue, boolean admin) {
+            String bio, String pdp, LocalDateTime dinsc, LocalDate dnaiss, String loca, String sexe,
+            String tel, String langue, boolean admin) {
         this.uid = uid;
         this.idPseudo = idPseudo;
         this.pseudo = pseudo;
@@ -32,17 +32,17 @@ public class User {
         this.mdp = mdp;
         this.bio = bio;
         this.pdp = pdp;
-        this.dateInsc = dateInsc;
-        this.dateNaiss = dateNaiss;
+        this.dinsc = dinsc;
+        this.dnaiss = dnaiss;
         this.loca = loca;
         this.sexe = sexe;
-        this.numTel = numTel;
+        this.tel = tel;
         this.langue = langue;
         this.admin = admin;
     }
 
     public User(){
-        this.dateInsc = LocalDateTime.now();
+        this.dinsc = LocalDateTime.now();
         this.admin = false;
     }
 
@@ -50,8 +50,8 @@ public class User {
     public String toString() {
         return "User [uid=" + uid + ", idPseudo=" + idPseudo + ", pseudo=" + pseudo + ", prenom=" + prenom
                 + ", nomUser=" + nomUser + ", email=" + email + ", mdp=" + mdp + ", bio=" + bio + ", pdp=" + pdp
-                + ", dateInsc=" + dateInsc + ", dateNaiss=" + dateNaiss + ", loca=" + loca + ", sexe=" + sexe
-                + ", numTel=" + numTel + ", langue=" + langue + ", admin=" + admin + "]";
+                + ", dinsc=" + dinsc + ", dnaiss=" + dnaiss + ", loca=" + loca + ", sexe=" + sexe
+                + ", tel=" + tel + ", langue=" + langue + ", admin=" + admin + "]";
     }
 
     public int getUid() {
@@ -126,20 +126,20 @@ public class User {
         this.pdp = pdp;
     }
 
-    public LocalDateTime getDateInsc() {
-        return dateInsc;
+    public LocalDateTime getDinsc() {
+        return dinsc;
     }
 
-    public void setDateInsc(LocalDateTime dateInsc) {
-        this.dateInsc = dateInsc;
+    public void setDinsc(LocalDateTime dinsc) {
+        this.dinsc = dinsc;
     }
 
-    public LocalDate getDateNaiss() {
-        return dateNaiss;
+    public LocalDate getDnaiss() {
+        return dnaiss;
     }
 
-    public void setDateNaiss(LocalDate dateNaiss) {
-        this.dateNaiss = dateNaiss;
+    public void setDnaiss(LocalDate dnaiss) {
+        this.dnaiss = dnaiss;
     }
 
     public String getLoca() {
@@ -158,12 +158,12 @@ public class User {
         this.sexe = sexe;
     }
 
-    public String getNumTel() {
-        return numTel;
+    public String getTel() {
+        return tel;
     }
 
-    public void setNumTel(String numTel) {
-        this.numTel = numTel;
+    public void setTel(String tel) {
+        this.tel = tel;
     }
 
     public String getLangue() {
@@ -174,7 +174,7 @@ public class User {
         this.langue = langue;
     }
 
-    public boolean getAdmin() {
+    public boolean isAdmin() {
         return admin;
     }
 

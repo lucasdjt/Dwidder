@@ -7,20 +7,19 @@ public class Message {
     private int cid;
     private int uid;
     private String corps;
-    private LocalDateTime dateMess;
+    private LocalDateTime dmess;
     
-    public Message(int mid, int cid, int uid, String corps, LocalDateTime dateMess) {
+    public Message(int mid, int cid, int uid, String corps, LocalDateTime dmess) {
         this.mid = mid;
         this.cid = cid;
         this.uid = uid;
         this.corps = corps;
-        this.dateMess = dateMess;
+        this.dmess = dmess;
     }
 
     @Override
     public String toString() {
-        return "Message [mid=" + mid + ", cid=" + cid + ", uid=" + uid + ", corps=" + corps + ", dateMess="
-                + dateMess + "]";
+        return "Message [mid=" + mid + ", cid=" + cid + ", uid=" + uid + ", corps=" + corps + ", dmess=" + dmess + "]";
     }
 
     public int getMid() {
@@ -55,11 +54,11 @@ public class Message {
         this.corps = corps;
     }
 
-    public LocalDateTime getDateMess() {
-        return dateMess;
+    public LocalDateTime getDmess() {
+        return dmess;
     }
 
-    public void setDateMess(LocalDateTime dateMess) {
-        this.dateMess = dateMess;
+    public void setDmess(LocalDateTime dmess) {
+        this.dmess = dmess;
     }
 }

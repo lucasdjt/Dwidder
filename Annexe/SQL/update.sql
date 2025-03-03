@@ -4,23 +4,23 @@
 
 \echo 'Admin (Draggas) avec changement de toutes les infos'
 UPDATE Users
-SET nom_user = 'PRO', prenom = 'DRAGGAS', pseudo = 'Draggas', email = 'draggaspro@gmail.com', mdp = 'draggas', loca = 'Lille'
+SET nomUser = 'PRO', prenom = 'DRAGGAS', pseudo = 'Draggas', email = 'draggaspro@gmail.com', mdp = 'draggas', loca = 'Lille'
 WHERE pseudo = 'DraggasAV';
 
 \echo 'User Test (Clara) avec suppression au minimum'
 UPDATE Users
-SET prenom = NULL, nom_user = NULL, bio = NULL, pdp = NULL, date_naiss = NULL, loca = NULL, num_tel = NULL
+SET prenom = NULL, nomUser = NULL, bio = NULL, pdp = NULL, dnaiss = NULL, loca = NULL, tel = NULL
 WHERE pseudo = 'Clara';
 
 \echo 'Groupe (DraggasCorp) épinglé le post7'
 UPDATE Groupes
-SET pid_epingle = 7
-WHERE nom_grp = 'DraggasCorp';
+SET pid = 7
+WHERE nomGrp = 'DraggasCorp';
 
 \echo 'Groupe (DraggasCorp) épinglé le post1'
 UPDATE Groupes
-SET pid_epingle = 1
-WHERE nom_grp = 'DraggasCorp';
+SET pid = 1
+WHERE nomGrp = 'DraggasCorp';
 
 \echo 'Draggas change sa réaction sur le post1'
 UPDATE Reactions

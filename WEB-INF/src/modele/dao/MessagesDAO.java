@@ -21,15 +21,15 @@ public class MessagesDAO {
                     int cid = rs.getInt("cid");
                     int uid = rs.getInt("uid");
                     String corps = rs.getString("corps");
-                    LocalDateTime dateMess = BAO.conversion(rs.getTimestamp("dateMess"));
-                    messages.add(new Message(mid, cid, uid, corps, dateMess));
+                    LocalDateTime dmess = BAO.conversion(rs.getTimestamp("dmess"));
+                    messages.add(new Message(mid, cid, uid, corps, dmess));
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return messages;
-    }
+    } // A PARTIR D ICI
 
     public void insert(Message message) {
         try (Connection con = ds.getConnection()) {
@@ -38,7 +38,7 @@ public class MessagesDAO {
                 pstmt.setInt(1, message.getCid());
                 pstmt.setInt(2, message.getUid());
                 pstmt.setString(3, message.getCorps());
-                pstmt.setTimestamp(4, BAO.conversion(message.getDateMess()));
+                pstmt.setTimestamp(4, BAO.conversion(message.getDmess()));
                 pstmt.executeUpdate();
             }
         } catch (Exception e) {

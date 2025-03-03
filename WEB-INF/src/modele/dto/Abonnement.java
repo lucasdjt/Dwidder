@@ -5,18 +5,12 @@ import java.time.LocalDateTime;
 public class Abonnement {
     private int uidAbonne;
     private int uidAbonnement;
-    private LocalDateTime dateAbonnement;
+    private LocalDateTime dabonnement;
     
-    public Abonnement(int uidAbonne, int uidAbonnement, LocalDateTime dateAbonnement) {
+    public Abonnement(int uidAbonne, int uidAbonnement, LocalDateTime dabonnement) {
         this.uidAbonne = uidAbonne;
         this.uidAbonnement = uidAbonnement;
-        this.dateAbonnement = dateAbonnement;
-    }
-
-    @Override
-    public String toString() {
-        return "Abonnement [uidAbonne=" + uidAbonne + ", uidAbonnement=" + uidAbonnement + ", dateAbonnement="
-                + dateAbonnement + "]";
+        this.dabonnement = dabonnement;
     }
 
     public int getUidAbonne() {
@@ -35,11 +29,11 @@ public class Abonnement {
         this.uidAbonnement = uidAbonnement;
     }
 
-    public LocalDateTime getDateAbonnement() {
-        return dateAbonnement;
+    public LocalDateTime getDabonnement() {
+        return dabonnement;
     }
 
-    public void setDateAbonnement(LocalDateTime dateAbonnement) {
-        this.dateAbonnement = dateAbonnement;
+    public void setDabonnement(LocalDateTime dabonnement) {
+        this.dabonnement = dabonnement;
     }
 }

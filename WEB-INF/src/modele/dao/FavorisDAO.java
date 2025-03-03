@@ -19,8 +19,8 @@ public class FavorisDAO {
                 while (rs.next()) {
                     int uid = rs.getInt("uid");
                     int pid = rs.getInt("pid");
-                    LocalDateTime dateFavori = BAO.conversion(rs.getTimestamp("date_favori"));
-                    favoris.add(new Favori(uid, pid, dateFavori));
+                    LocalDateTime dfavori = BAO.conversion(rs.getTimestamp("dfavori"));
+                    favoris.add(new Favori(uid, pid, dfavori));
                 }
             }
         } catch (Exception e) {
@@ -31,11 +31,11 @@ public class FavorisDAO {
 
     public void insert(Favori favori) {
         try (Connection con = ds.getConnection()) {
-            String requetePrepare = "INSERT INTO Favoris (uid, pid, date_favori) VALUES (?, ?, ?)";
+            String requetePrepare = "INSERT INTO Favoris (uid, pid, dfavori) VALUES (?, ?, ?)";
             try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
                 pstmt.setInt(1, favori.getUid());
                 pstmt.setInt(2, favori.getPid());
-                pstmt.setTimestamp(3, BAO.conversion(favori.getDateFavori()));
+                pstmt.setTimestamp(3, BAO.conversion(favori.getDfavori()));
                 pstmt.executeUpdate();
             }
         } catch (Exception e) {

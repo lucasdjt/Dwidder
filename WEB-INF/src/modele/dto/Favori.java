@@ -5,17 +5,12 @@ import java.time.LocalDateTime;
 public class Favori {
     private int uid;
     private int pid;
-    private LocalDateTime dateFavori;
+    private LocalDateTime dfavori;
     
-    public Favori(int uid, int pid, LocalDateTime dateFavori) {
+    public Favori(int uid, int pid, LocalDateTime dfavori) {
         this.uid = uid;
         this.pid = pid;
-        this.dateFavori = dateFavori;
-    }
-
-    @Override
-    public String toString() {
-        return "Favori [uid=" + uid + ", pid=" + pid + ", dateFavori=" + dateFavori + "]";
+        this.dfavori = dfavori;
     }
 
     public int getUid() {
@@ -34,11 +29,11 @@ public class Favori {
         this.pid = pid;
     }
 
-    public LocalDateTime getDateFavori() {
-        return dateFavori;
+    public LocalDateTime getDfavori() {
+        return dfavori;
     }
 
-    public void setDateFavori(LocalDateTime dateFavori) {
-        this.dateFavori = dateFavori;
+    public void setDfavori(LocalDateTime dfavori) {
+        this.dfavori = dfavori;
     }
 }

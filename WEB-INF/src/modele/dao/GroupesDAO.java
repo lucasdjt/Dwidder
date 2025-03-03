@@ -18,12 +18,12 @@ public class GroupesDAO {
                  ResultSet rs = stmt.executeQuery(requete)) {
                 while (rs.next()) {
                     int gid = rs.getInt("gid");
-                    int uidAdmin = rs.getInt("uid_admin");
-                    int pidEpingle = rs.getInt("pid_epingle");
-                    String nomGrp = rs.getString("nom_grp");
+                    int uid = rs.getInt("uid");
+                    int pid = rs.getInt("pid");
+                    String nomGrp = rs.getString("nomGrp");
                     String description = rs.getString("description");
-                    LocalDateTime dateCreation = BAO.conversion(rs.getTimestamp("date_creation"));
-                    groupes.add(new Groupe(gid, uidAdmin, pidEpingle, nomGrp, description, dateCreation));
+                    LocalDateTime dcreat = BAO.conversion(rs.getTimestamp("dcreat"));
+                    groupes.add(new Groupe(gid, uid, pid, nomGrp, description, dcreat));
                 }
             }
         } catch (Exception e) {
@@ -34,13 +34,13 @@ public class GroupesDAO {
 
     public void insert(Groupe groupe) {
         try (Connection con = ds.getConnection()) {
-            String requetePrepare = "INSERT INTO Groupes (uid_admin, pid_epingle, nom_grp, description, date_creation) VALUES (?, ?, ?, ?, ?)";
+            String requetePrepare = "INSERT INTO Groupes (uid, pid, nomGrp, description, dcreat) VALUES (?, ?, ?, ?, ?)";
             try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
-                pstmt.setInt(1, groupe.getUidAdmin());
-                pstmt.setInt(2, groupe.getPidEpingle());
+                pstmt.setInt(1, groupe.getUid());
+                pstmt.setInt(2, groupe.getPid());
                 pstmt.setString(3, groupe.getNomGrp());
                 pstmt.setString(4, groupe.getDescription());
-                pstmt.setTimestamp(4, BAO.conversion(groupe.getDateCreation()));
+                pstmt.setTimestamp(4, BAO.conversion(groupe.getDcreat()));
                 pstmt.executeUpdate();
             }
         } catch (Exception e) {
@@ -50,10 +50,10 @@ public class GroupesDAO {
 
     public void update(Groupe groupe) {
         try (Connection con = ds.getConnection()) {
-            String requetePrepare = "UPDATE Groupes SET uid_admin = ?, pid_epingle = ?, nom_grp = ?, description = ? WHERE gid = ?";
+            String requetePrepare = "UPDATE Groupes SET uid = ?, pid = ?, nomGrp = ?, description = ? WHERE gid = ?";
             try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
-                pstmt.setInt(1, groupe.getUidAdmin());
-                pstmt.setInt(2, groupe.getPidEpingle());
+                pstmt.setInt(1, groupe.getUid());
+                pstmt.setInt(2, groupe.getPid());
                 pstmt.setString(3, groupe.getNomGrp());
                 pstmt.setString(4, groupe.getDescription());
                 pstmt.setInt(5, groupe.getGid());
