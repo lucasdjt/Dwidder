@@ -20,8 +20,8 @@ public class ReactionsDAO {
                     int uid = rs.getInt("uid");
                     int pid = rs.getInt("pid");
                     String type = rs.getString("type");
-                    LocalDateTime dateReact = BAO.conversion(rs.getTimestamp("date_react"));
-                    reactions.add(new Reaction(uid, pid, type, dateReact));
+                    LocalDateTime dreact = BAO.conversion(rs.getTimestamp("dreact"));
+                    reactions.add(new Reaction(uid, pid, type, dreact));
                 }
             }
         } catch (Exception e) {
@@ -32,12 +32,12 @@ public class ReactionsDAO {
 
     public void insert(Reaction reaction) {
         try (Connection con = ds.getConnection()) {
-            String requetePrepare = "INSERT INTO Reactions (uid, pid, type, date_react) VALUES (?, ?, ?, ?)";
+            String requetePrepare = "INSERT INTO Reactions (uid, pid, type, dreact) VALUES (?, ?, ?, ?)";
             try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
                 pstmt.setInt(1, reaction.getUid());
                 pstmt.setInt(2, reaction.getPid());
                 pstmt.setString(3, reaction.getType());
-                pstmt.setTimestamp(4, BAO.conversion(reaction.getDateReact()));
+                pstmt.setTimestamp(4, BAO.conversion(reaction.getDreact()));
                 pstmt.executeUpdate();
             }
         } catch (Exception e) {

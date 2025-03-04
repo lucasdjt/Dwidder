@@ -75,26 +75,38 @@ public class GroupesDAO {
             e.printStackTrace();
         }
     }
-
-    public List<Membre> getGroupeMembers(int gid){
-        return null;
-        /*
-SELECT * FROM GroupMembers WHERE gid = 1 ORDER BY date_join DESC; -- obtenir la liste des membres d un groupe trié par date
-SELECT COUNT(*) FROM GroupMembers WHERE gid = 1; -- le nombre de membres d'un groupe
-        */
-    }
-
-    public Post getGroupePost(int pid){
-        return null;
-        /*
-SELECT P.* FROM Posts P JOIN Groupes G ON P.pid = G.pid_epingle WHERE G.gid = 1; -- post épinglé
-        */
-    }
-
-    public Post getGroupeAdmin(int uid){
-        return null;
-        /*
-SELECT U.* FROM Users U JOIN Groupes G ON U.uid = G.uid_admin WHERE G.gid = 1; -- l'admin du groupe
-        */
+    
+    public List<User> getGroupeMembers(int gid){
+        List<User> membres = new ArrayList<>();
+        try (Connection con = ds.getConnection()) {
+            String requetePrepare = "SELECT U.*  FROM Membres M JOIN Users U ON M.uid = U.uid WHERE M.gid = ? ORDER BY M.djoin DESC;";
+            try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
+                pstmt.setInt(1, gid);
+                try (ResultSet rs = pstmt.executeQuery()) {
+                    while (rs.next()) {
+                        int uid = rs.getInt("uid");
+                        String idPseudo = rs.getString("idPseudo");
+                        String pseudo = rs.getString("pseudo");
+                        String prenom = rs.getString("prenom");
+                        String nomUser = rs.getString("nomUser");
+                        String email = rs.getString("email");
+                        String mdp = rs.getString("mdp");
+                        String bio = rs.getString("bio");
+                        String pdp = rs.getString("pdp");
+                        LocalDateTime dinsc = BAO.conversion(rs.getTimestamp("dinsc"));
+                        LocalDate dnaiss = BAO.conversion(rs.getDate("dnaiss"));
+                        String loca = rs.getString("loca");
+                        String sexe = rs.getString("sexe");
+                        String tel = rs.getString("tel");
+                        String langue = rs.getString("langue");
+                        boolean admin = rs.getBoolean("admin");
+                        membres.add(new User(uid, idPseudo, pseudo, prenom, nomUser, email, mdp, bio, pdp, dinsc, dnaiss, loca, sexe, tel, langue, admin));
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return membres;
     }
 }

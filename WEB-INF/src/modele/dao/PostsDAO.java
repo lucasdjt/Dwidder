@@ -20,12 +20,12 @@ public class PostsDAO {
                     int pid = rs.getInt("pid");
                     int uid = rs.getInt("uid");
                     Integer gid = rs.getInt("gid");
-                    Integer pidParent = rs.getInt("pid_parent");
+                    Integer pidParent = rs.getInt("pidParent");
                     String contenu = rs.getString("contenu");
                     String media = rs.getString("media");
-                    LocalDateTime datePub = BAO.conversion(rs.getTimestamp("date_pub"));
-                    Duration dureePost = BAO.conversionIntervalToDuration(rs.getString("duree_post"));
-                    posts.add(new Post(pid, uid, gid, pidParent, contenu, media, datePub, dureePost));
+                    LocalDateTime dpub = BAO.conversion(rs.getTimestamp("dpub"));
+                    Duration dureePost = BAO.conversionIntervalToDuration(rs.getString("dureePost"));
+                    posts.add(new Post(pid, uid, gid, pidParent, contenu, media, dpub, dureePost));
                 }
             }
         } catch (Exception e) {
@@ -36,20 +36,45 @@ public class PostsDAO {
 
     public void insert(Post post) {
         try (Connection con = ds.getConnection()) {
-            String requetePrepare = "INSERT INTO Posts (uid, gid, pid_parent, contenu, media, date_pub, duree_post) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            String requetePrepare = "INSERT INTO Posts (uid, gid, pidParent, contenu, media, dpub, dureePost) VALUES (?, ?, ?, ?, ?, ?, ?)";
             try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
                 pstmt.setInt(1, post.getUid());
                 pstmt.setInt(2, post.getGid());
                 pstmt.setInt(3, post.getPidParent());
                 pstmt.setString(4, post.getContenu());
                 pstmt.setString(5, post.getMedia());
-                pstmt.setTimestamp(6, BAO.conversion(post.getDatePub()));
+                pstmt.setTimestamp(6, BAO.conversion(post.getDpub()));
                 pstmt.setString(7, BAO.conversionDurationToInterval(post.getDureePost()));
                 pstmt.executeUpdate();
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public Post findByPid(int pid) {
+        Post post = null;
+        try (Connection con = ds.getConnection()) {
+            String requetePrepare = "SELECT * FROM Posts WHERE pid = ?";
+            try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
+                pstmt.setInt(1, pid);
+                try (ResultSet rs = pstmt.executeQuery()) {
+                    if (rs.next()) {
+                        int uid = rs.getInt("uid");
+                        Integer gid = rs.getInt("gid");
+                        Integer pidParent = rs.getInt("pidParent");
+                        String contenu = rs.getString("contenu");
+                        String media = rs.getString("media");
+                        LocalDateTime dpub = BAO.conversion(rs.getTimestamp("dpub"));
+                        Duration dureePost = BAO.conversionIntervalToDuration(rs.getString("dureePost"));
+                        post = new Post(pid, uid, gid, pidParent, contenu, media, dpub, dureePost);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return post;
     }
 
     public void delete(Post post) {
@@ -64,31 +89,107 @@ public class PostsDAO {
         }
     }
 
-    /*
-- Les infos complet d un post
-SELECT * FROM PostDetails WHERE pid = 1;
+    public List<Reaction> getPostReactions(int pid) {
+        List<Reaction> reactions = new ArrayList<>();
+        try (Connection con = ds.getConnection()) {
+            String requetePrepare = "SELECT * FROM Reactions WHERE pid = 1 ORDER BY dreact DESC";
+            try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
+                pstmt.setInt(1, pid);
+                try (ResultSet rs = pstmt.executeQuery()) {
+                    while (rs.next()) {
+                        int uid = rs.getInt("uid");
+                        String type = rs.getString("type");
+                        LocalDateTime dreact = BAO.conversion(rs.getTimestamp("dreact"));
+                        reactions.add(new Reaction(uid, pid, type, dreact));
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return reactions;
+    }
 
-- On peut obtenir la liste des posts
-SELECT * FROM PostDetails WHERE uid = 1 ORDER BY date_pub DESC; -- trié par date
-SELECT * FROM PostDetails WHERE uid = 1 ORDER BY nb_reactions DESC; -- trié par réactions
-SELECT COUNT(*) FROM PostDetails WHERE uid = 1; -- le nombre de posts
+    public List<Post> selectAllPublic(boolean triParReactions) {
+        List<Post> posts = new ArrayList<>();
+        try (Connection con = ds.getConnection()) {
+            String requete = "";
+            if (triParReactions) {
+                requete = "SELECT P.*, (SELECT COUNT(*) FROM Reactions R WHERE R.pid = P.pid) AS nbReact FROM Posts P WHERE P.gid IS NULL AND P.pidParent IS NULL ORDER BY nbReact DESC";
+            } else {
+                requete = "SELECT * FROM Posts WHERE gid IS NULL AND pidParent IS NULL ORDER BY P.dpub DESC";
+            }
+            try (Statement stmt = con.createStatement();
+                 ResultSet rs = stmt.executeQuery(requete)) {
+                while (rs.next()) {
+                    int pid = rs.getInt("pid");
+                    int uid = rs.getInt("uid");
+                    Integer gid = rs.getInt("gid");
+                    Integer pidParent = rs.getInt("pidParent");
+                    String contenu = rs.getString("contenu");
+                    String media = rs.getString("media");
+                    LocalDateTime dpub = BAO.conversion(rs.getTimestamp("dpub"));
+                    Duration dureePost = BAO.conversionIntervalToDuration(rs.getString("dureePost"));
+                    posts.add(new Post(pid, uid, gid, pidParent, contenu, media, dpub, dureePost));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return posts;
+    }
 
-- On peut obtenir le nombre de favoris et de réactions sur un post
-SELECT nb_favoris FROM PostDetails WHERE pid = 1;
-SELECT nb_reactions FROM PostDetails WHERE pid = 1;
-
-- On peut obtenir le liste des réactions sur un post avec les infos de ses réactions
-SELECT * FROM PostReactions WHERE pid = 1 ORDER BY date_react DESC;
-
-- Du fil public sans parent/groupe
-SELECT * FROM PostDetails WHERE gid IS NULL AND pid_parent IS NULL ORDER BY date_pub DESC; -- trié par date
-SELECT * FROM PostDetails WHERE gid IS NULL AND pid_parent IS NULL ORDER BY nb_reactions, nb_favoris DESC; -- trié par réactions
-- D un groupe particulier sans parent
-SELECT * FROM PostDetails WHERE gid = 1 AND pid_parent IS NULL ORDER BY date_pub DESC; -- trié par date
-SELECT * FROM PostDetails WHERE gid = 1 AND pid_parent IS NULL ORDER BY nb_reactions, nb_favoris DESC; -- trié par réactions
-SELECT COUNT(*) FROM PostDetails WHERE gid = 1; -- nombre de posts du groupe
-- Réponses d un post particulier trié par réaction
-SELECT * FROM PostDetails WHERE pid_parent = 1 ORDER BY nb_reactions DESC;
-
-     */
+    public List<Post> selectFromGroup(int gid, boolean triParReactions) {
+        List<Post> posts = new ArrayList<>();
+        try (Connection con = ds.getConnection()) {
+            String requetePrepare = "";
+            if (triParReactions) {
+                requetePrepare = "SELECT P.*, (SELECT COUNT(*) FROM Reactions R WHERE R.pid = P.pid) AS nbReact FROM Posts P WHERE P.gid = ? ORDER BY nbReact DESC";
+            } else {
+                requetePrepare = "SELECT * FROM Posts WHERE gid = ? AND pidParent IS NULL ORDER BY P.dpub DESC";
+            }
+            try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
+                pstmt.setInt(1, gid);
+                try (ResultSet rs = pstmt.executeQuery()) {
+                    while (rs.next()) {
+                        int pid = rs.getInt("pid");
+                        Integer uid = rs.getInt("uid");
+                        Integer pidParent = rs.getInt("pidParent");
+                        String contenu = rs.getString("contenu");
+                        String media = rs.getString("media");
+                        LocalDateTime dpub = BAO.conversion(rs.getTimestamp("dpub"));
+                        Duration dureePost = BAO.conversionIntervalToDuration(rs.getString("dureePost"));
+                        posts.add(new Post(pid, uid, gid, pidParent, contenu, media, dpub, dureePost));
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return posts;
+    }
+    public List<Post> selectFromPostParent(int pidParent) {
+        List<Post> posts = new ArrayList<>();
+        try (Connection con = ds.getConnection()) {
+            String requetePrepare = "SELECT P.*, (SELECT COUNT(*) FROM Reactions R WHERE R.pid = P.pid) AS nbReact FROM Posts P WHERE P.pidParent = ? ORDER BY nbReact DESC";
+            try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
+                pstmt.setInt(1, pidParent);
+                try (ResultSet rs = pstmt.executeQuery()) {
+                    while (rs.next()) {
+                        int pid = rs.getInt("pid");
+                        Integer uid = rs.getInt("uid");
+                        Integer gid = rs.getInt("gid");
+                        String contenu = rs.getString("contenu");
+                        String media = rs.getString("media");
+                        LocalDateTime dpub = BAO.conversion(rs.getTimestamp("dpub"));
+                        Duration dureePost = BAO.conversionIntervalToDuration(rs.getString("dureePost"));
+                        posts.add(new Post(pid, uid, gid, pidParent, contenu, media, dpub, dureePost));
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return posts;
+    }
 }

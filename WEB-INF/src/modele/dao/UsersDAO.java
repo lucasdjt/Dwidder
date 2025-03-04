@@ -18,22 +18,22 @@ public class UsersDAO {
                  ResultSet rs = stmt.executeQuery(requete)) {
                 while (rs.next()) {
                     int uid = rs.getInt("uid");
-                    String id_pseudo = rs.getString("id_pseudo");
+                    String idPseudo = rs.getString("idPseudo");
                     String pseudo = rs.getString("pseudo");
                     String prenom = rs.getString("prenom");
-                    String nom_user = rs.getString("nom_user");
+                    String nomUser = rs.getString("nomUser");
                     String email = rs.getString("email");
                     String mdp = rs.getString("mdp");
                     String bio = rs.getString("bio");
                     String pdp = rs.getString("pdp");
-                    LocalDateTime dateInsc = BAO.conversion(rs.getTimestamp("date_insc"));
-                    LocalDate dateNaiss = BAO.conversion(rs.getDate("date_naiss"));
+                    LocalDateTime dinsc = BAO.conversion(rs.getTimestamp("dinsc"));
+                    LocalDate dnaiss = BAO.conversion(rs.getDate("dnaiss"));
                     String loca = rs.getString("loca");
                     String sexe = rs.getString("sexe");
-                    String num_tel = rs.getString("num_tel");
+                    String tel = rs.getString("tel");
                     String langue = rs.getString("langue");
                     boolean admin = rs.getBoolean("admin");
-                    users.add(new User(uid, id_pseudo, pseudo, prenom, nom_user, email, mdp, bio, pdp, dateInsc, dateNaiss, loca, sexe, num_tel, langue, admin));
+                    users.add(new User(uid, idPseudo, pseudo, prenom, nomUser, email, mdp, bio, pdp, dinsc, dnaiss, loca, sexe, tel, langue, admin));
                 }
             }
         } catch (Exception e) {
@@ -42,30 +42,30 @@ public class UsersDAO {
         return users;
     }
 
-    public User findById_pseudo(String id_pseudo) {
+    public User findById_pseudo(String idPseudo) {
         User user = null;
         try (Connection con = ds.getConnection()) {
-            String requetePrepare = "SELECT * FROM Users WHERE id_pseudo = ?";
+            String requetePrepare = "SELECT * FROM Users WHERE idPseudo = ?";
             try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
-                pstmt.setString(1, id_pseudo);
+                pstmt.setString(1, idPseudo);
                 try (ResultSet rs = pstmt.executeQuery()) {
                     if (rs.next()) {
                         int uid = rs.getInt("uid");
                         String pseudo = rs.getString("pseudo");
                         String prenom = rs.getString("prenom");
-                        String nom_user = rs.getString("nom_user");
+                        String nomUser = rs.getString("nomUser");
                         String email = rs.getString("email");
                         String mdp = rs.getString("mdp");
                         String bio = rs.getString("bio");
                         String pdp = rs.getString("pdp");
-                        LocalDateTime dateInsc = BAO.conversion(rs.getTimestamp("date_insc"));
-                        LocalDate dateNaiss = BAO.conversion(rs.getDate("date_naiss"));
+                        LocalDateTime dinsc = BAO.conversion(rs.getTimestamp("dinsc"));
+                        LocalDate dnaiss = BAO.conversion(rs.getDate("dnaiss"));
                         String loca = rs.getString("loca");
                         String sexe = rs.getString("sexe");
-                        String num_tel = rs.getString("num_tel");
+                        String tel = rs.getString("tel");
                         String langue = rs.getString("langue");
                         boolean admin = rs.getBoolean("admin");
-                        user = new User(uid, id_pseudo, pseudo, prenom, nom_user, email, mdp, bio, pdp, dateInsc, dateNaiss, loca, sexe, num_tel, langue, admin);
+                        user = new User(uid, idPseudo, pseudo, prenom, nomUser, email, mdp, bio, pdp, dinsc, dnaiss, loca, sexe, tel, langue, admin);
                     }
                 }
             }
@@ -84,21 +84,21 @@ public class UsersDAO {
                 try (ResultSet rs = pstmt.executeQuery()) {
                     if (rs.next()) {
                         int uid = rs.getInt("uid");
-                        String id_pseudo = rs.getString("id_pseudo");
+                        String idPseudo = rs.getString("idPseudo");
                         String pseudo = rs.getString("pseudo");
                         String prenom = rs.getString("prenom");
-                        String nom_user = rs.getString("nom_user");
+                        String nomUser = rs.getString("nomUser");
                         String mdp = rs.getString("mdp");
                         String bio = rs.getString("bio");
                         String pdp = rs.getString("pdp");
-                        LocalDateTime dateInsc = BAO.conversion(rs.getTimestamp("date_insc"));
-                        LocalDate dateNaiss = BAO.conversion(rs.getDate("date_naiss"));
+                        LocalDateTime dinsc = BAO.conversion(rs.getTimestamp("dinsc"));
+                        LocalDate dnaiss = BAO.conversion(rs.getDate("dnaiss"));
                         String loca = rs.getString("loca");
                         String sexe = rs.getString("sexe");
-                        String num_tel = rs.getString("num_tel");
+                        String tel = rs.getString("tel");
                         String langue = rs.getString("langue");
                         boolean admin = rs.getBoolean("admin");
-                        user = new User(uid, id_pseudo, pseudo, prenom, nom_user, email, mdp, bio, pdp, dateInsc, dateNaiss, loca, sexe, num_tel, langue, admin);
+                        user = new User(uid, idPseudo, pseudo, prenom, nomUser, email, mdp, bio, pdp, dinsc, dnaiss, loca, sexe, tel, langue, admin);
                     }
                 }
             }
@@ -110,7 +110,7 @@ public class UsersDAO {
 
     public void insert(User user) {
         try (Connection con = ds.getConnection()) {
-            String requetePrepare = "INSERT INTO Users (id_pseudo, pseudo, prenom, nom_user, email, mdp, bio, pdp, date_insc, date_naiss, loca, sexe, num_tel, langue, admin) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String requetePrepare = "INSERT INTO Users (idPseudo, pseudo, prenom, nomUser, email, mdp, bio, pdp, dinsc, dnaiss, loca, sexe, tel, langue, admin) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
                 pstmt.setString(1, user.getIdPseudo());
                 pstmt.setString(2, user.getPseudo());
@@ -120,13 +120,13 @@ public class UsersDAO {
                 pstmt.setString(6, user.getMdp());
                 pstmt.setString(7, user.getBio());
                 pstmt.setString(8, user.getPdp());
-                pstmt.setTimestamp(9, BAO.conversion(user.getDateInsc()));
-                pstmt.setDate(10, BAO.conversion(user.getDateNaiss()));
+                pstmt.setTimestamp(9, BAO.conversion(user.getDinsc()));
+                pstmt.setDate(10, BAO.conversion(user.getDnaiss()));
                 pstmt.setString(11, user.getLoca());
                 pstmt.setString(12, user.getSexe());
-                pstmt.setString(13, user.getNumTel());
+                pstmt.setString(13, user.getTel());
                 pstmt.setString(14, user.getLangue());
-                pstmt.setBoolean(15, user.getAdmin());
+                pstmt.setBoolean(15, user.isAdmin());
                 pstmt.executeUpdate();
             }
         } catch (Exception e) {
@@ -136,7 +136,7 @@ public class UsersDAO {
 
     public void update(User user) {
         try (Connection con = ds.getConnection()) {
-            String requetePrepare = "UPDATE Users SET id_pseudo = ?, pseudo = ?, prenom = ?, nom_user = ?, email = ?, mdp = ?, bio = ?, pdp = ?, date_naiss = ?, loca = ?, sexe = ?, num_tel = ?, langue = ? WHERE uid = ?";
+            String requetePrepare = "UPDATE Users SET idPseudo = ?, pseudo = ?, prenom = ?, nomUser = ?, email = ?, mdp = ?, bio = ?, pdp = ?, dnaiss = ?, loca = ?, sexe = ?, tel = ?, langue = ? WHERE uid = ?";
             try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
                 pstmt.setString(1, user.getIdPseudo());
                 pstmt.setString(2, user.getPseudo());
@@ -146,10 +146,10 @@ public class UsersDAO {
                 pstmt.setString(6, user.getMdp());
                 pstmt.setString(7, user.getBio());
                 pstmt.setString(8, user.getPdp());
-                pstmt.setDate(9, BAO.conversion(user.getDateNaiss()));
+                pstmt.setDate(9, BAO.conversion(user.getDnaiss()));
                 pstmt.setString(10, user.getLoca());
                 pstmt.setString(11, user.getSexe());
-                pstmt.setString(12, user.getNumTel());
+                pstmt.setString(12, user.getTel());
                 pstmt.setString(13, user.getLangue());
                 pstmt.setInt(14, user.getUid());
                 pstmt.executeUpdate();
@@ -159,11 +159,11 @@ public class UsersDAO {
         }
     }
     
-    public void delete(String id_pseudo) {
+    public void delete(String idPseudo) {
         try (Connection con = ds.getConnection()) {
-            String requetePrepare = "DELETE FROM Users WHERE id_pseudo = ?";
+            String requetePrepare = "DELETE FROM Users WHERE idPseudo = ?";
             try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
-                pstmt.setString(1, id_pseudo);
+                pstmt.setString(1, idPseudo);
                 pstmt.executeUpdate();
             }
         } catch (Exception e) {
@@ -180,12 +180,12 @@ public class UsersDAO {
                 try (ResultSet rs = pstmt.executeQuery()) {
                     while (rs.next()) {
                         int gid = rs.getInt("gid");
-                        int uidAdmin = rs.getInt("uid_admin");
-                        int pidEpingle = rs.getInt("pid_epingle");
-                        String nomGrp = rs.getString("nom_grp");
+                        int uidAdmin = rs.getInt("uid");
+                        int pid = rs.getInt("pid");
+                        String nomGrp = rs.getString("nomGrp");
                         String description = rs.getString("description");
-                        LocalDateTime dateCreation = BAO.conversion(rs.getTimestamp("date_creation"));
-                        groupes.add(new Groupe(gid, uidAdmin, pidEpingle, nomGrp, description, dateCreation));
+                        LocalDateTime dcreat = BAO.conversion(rs.getTimestamp("dcreat"));
+                        groupes.add(new Groupe(gid, uidAdmin, pid, nomGrp, description, dcreat));
                     }
                 }
             }
@@ -195,35 +195,142 @@ public class UsersDAO {
         return groupes;
     }
 
-    public List<User> getUserFollows(int uid){ // Nouvelle classe UserFollowers
-        return null;
-        /*
-SELECT * FROM UserFollowers WHERE uid_abonne = 1 ORDER BY date_abonnement DESC; -- liste d'abonné trié par date
-SELECT COUNT(*) FROM UserFollowers WHERE uid_abonnement = 1; -- nombre d'abonnés
-        */
+    public List<User> getUserFollows(int uid){
+        List<User> followers = new ArrayList<>();
+        try (Connection con = ds.getConnection()) {
+            String requetePrepare = "SELECT U.* FROM Abonnements A JOIN Users U ON A.uidAbonnement = U.uid WHERE A.uidAbonne = ? ORDER BY A.dabonnement DESC";
+            try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
+                pstmt.setInt(1, uid);
+                try (ResultSet rs = pstmt.executeQuery()) {
+                    while (rs.next()) {
+                        String idPseudo = rs.getString("idPseudo");
+                        String pseudo = rs.getString("pseudo");
+                        String prenom = rs.getString("prenom");
+                        String nomUser = rs.getString("nomUser");
+                        String email = rs.getString("email");
+                        String mdp = rs.getString("mdp");
+                        String bio = rs.getString("bio");
+                        String pdp = rs.getString("pdp");
+                        LocalDateTime dinsc = BAO.conversion(rs.getTimestamp("dinsc"));
+                        LocalDate dnaiss = BAO.conversion(rs.getDate("dnaiss"));
+                        String loca = rs.getString("loca");
+                        String sexe = rs.getString("sexe");
+                        String tel = rs.getString("tel");
+                        String langue = rs.getString("langue");
+                        boolean admin = rs.getBoolean("admin");
+                        followers.add(new User(uid, idPseudo, pseudo, prenom, nomUser, email, mdp, bio, pdp, dinsc, dnaiss, loca, sexe, tel, langue, admin));
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return followers;
     }
 
-    public List<User> getUserFollowers(int uid){ // Nouvelle classe UserFollowers
-        return null;
-        /*
-SELECT * FROM UserFollowers WHERE uid_abonnement = 1 ORDER BY date_abonnement DESC; -- liste d'abonné trié par date
-SELECT COUNT(*) FROM UserFollowers WHERE uid_abonnement = 1; -- nombre d'abonnés
-        */
+    public List<User> getUserFollowers(int uid){
+        List<User> followers = new ArrayList<>();
+        try (Connection con = ds.getConnection()) {
+            String requetePrepare = "SELECT U.* FROM Abonnements A JOIN Users U ON A.uidAbonne = U.uid WHERE A.uidAbonnement = ? ORDER BY A.dabonnement DESC";
+            try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
+                pstmt.setInt(1, uid);
+                try (ResultSet rs = pstmt.executeQuery()) {
+                    while (rs.next()) {
+                        String idPseudo = rs.getString("idPseudo");
+                        String pseudo = rs.getString("pseudo");
+                        String prenom = rs.getString("prenom");
+                        String nomUser = rs.getString("nomUser");
+                        String email = rs.getString("email");
+                        String mdp = rs.getString("mdp");
+                        String bio = rs.getString("bio");
+                        String pdp = rs.getString("pdp");
+                        LocalDateTime dinsc = BAO.conversion(rs.getTimestamp("dinsc"));
+                        LocalDate dnaiss = BAO.conversion(rs.getDate("dnaiss"));
+                        String loca = rs.getString("loca");
+                        String sexe = rs.getString("sexe");
+                        String tel = rs.getString("tel");
+                        String langue = rs.getString("langue");
+                        boolean admin = rs.getBoolean("admin");
+                        followers.add(new User(uid, idPseudo, pseudo, prenom, nomUser, email, mdp, bio, pdp, dinsc, dnaiss, loca, sexe, tel, langue, admin));
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return followers;
     }
-
+    
     public List<Favori> getUserFavoris(int uid){
-        return null;
-        /*
-SELECT * FROM UserFavorites WHERE uid = 1 ORDER BY date_favori DESC;
-SELECT COUNT(*) FROM UserFavorites WHERE uid = 1; -- nombre de favoris
-        */
+        List<Favori> favoris = new ArrayList<>();
+        try (Connection con = ds.getConnection()) {
+            String requetePrepare = "SELECT * FROM Favoris WHERE uid = ? ORDER BY dfavori DESC";
+            try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
+                pstmt.setInt(1, uid);
+                try (ResultSet rs = pstmt.executeQuery()) {
+                    while (rs.next()) {
+                        int pid = rs.getInt("pid");
+                        LocalDateTime dfavori = BAO.conversion(rs.getTimestamp("dfavori"));
+                        favoris.add(new Favori(uid, pid, dfavori));
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return favoris;
     }
 
     public List<Conversation> getUserConversations(int uid){
-        return null;
-        /*
-SELECT DISTINCT C.*, U.id_pseudo FROM Conversations C JOIN Users U ON (C.uid_envoyeur = U.uid OR C.uid_receveur = uid) 
-WHERE C.uid_envoyeur = 1 OR C.uid_receveur = 1 ORDER BY C.cid DESC;
-        */
+        List<Conversation> conversations = new ArrayList<>();
+        try (Connection con = ds.getConnection()) {
+            String requetePrepare = "SELECT DISTINCT C.* FROM Conversations C WHERE C.uidEnvoyeur = ? OR C.uidReceveur = ? ORDER BY C.cid DESC";
+            try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
+                pstmt.setInt(1, uid);
+                pstmt.setInt(2, uid);
+                try (ResultSet rs = pstmt.executeQuery()) {
+                    while (rs.next()) {
+                        int cid = rs.getInt("cid");
+                        int uidEnvoyeur = rs.getInt("uidEnvoyeur");
+                        int uidReceveur = rs.getInt("uidReceveur");
+                        conversations.add(new Conversation(cid, uidEnvoyeur, uidReceveur));
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return conversations;
+    }
+
+
+    public List<Post> getUsersPosts(int uid, boolean tri) {
+        List<Post> posts = new ArrayList<>();
+        try (Connection con = ds.getConnection()) {
+            String requetePrepare = "";
+            if(tri){
+                requetePrepare = "SELECT * FROM Posts WHERE uid = ? ORDER BY date_pub DESC";
+            } else {
+                requetePrepare = "SELECT * FROM Posts WHERE uid = ? ORDER BY nb_reactions DESC";
+            }
+            try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
+                pstmt.setInt(1, uid);
+                try (ResultSet rs = pstmt.executeQuery()) {
+                    while (rs.next()) {
+                        int pid = rs.getInt("pid");
+                        Integer gid = rs.getInt("gid");
+                        Integer pidParent = rs.getInt("pidParent");
+                        String contenu = rs.getString("contenu");
+                        String media = rs.getString("media");
+                        LocalDateTime dpub = BAO.conversion(rs.getTimestamp("dpub"));
+                        Duration dureePost = BAO.conversionIntervalToDuration(rs.getString("dureePost"));
+                        posts.add(new Post(pid, uid, gid, pidParent, contenu, media, dpub, dureePost));
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return posts;
     }
 }

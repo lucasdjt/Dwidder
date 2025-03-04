@@ -1,6 +1,7 @@
 package modele.dao;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.*;
 
 import modele.dto.*;
@@ -55,18 +56,24 @@ public class ConversationsDAO {
     }
     
     public List<Message> getMessageConv(int cid){
-        return null;
-        /*
-- On peut obtenir les messages privés d une conversation trié par date
-SELECT * FROM UserMessages WHERE cid = 1 ORDER BY date_mess DESC;
-        */
-    }
-    
-    public Message getInfoMessage(int mid){ // Message remplacé par une Classe de Vue
-        return null;
-        /*
-- On peut obtenir les infos d un message
-SELECT * FROM UserMessages WHERE mid = 1;
-        */
+        List<Message> messages = new ArrayList<>();
+        try (Connection con = ds.getConnection()) {
+            String requetePrepare = "SELECT * FROM Messages WHERE cid = ? ORDER BY dmess DESC";
+            try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
+                pstmt.setInt(1, cid);
+                try (ResultSet rs = pstmt.executeQuery()) {
+                    while (rs.next()) {
+                        int mid = rs.getInt("mid");
+                        int uid = rs.getInt("uid");
+                        String corps = rs.getString("corps");
+                        LocalDateTime dmess = BAO.conversion(rs.getTimestamp("dmess"));
+                        messages.add(new Message(mid, cid, uid, corps, dmess));
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return messages;
     }
 }

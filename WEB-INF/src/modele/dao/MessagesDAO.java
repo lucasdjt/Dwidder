@@ -29,11 +29,11 @@ public class MessagesDAO {
             e.printStackTrace();
         }
         return messages;
-    } // A PARTIR D ICI
+    }
 
     public void insert(Message message) {
         try (Connection con = ds.getConnection()) {
-            String requetePrepare = "INSERT INTO Messages (cid, uid, corps, date_mess) VALUES (?, ?, ?, ?)";
+            String requetePrepare = "INSERT INTO Messages (cid, uid, corps, dmess) VALUES (?, ?, ?, ?)";
             try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
                 pstmt.setInt(1, message.getCid());
                 pstmt.setInt(2, message.getUid());
