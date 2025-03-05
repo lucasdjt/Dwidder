@@ -5,18 +5,24 @@ import java.time.LocalDateTime;
 public class Groupe {
     private int gid;
     private int uid;
-    private int pid;
+    private Integer pid;
     private String nomGrp;
     private String description;
     private LocalDateTime dcreat;
     
-    public Groupe(int gid, int uid, int pid, String nomGrp, String description, LocalDateTime dcreat) {
+    public Groupe(int gid, int uid, Integer pid, String nomGrp, String description, LocalDateTime dcreat) {
         this.gid = gid;
         this.uid = uid;
         this.pid = pid;
         this.nomGrp = nomGrp;
         this.description = description;
         this.dcreat = dcreat;
+    }
+
+    public Groupe() {
+        nomGrp = null;
+        description = null;
+        dcreat = null;
     }
 
     @Override
@@ -41,11 +47,11 @@ public class Groupe {
         this.uid = uid;
     }
 
-    public int getPid() {
+    public Integer getPid() {
         return pid;
     }
 
-    public void setPid(int pid) {
+    public void setPid(Integer pid) {
         this.pid = pid;
     }
 

@@ -34,7 +34,7 @@ public class UserAPI extends HttpServlet {
             return;
         }
         String id_pseudo = splits[1];
-        User u = dao.findById_pseudo(id_pseudo);
+        User u = dao.findByIdPseudo(id_pseudo);
         if (u==null) {
             res.sendError(HttpServletResponse.SC_NOT_FOUND);
             return;

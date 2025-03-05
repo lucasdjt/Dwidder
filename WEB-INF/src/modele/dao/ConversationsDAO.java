@@ -8,8 +8,17 @@ import modele.dto.*;
 import modele.utils.*;
 
 public class ConversationsDAO {
-    DS ds = new DataIUT();
+    private DS ds;
+    
+    public ConversationsDAO(){
+        ds = DSFactory.newDS();
+    }
 
+    /**
+     * Récupère toutes les conversations de la base de données.
+     *
+     * @return Une liste d'objets {@code Conversation}.
+     */
     public List<Conversation> selectAll() {
         List<Conversation> conversations = new ArrayList<>();
         try (Connection con = ds.getConnection()) {
@@ -29,6 +38,11 @@ public class ConversationsDAO {
         return conversations;
     }
 
+    /**
+     * Insère une nouvelle conversation dans la base de données.
+     *
+     * @param conversation L'objet {@code Conversation} à insérer.
+     */
     public void insert(Conversation conversation) {
         try (Connection con = ds.getConnection()) {
             String requetePrepare = "INSERT INTO Conversations (uidEnvoyeur, uidReceveur) VALUES (?, ?)";
@@ -42,6 +56,11 @@ public class ConversationsDAO {
         }
     }
 
+    /**
+     * Supprime une conversation de la base de données.
+     *
+     * @param conversation L'objet {@code Conversation} à supprimer.
+     */
     public void delete(Conversation conversation) {
         try (Connection con = ds.getConnection()) {
             String requetePrepare = "DELETE FROM Conversations WHERE uidEnvoyeur = ? AND uidReceveur = ?";
@@ -55,6 +74,12 @@ public class ConversationsDAO {
         }
     }
     
+    /**
+     * Récupère les messages d'une conversation donnée.
+     *
+     * @param cid L'identifiant de la conversation.
+     * @return Une liste d'objets {@code Message} associés à la conversation.
+     */
     public List<Message> getMessageConv(int cid){
         List<Message> messages = new ArrayList<>();
         try (Connection con = ds.getConnection()) {

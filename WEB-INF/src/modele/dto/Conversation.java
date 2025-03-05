@@ -11,6 +11,9 @@ public class Conversation {
         this.uidReceveur = uidReceveur;
     }
 
+    public Conversation() {
+    }
+
     @Override
     public String toString() {
         return "Conversation [cid=" + cid + ", uidEnvoyeur=" + uidEnvoyeur + ", uidReceveur=" + uidReceveur + "]";

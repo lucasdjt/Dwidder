@@ -8,8 +8,16 @@ import modele.dto.*;
 import modele.utils.*;
 
 public class PostsDAO {
-    DS ds = new DataIUT();
+    private DS ds;
+    
+    public PostsDAO(){
+        ds = DSFactory.newDS();
+    }
 
+    /**
+     * Récupère tous les posts de la base de données.
+     * @return Liste des posts.
+     */
     public List<Post> selectAll() {
         List<Post> posts = new ArrayList<>();
         try (Connection con = ds.getConnection()) {
@@ -34,17 +42,23 @@ public class PostsDAO {
         return posts;
     }
 
+    /**
+     * Insère un nouveau post dans la base de données.
+     * @param post Le post à insérer.
+     */
     public void insert(Post post) {
         try (Connection con = ds.getConnection()) {
             String requetePrepare = "INSERT INTO Posts (uid, gid, pidParent, contenu, media, dpub, dureePost) VALUES (?, ?, ?, ?, ?, ?, ?)";
             try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
                 pstmt.setInt(1, post.getUid());
-                pstmt.setInt(2, post.getGid());
-                pstmt.setInt(3, post.getPidParent());
+                if (post.getGid() != null) pstmt.setInt(2, post.getGid());
+                else pstmt.setNull(2, java.sql.Types.INTEGER);
+                if (post.getPidParent() != null) pstmt.setInt(3, post.getPidParent());
+                else pstmt.setNull(3, java.sql.Types.INTEGER);
                 pstmt.setString(4, post.getContenu());
                 pstmt.setString(5, post.getMedia());
                 pstmt.setTimestamp(6, BAO.conversion(post.getDpub()));
-                pstmt.setString(7, BAO.conversionDurationToInterval(post.getDureePost()));
+                pstmt.setObject(7, BAO.conversionDurationToInterval(post.getDureePost()));
                 pstmt.executeUpdate();
             }
         } catch (Exception e) {
@@ -52,6 +66,11 @@ public class PostsDAO {
         }
     }
 
+     /**
+     * Recherche un post par son identifiant.
+     * @param pid L'ID du post.
+     * @return Le post trouvé ou null si inexistant.
+     */
     public Post findByPid(int pid) {
         Post post = null;
         try (Connection con = ds.getConnection()) {
@@ -77,6 +96,10 @@ public class PostsDAO {
         return post;
     }
 
+    /**
+     * Supprime un post de la base de données.
+     * @param post Le post à supprimer.
+     */
     public void delete(Post post) {
         try (Connection con = ds.getConnection()) {
             String requetePrepare = "DELETE FROM Posts WHERE pid = ?";
@@ -89,10 +112,15 @@ public class PostsDAO {
         }
     }
 
+    /**
+     * Récupère les réactions associées à un post.
+     * @param pid L'ID du post.
+     * @return Liste des réactions.
+     */
     public List<Reaction> getPostReactions(int pid) {
         List<Reaction> reactions = new ArrayList<>();
         try (Connection con = ds.getConnection()) {
-            String requetePrepare = "SELECT * FROM Reactions WHERE pid = 1 ORDER BY dreact DESC";
+            String requetePrepare = "SELECT * FROM Reactions WHERE pid = ? ORDER BY dreact DESC";
             try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
                 pstmt.setInt(1, pid);
                 try (ResultSet rs = pstmt.executeQuery()) {
@@ -110,14 +138,19 @@ public class PostsDAO {
         return reactions;
     }
 
-    public List<Post> selectAllPublic(boolean triParReactions) {
+    /**
+     * Récupère tous les posts publics, triés par popularité ou par date.
+     * @param triParDate Indique si le tri doit être fait par date ou par nombre de réactions.
+     * @return Liste des posts publics.
+     */
+    public List<Post> selectAllPublic(boolean triParDate) {
         List<Post> posts = new ArrayList<>();
         try (Connection con = ds.getConnection()) {
             String requete = "";
-            if (triParReactions) {
-                requete = "SELECT P.*, (SELECT COUNT(*) FROM Reactions R WHERE R.pid = P.pid) AS nbReact FROM Posts P WHERE P.gid IS NULL AND P.pidParent IS NULL ORDER BY nbReact DESC";
+            if (triParDate) {
+                requete = "SELECT * FROM Posts WHERE gid IS NULL AND pidParent IS NULL ORDER BY dpub DESC";
             } else {
-                requete = "SELECT * FROM Posts WHERE gid IS NULL AND pidParent IS NULL ORDER BY P.dpub DESC";
+                requete = "SELECT P.*, (SELECT COUNT(*) FROM Reactions R WHERE R.pid = P.pid) AS nbReact FROM Posts P WHERE P.gid IS NULL AND P.pidParent IS NULL ORDER BY nbReact DESC";
             }
             try (Statement stmt = con.createStatement();
                  ResultSet rs = stmt.executeQuery(requete)) {
@@ -139,14 +172,20 @@ public class PostsDAO {
         return posts;
     }
 
-    public List<Post> selectFromGroup(int gid, boolean triParReactions) {
+    /**
+     * Récupère les posts d'un groupe spécifique, triés par popularité ou par date.
+     * @param gid L'ID du groupe.
+     * @param triParReactions Indique si le tri doit être fait par la date.
+     * @return Liste des posts du groupe.
+     */
+    public List<Post> selectFromGroup(int gid, boolean triParDate) {
         List<Post> posts = new ArrayList<>();
         try (Connection con = ds.getConnection()) {
             String requetePrepare = "";
-            if (triParReactions) {
-                requetePrepare = "SELECT P.*, (SELECT COUNT(*) FROM Reactions R WHERE R.pid = P.pid) AS nbReact FROM Posts P WHERE P.gid = ? ORDER BY nbReact DESC";
+            if (triParDate) {
+                requetePrepare = "SELECT * FROM Posts WHERE gid = ? AND pidParent IS NULL ORDER BY dpub DESC";
             } else {
-                requetePrepare = "SELECT * FROM Posts WHERE gid = ? AND pidParent IS NULL ORDER BY P.dpub DESC";
+                requetePrepare = "SELECT P.*, (SELECT COUNT(*) FROM Reactions R WHERE R.pid = P.pid) AS nbReact FROM Posts P WHERE P.gid = ? ORDER BY nbReact DESC";
             }
             try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
                 pstmt.setInt(1, gid);
@@ -168,6 +207,12 @@ public class PostsDAO {
         }
         return posts;
     }
+
+    /**
+     * Récupère les réponses à un post parent, triées par popularité.
+     * @param pidParent L'ID du post parent.
+     * @return Liste des réponses associées.
+     */
     public List<Post> selectFromPostParent(int pidParent) {
         List<Post> posts = new ArrayList<>();
         try (Connection con = ds.getConnection()) {

@@ -42,7 +42,20 @@ public class User {
     }
 
     public User(){
+        this.idPseudo = null;
+        this.pseudo = null;
+        this.prenom = null;
+        this.nomUser = null;
+        this.email = null;
+        this.mdp = null;
+        this.bio = null;
+        this.pdp = null;
         this.dinsc = LocalDateTime.now();
+        this.dnaiss = null;
+        this.loca = null;
+        this.sexe = null;
+        this.tel = null;
+        this.langue = null;
         this.admin = false;
     }
 

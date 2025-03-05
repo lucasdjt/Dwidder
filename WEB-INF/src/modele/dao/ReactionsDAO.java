@@ -8,8 +8,16 @@ import modele.dto.*;
 import modele.utils.*;
 
 public class ReactionsDAO {
-    DS ds = new DataIUT();
+    private DS ds;
+    
+    public ReactionsDAO(){
+        ds = DSFactory.newDS();
+    }
 
+    /**
+     * Récupère toutes les réactions de la base de données.
+     * @return Liste des réactions.
+     */
     public List<Reaction> selectAll() {
         List<Reaction> reactions = new ArrayList<>();
         try (Connection con = ds.getConnection()) {
@@ -30,6 +38,10 @@ public class ReactionsDAO {
         return reactions;
     }
 
+    /**
+     * Insère une nouvelle réaction dans la base de données.
+     * @param reaction La réaction à ajouter.
+     */
     public void insert(Reaction reaction) {
         try (Connection con = ds.getConnection()) {
             String requetePrepare = "INSERT INTO Reactions (uid, pid, type, dreact) VALUES (?, ?, ?, ?)";
@@ -45,6 +57,10 @@ public class ReactionsDAO {
         }
     }
 
+    /**
+     * Met à jour le type d'une réaction existante.
+     * @param reaction La réaction mise à jour.
+     */
     public void update(Reaction reaction) {
         try (Connection con = ds.getConnection()) {
             String requetePrepare = "UPDATE Reactions SET type = ? WHERE uid = ? AND pid = ?";
@@ -58,7 +74,11 @@ public class ReactionsDAO {
             e.printStackTrace();
         }
     }
-
+    
+    /**
+     * Supprime une réaction spécifique de la base de données.
+     * @param reaction La réaction à supprimer.
+     */
     public void delete(Reaction reaction) {
         try (Connection con = ds.getConnection()) {
             String requetePrepare = "DELETE FROM Reactions WHERE uid = ? AND pid = ?";
@@ -70,5 +90,32 @@ public class ReactionsDAO {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Trouve une réaction spécifique à partir du uid et pid.
+     * @param uid L'identifiant de l'utilisateur.
+     * @param pid L'identifiant du post.
+     * @return La réaction trouvée ou null si aucune réaction n'est trouvée.
+     */
+    public Reaction findByUidAndPid(int uid, int pid) {
+        Reaction reaction = null;
+        try (Connection con = ds.getConnection()) {
+            String requetePrepare = "SELECT * FROM Reactions WHERE uid = ? AND pid = ?";
+            try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
+                pstmt.setInt(1, uid);
+                pstmt.setInt(2, pid);
+                try (ResultSet rs = pstmt.executeQuery()) {
+                    if (rs.next()) {
+                        String type = rs.getString("type");
+                        LocalDateTime dreact = BAO.conversion(rs.getTimestamp("dreact"));
+                        reaction = new Reaction(uid, pid, type, dreact);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return reaction;
     }
 }

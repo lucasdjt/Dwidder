@@ -8,8 +8,16 @@ import modele.dto.*;
 import modele.utils.*;
 
 public class UsersDAO {
-    DS ds = new DataIUT();
+    private DS ds;
+    
+    public UsersDAO(){
+        ds = DSFactory.newDS();
+    }
 
+    /**
+     * Récupère tous les utilisateurs de la base de données.
+     * @return Liste des utilisateurs.
+     */
     public List<User> selectAll() {
         List<User> users = new ArrayList<>();
         try (Connection con = ds.getConnection()) {
@@ -42,7 +50,12 @@ public class UsersDAO {
         return users;
     }
 
-    public User findById_pseudo(String idPseudo) {
+    /**
+     * Recherche un utilisateur par son identifiant de pseudo.
+     * @param idPseudo Identifiant du pseudo à rechercher.
+     * @return L'utilisateur correspondant à l'idPseudo, ou null si non trouvé.
+     */
+    public User findByIdPseudo(String idPseudo) {
         User user = null;
         try (Connection con = ds.getConnection()) {
             String requetePrepare = "SELECT * FROM Users WHERE idPseudo = ?";
@@ -75,6 +88,11 @@ public class UsersDAO {
         return user;
     }
 
+    /**
+     * Recherche un utilisateur par son adresse email.
+     * @param email Adresse email de l'utilisateur.
+     * @return L'utilisateur correspondant à l'email, ou null si non trouvé.
+     */
     public User findByEmail(String email) {
         User user = null;
         try (Connection con = ds.getConnection()) {
@@ -108,6 +126,10 @@ public class UsersDAO {
         return user;
     }
 
+    /**
+     * Insère un nouvel utilisateur dans la base de données.
+     * @param user L'utilisateur à insérer.
+     */
     public void insert(User user) {
         try (Connection con = ds.getConnection()) {
             String requetePrepare = "INSERT INTO Users (idPseudo, pseudo, prenom, nomUser, email, mdp, bio, pdp, dinsc, dnaiss, loca, sexe, tel, langue, admin) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -134,6 +156,10 @@ public class UsersDAO {
         }
     }
 
+    /**
+     * Met à jour les informations d'un utilisateur dans la base de données.
+     * @param user L'utilisateur avec les informations mises à jour.
+     */
     public void update(User user) {
         try (Connection con = ds.getConnection()) {
             String requetePrepare = "UPDATE Users SET idPseudo = ?, pseudo = ?, prenom = ?, nomUser = ?, email = ?, mdp = ?, bio = ?, pdp = ?, dnaiss = ?, loca = ?, sexe = ?, tel = ?, langue = ? WHERE uid = ?";
@@ -158,7 +184,11 @@ public class UsersDAO {
             e.printStackTrace();
         }
     }
-    
+
+    /**
+     * Supprime un utilisateur de la base de données par son identifiant de pseudo.
+     * @param idPseudo Identifiant du pseudo à supprimer.
+     */
     public void delete(String idPseudo) {
         try (Connection con = ds.getConnection()) {
             String requetePrepare = "DELETE FROM Users WHERE idPseudo = ?";
@@ -171,6 +201,11 @@ public class UsersDAO {
         }
     }
 
+    /**
+     * Récupère les groupes d'un utilisateur à partir de son identifiant.
+     * @param uid Identifiant de l'utilisateur.
+     * @return Liste des groupes auxquels l'utilisateur appartient.
+     */
     public List<Groupe> getUserGroups(int uid) {
         List<Groupe> groupes = new ArrayList<>();
         try (Connection con = ds.getConnection()) {
@@ -195,6 +230,11 @@ public class UsersDAO {
         return groupes;
     }
 
+    /**
+     * Récupère les utilisateurs suivis par un utilisateur.
+     * @param uid Identifiant de l'utilisateur.
+     * @return Liste des utilisateurs suivis.
+     */
     public List<User> getUserFollows(int uid){
         List<User> followers = new ArrayList<>();
         try (Connection con = ds.getConnection()) {
@@ -228,6 +268,11 @@ public class UsersDAO {
         return followers;
     }
 
+    /**
+     * Récupère les utilisateurs qui suivent un utilisateur.
+     * @param uid Identifiant de l'utilisateur.
+     * @return Liste des utilisateurs qui suivent l'utilisateur.
+     */
     public List<User> getUserFollowers(int uid){
         List<User> followers = new ArrayList<>();
         try (Connection con = ds.getConnection()) {
@@ -261,6 +306,11 @@ public class UsersDAO {
         return followers;
     }
     
+    /**
+     * Récupère les favoris d'un utilisateur.
+     * @param uid Identifiant de l'utilisateur.
+     * @return Liste des favoris de l'utilisateur.
+     */
     public List<Favori> getUserFavoris(int uid){
         List<Favori> favoris = new ArrayList<>();
         try (Connection con = ds.getConnection()) {
@@ -281,6 +331,11 @@ public class UsersDAO {
         return favoris;
     }
 
+    /**
+     * Récupère les conversations d'un utilisateur.
+     * @param uid Identifiant de l'utilisateur.
+     * @return Liste des conversations de l'utilisateur.
+     */
     public List<Conversation> getUserConversations(int uid){
         List<Conversation> conversations = new ArrayList<>();
         try (Connection con = ds.getConnection()) {
@@ -303,15 +358,20 @@ public class UsersDAO {
         return conversations;
     }
 
-
+    /**
+     * Récupère les posts d'un utilisateur avec un tri spécifique.
+     * @param uid Identifiant de l'utilisateur.
+     * @param tri Indicateur de tri (true pour tri par date de publication, false pour tri par nombre de réactions).
+     * @return Liste des posts de l'utilisateur.
+     */
     public List<Post> getUsersPosts(int uid, boolean tri) {
         List<Post> posts = new ArrayList<>();
         try (Connection con = ds.getConnection()) {
             String requetePrepare = "";
             if(tri){
-                requetePrepare = "SELECT * FROM Posts WHERE uid = ? ORDER BY date_pub DESC";
+                requetePrepare = "SELECT * FROM Posts WHERE uid = ? ORDER BY dpub DESC";
             } else {
-                requetePrepare = "SELECT * FROM Posts WHERE uid = ? ORDER BY nb_reactions DESC";
+                requetePrepare = "SELECT P.*, COUNT(R.pid) AS nbReact FROM Posts P LEFT JOIN Reactions R ON P.pid = R.pid LEFT JOIN Users U ON P.uid = U.uid WHERE U.uid = ? GROUP BY P.pid ORDER BY nbReact DESC";
             }
             try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
                 pstmt.setInt(1, uid);

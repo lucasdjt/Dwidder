@@ -3,6 +3,8 @@ package modele.utils;
 import java.sql.*;
 import java.time.*;
 
+import org.postgresql.util.PGInterval;
+
 // Boîte à outil permettant de convertisseur les SQL <--> TIME
 public class BAO {
 
@@ -15,6 +17,7 @@ public class BAO {
     public static LocalDate conversion(Date date) { return date == null ? null : date.toLocalDate(); }
 
     public static Duration conversionIntervalToDuration(String interval) {
+        if(interval == null) return null;
         boolean isNegative = interval.startsWith("-");
         if(isNegative) interval = interval.substring(1).trim();
         String[] parts = interval.split(" ");
@@ -38,7 +41,8 @@ public class BAO {
         return duration;
     }
 
-    public static String conversionDurationToInterval(Duration duration) {
+    public static PGInterval conversionDurationToInterval(Duration duration) throws SQLException {
+        if(duration == null) return null;
         long days = duration.toDays();
         long hours = duration.toHoursPart();
         long minutes = duration.toMinutesPart();
@@ -65,6 +69,7 @@ public class BAO {
             if (seconds > 1) interval.append("s");
             interval.append(" ");
         }
-        return interval.toString().trim();
+        String intervalString = interval.toString().trim();
+        return new PGInterval(intervalString);
     }
 }

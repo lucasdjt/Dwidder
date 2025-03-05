@@ -13,6 +13,16 @@ public class Abonnement {
         this.dabonnement = dabonnement;
     }
 
+    public Abonnement() {
+        dabonnement = null;
+    }
+
+    @Override
+    public String toString() {
+        return "Abonnement [uidAbonne=" + uidAbonne + ", uidAbonnement=" + uidAbonnement + ", dabonnement="
+                + dabonnement + "]";
+    }
+
     public int getUidAbonne() {
         return uidAbonne;
     }

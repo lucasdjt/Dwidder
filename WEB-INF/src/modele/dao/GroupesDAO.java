@@ -8,8 +8,17 @@ import modele.dto.*;
 import modele.utils.*;
 
 public class GroupesDAO {
-    DS ds = new DataIUT();
+    private DS ds;
+    
+    public GroupesDAO(){
+        ds = DSFactory.newDS();
+    }
 
+    /**
+     * Récupère tous les groupes de la base de données.
+     *
+     * @return Une liste d'objets {@code Groupe}.
+     */
     public List<Groupe> selectAll() {
         List<Groupe> groupes = new ArrayList<>();
         try (Connection con = ds.getConnection()) {
@@ -19,7 +28,7 @@ public class GroupesDAO {
                 while (rs.next()) {
                     int gid = rs.getInt("gid");
                     int uid = rs.getInt("uid");
-                    int pid = rs.getInt("pid");
+                    Integer pid = rs.getInt("pid");
                     String nomGrp = rs.getString("nomGrp");
                     String description = rs.getString("description");
                     LocalDateTime dcreat = BAO.conversion(rs.getTimestamp("dcreat"));
@@ -32,15 +41,21 @@ public class GroupesDAO {
         return groupes;
     }
 
+    /**
+     * Insère un nouveau groupe dans la base de données.
+     *
+     * @param groupe L'objet {@code Groupe} à insérer.
+     */
     public void insert(Groupe groupe) {
         try (Connection con = ds.getConnection()) {
             String requetePrepare = "INSERT INTO Groupes (uid, pid, nomGrp, description, dcreat) VALUES (?, ?, ?, ?, ?)";
             try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
                 pstmt.setInt(1, groupe.getUid());
-                pstmt.setInt(2, groupe.getPid());
+                if (groupe.getPid() != null) pstmt.setInt(2, groupe.getPid());
+                else pstmt.setNull(2, java.sql.Types.INTEGER);
                 pstmt.setString(3, groupe.getNomGrp());
                 pstmt.setString(4, groupe.getDescription());
-                pstmt.setTimestamp(4, BAO.conversion(groupe.getDcreat()));
+                pstmt.setTimestamp(5, BAO.conversion(groupe.getDcreat()));
                 pstmt.executeUpdate();
             }
         } catch (Exception e) {
@@ -48,6 +63,11 @@ public class GroupesDAO {
         }
     }
 
+    /**
+     * Met à jour les informations d'un groupe.
+     *
+     * @param groupe L'objet {@code Groupe} à mettre à jour.
+     */
     public void update(Groupe groupe) {
         try (Connection con = ds.getConnection()) {
             String requetePrepare = "UPDATE Groupes SET uid = ?, pid = ?, nomGrp = ?, description = ? WHERE gid = ?";
@@ -64,6 +84,11 @@ public class GroupesDAO {
         }
     }
 
+    /**
+     * Supprime un groupe de la base de données.
+     *
+     * @param groupe L'objet {@code Groupe} à supprimer.
+     */
     public void delete(Groupe groupe) {
         try (Connection con = ds.getConnection()) {
             String requetePrepare = "DELETE FROM Groupes WHERE gid = ?";
@@ -76,6 +101,12 @@ public class GroupesDAO {
         }
     }
     
+    /**
+     * Récupère les membres d'un groupe donné.
+     *
+     * @param gid L'identifiant du groupe.
+     * @return Une liste d'objets {@code User} membres du groupe.
+     */
     public List<User> getGroupeMembers(int gid){
         List<User> membres = new ArrayList<>();
         try (Connection con = ds.getConnection()) {
@@ -108,5 +139,33 @@ public class GroupesDAO {
             e.printStackTrace();
         }
         return membres;
+    }
+    
+    /**
+     * Trouve un groupe spécifique à partir de son gid.
+     * @param gid L'identifiant du groupe.
+     * @return Le groupe trouvé ou null si aucun groupe n'est trouvé.
+     */
+    public Groupe findByGid(int gid) {
+        Groupe groupe = null;
+        try (Connection con = ds.getConnection()) {
+            String requetePrepare = "SELECT * FROM Groupes WHERE gid = ?";
+            try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
+                pstmt.setInt(1, gid);
+                try (ResultSet rs = pstmt.executeQuery()) {
+                    if (rs.next()) {
+                        int uid = rs.getInt("uid");
+                        Integer pid = rs.getInt("pid");
+                        String nomGrp = rs.getString("nomGrp");
+                        String description = rs.getString("description");
+                        LocalDateTime dcreat = BAO.conversion(rs.getTimestamp("dcreat"));
+                        groupe = new Groupe(gid, uid, pid, nomGrp, description, dcreat);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return groupe;
     }
 }

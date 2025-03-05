@@ -13,6 +13,10 @@ public class Membre {
         this.djoin = djoin;
     }
 
+    public Membre() {
+        djoin = null;
+    }
+
     @Override
     public String toString() {
         return "Membre [uid=" + uid + ", gid=" + gid + ", djoin=" + djoin + "]";

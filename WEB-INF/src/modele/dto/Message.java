@@ -17,6 +17,11 @@ public class Message {
         this.dmess = dmess;
     }
 
+    public Message() {
+        corps = null;
+        dmess = null;
+    }
+
     @Override
     public String toString() {
         return "Message [mid=" + mid + ", cid=" + cid + ", uid=" + uid + ", corps=" + corps + ", dmess=" + dmess + "]";

@@ -3,7 +3,6 @@ package modele.utils;
 import java.sql.*;
 
 public class DataIUT implements DS {
-
     @Override
     public Connection getConnection() throws Exception{    
         Class.forName("org.postgresql.Driver");

@@ -15,6 +15,11 @@ public class Reaction {
         this.dreact = dreact;
     }
 
+    public Reaction() {
+        type = null;
+        dreact = null;
+    }
+
     @Override
     public String toString() {
         return "Reaction [uid=" + uid + ", pid=" + pid + ", type=" + type + ", dreact=" + dreact + "]";

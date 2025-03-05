@@ -25,6 +25,15 @@ public class Post {
         this.dureePost = dureePost;
     }
 
+    public Post() {
+        gid = null;
+        pidParent = null;
+        contenu = null;
+        media = null;
+        dpub = null;
+        dureePost = null;
+    }
+
     @Override
     public String toString() {
         return "Post [pid=" + pid + ", uid=" + uid + ", gid=" + gid + ", pidParent=" + pidParent + ", contenu="

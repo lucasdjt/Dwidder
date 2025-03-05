@@ -8,8 +8,17 @@ import modele.dto.*;
 import modele.utils.*;
 
 public class MembresDAO {
-    DS ds = new DataIUT();
+    private DS ds;
+    
+    public MembresDAO(){
+        ds = DSFactory.newDS();
+    }
 
+    /**
+     * Récupère tous les membres enregistrés.
+     *
+     * @return Une liste d'objets {@code Membre}.
+     */
     public List<Membre> selectAll() {
         List<Membre> membres = new ArrayList<>();
         try (Connection con = ds.getConnection()) {
@@ -29,6 +38,11 @@ public class MembresDAO {
         return membres;
     }
 
+    /**
+     * Insère un nouveau membre dans un groupe.
+     *
+     * @param membre L'objet {@code Membre} à ajouter.
+     */
     public void insert(Membre membre) {
         try (Connection con = ds.getConnection()) {
             String requetePrepare = "INSERT INTO Membres (uid, gid, djoin) VALUES (?, ?, ?)";
@@ -43,6 +57,11 @@ public class MembresDAO {
         }
     }
 
+    /**
+     * Supprime un membre d'un groupe.
+     *
+     * @param membre L'objet {@code Membre} à retirer.
+     */
     public void delete(Membre membre) {
         try (Connection con = ds.getConnection()) {
             String requetePrepare = "DELETE FROM Membres WHERE uid = ? AND gid = ?";
