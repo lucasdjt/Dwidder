@@ -3,7 +3,7 @@ body {
     color: white;
     padding-top: 60px;
     padding-bottom: 50px;
-        }
+}
 
 body > header, body > footer {
     background-color: #181819;
@@ -39,15 +39,22 @@ footer {
     border-color: #1A91DA;
 }
 
+.btn-outline-success {
+    border-color: #1DA1F2;
+    color: #1DA1F2;
+}
+
+.btn-outline-success:hover {
+    background-color: #1DA1F2;
+    color: white;
+}
+
 .card {
     background-color: #192734;
     border: none;
     color: white;
 }
 
-.text-muted {
-    color: grey !important;
-}
 .card-footer {
     background-color: transparent;
     border-top: 1px solid #ffffff;
@@ -59,16 +66,6 @@ footer {
     color: white;
 }
 
-.btn-outline-success {
-    border-color: #1DA1F2;
-    color: #1DA1F2;
-}
-
-.btn-outline-success:hover {
-    background-color: #1DA1F2;
-    color: white;
-}
-
-.index-bg {
-    z-index: 1000;
+.text-muted {
+    color: grey !important;
 }

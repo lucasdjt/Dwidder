@@ -1,3 +1,8 @@
+document.addEventListener("DOMContentLoaded", function() {
+    const conversation = document.getElementById("conversation");
+    conversation.scrollTop = conversation.scrollHeight;
+});
+
 document.getElementById('togglePassword').addEventListener('click', function () {
     let passwordInput = document.getElementById('password');
     if (passwordInput.type === 'password') {

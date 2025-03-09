@@ -74,17 +74,6 @@ killall java
 
 ## ETAPES
 
-Réalisation des différents JSP pour créer un affichage sans les éléments du modèles et voir où les servlet vont se placer à chaque fois:
-- Ajout du JSP "Page principale"
-- Ajout du JSP "Connexion"
-- Ajout du JSP "Création de Compte"
-- Ajout du JSP "Posts"
-- Ajout du JSP "Profil"
-- Ajout du JSP "Messages privés"
-- Ajout du JSP "Paramètres"
-- Ajout du CSS pour l'affichage de tous les JSP
-V1.0
-
 Ajout des servlets :
 - ServletConnexion
 - ServletCreatCompte
