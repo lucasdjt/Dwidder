@@ -45,8 +45,9 @@ public class PostsDAO {
     /**
      * Insère un nouveau post dans la base de données.
      * @param post Le post à insérer.
+     * @throws Exception Si une erreur survient lors de l'insertion. 
      */
-    public void insert(Post post) {
+    public void insert(Post post) throws Exception { 
         try (Connection con = ds.getConnection()) {
             String requetePrepare = "INSERT INTO Posts (uid, gid, pidParent, contenu, media, dpub, dureePost) VALUES (?, ?, ?, ?, ?, ?, ?)";
             try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
@@ -61,8 +62,6 @@ public class PostsDAO {
                 pstmt.setObject(7, BAO.conversionDurationToInterval(post.getDureePost()));
                 pstmt.executeUpdate();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 

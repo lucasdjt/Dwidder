@@ -74,6 +74,21 @@ killall java
 
 ## ETAPES
 
+SERVLETS :
+- Accueil : /
+- Connexion : /connexion
+- Créer groupe : /groupeadd
+- Groupes : /groupes/<gid>
+- Créer un compte : /inscription
+- Favoris : /favoris
+- Likes : /likes/<pid>
+- Reponse : /posts/<pid>
+- ListeUser : /follows/<uid>
+- ListeUser : /followers/<uid>
+- Messages : /messages
+- Paramètres : /parametres
+- Profil/User : /<uid>
+
 Ajout des servlets :
 - ServletConnexion
 - ServletCreatCompte

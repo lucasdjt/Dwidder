@@ -1,3 +1,5 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -5,33 +7,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Accueil - Dwidder</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="icon" href="img/logo.ico">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="Exemple/img/logo.ico">
+    <link rel="stylesheet" href="Exemple/css/style.css">
 </head>
 <body>
 
-<header>
-    <a class="btn btn-outline-light" id="parametres" href="parametres.html">⚙️</a>
-    <img src="img/TexteLogo.png" alt="Dwidder" class="mx-auto d-block" width="140">
-    <a class="btn btn-outline-light" id="profil" href="profil.html">Profil</a>
-</header>
+<jsp:include page="header.jsp" />
 
 <main class="container mt-4">
     <div class="row">
         <section class="col-md-8">
             <h2 class="text-primary">Accueil</h2>
-            <form class="mb-3">
-                <textarea class="form-control bg-dark text-white mb-2" id="post" rows="3" placeholder="Exprimez-vous..."></textarea>
+            <% 
+            String sucess = request.getParameter("sucess");
+            if ("1".equals(sucess)) {
+            %>
+                <p style="color:green;">Vous avez ajouté un Post.</p>
+            <%
+            } else if ("0".equals(sucess)) {
+            %>
+                <p style="color:red;">Erreur lors de la création du Post.</p>
+            <%
+            }
+            %>
+            <form class="mb-3" action="posts" method="post" enctype="multipart/form-data">
+                <textarea class="form-control bg-dark text-white mb-2" name="contenu" rows="3" maxlength="150" placeholder="Exprimez-vous..."></textarea>
                 <input type="file" class="form-control bg-dark text-white mb-2" name="image" accept="image/*">
                 <label for="duration" class="form-label text-white">Durée du post</label>
                 <div class="input-group mb-2">
-                    <input type="number" class="form-control bg-dark text-white" id="duration" min="1" max="365" placeholder="Durée">
-                    <select class="form-select bg-dark text-white" id="durationUnit">
+                    <input type="number" class="form-control bg-dark text-white" name="duree" min="1" max="365" placeholder="Durée">
+                    <select class="form-select bg-dark text-white" name="dureeUnite">
                         <option value="hours">Heures</option>
                         <option value="days">Jours</option>
                     </select>
                 </div>
-                <button class="btn btn-primary w-100">Publier</button>
+                <input type="hidden" name="uid" value="1">
+                <button type="submit" class="btn btn-primary w-100">Publier</button>
             </form>
             <article class="card mb-3">
                 <header class="card-header d-flex align-items-center">
@@ -106,13 +117,7 @@
     </div>
 </main>
 
-<footer class="py-2 border-top">
-    <div class="container d-flex justify-content-around">
-        <a class="btn btn-outline-light" id="footerAccueil" href="accueil.html">🏠 Accueil</a>
-        <a class="btn btn-outline-light" id="footerGroupes" href="groupes.html">👥 Groupes</a>
-        <a class="btn btn-outline-light" id="footerMessages" href="messages.html">📩 Messages</a>
-    </div>
-</footer>
+<jsp:include page="footer.jsp" />
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
