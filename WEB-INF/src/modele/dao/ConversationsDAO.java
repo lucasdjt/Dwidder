@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 import modele.dto.*;
-import modele.utils.*;
+import utils.*;
 
 public class ConversationsDAO {
     private DS ds;

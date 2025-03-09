@@ -5,7 +5,7 @@ import java.sql.*;
 import java.util.*;
 
 import modele.dto.*;
-import modele.utils.*;
+import utils.*;
 
 public class MessagesDAO {
     private DS ds;

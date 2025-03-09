@@ -71,3 +71,42 @@ javac ../src/controleur/*.java -d .
 ./startup.sh
 ./catalina.sh run
 killall java
+
+## ETAPES
+
+Réalisation des différents JSP pour créer un affichage sans les éléments du modèles et voir où les servlet vont se placer à chaque fois:
+- Ajout du JSP "Page principale"
+- Ajout du JSP "Connexion"
+- Ajout du JSP "Création de Compte"
+- Ajout du JSP "Posts"
+- Ajout du JSP "Profil"
+- Ajout du JSP "Messages privés"
+- Ajout du JSP "Paramètres"
+- Ajout du CSS pour l'affichage de tous les JSP
+V1.0
+
+Ajout des servlets :
+- ServletConnexion
+- ServletCreatCompte
+- ServletPosts
+- ServletProfil
+- ServletMessages
+- ServletParamètres
+- ServletPrincipale
+V2.0
+
+Ajout du back-end Servlet :
+- Connexion de la Servlet entre Connexion <--> ServletConnexion
+- Connexion de la Servlet entre Création de Compte <--> ServletCreatCompte
+- Connexion de la Servlet entre Posts <--> ServletPosts
+- Connexion de la Servlet entre Profil <--> ServletProfil
+- Connexion de la Servlet entre Messages privés <--> ServletMessages
+- Connexion de la Servlet entre Paramètres <--> ServletParamètres
+- Connexion de la Servlet entre Page Principale <--> ServletPrincipale
+
+Adaptation des Servlets <--> JSP
+V3.0
+
+Amélioration avec bootstrap
+Ajouts bonus
+V4.0

@@ -2,7 +2,7 @@ package modele.test;
 
 import java.sql.*;
 
-import modele.utils.*;
+import utils.*;
 
 public class TestConnexionBD {
     public static void main(String args[]) throws Exception {

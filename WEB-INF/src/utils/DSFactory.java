@@ -1,4 +1,4 @@
-package modele.utils;
+package utils;
 
 public class DSFactory {
     public static DS newDS() {

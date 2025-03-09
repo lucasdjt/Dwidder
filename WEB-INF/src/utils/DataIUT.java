@@ -1,4 +1,4 @@
-package modele.utils;
+package utils;
 
 import java.sql.*;
 
