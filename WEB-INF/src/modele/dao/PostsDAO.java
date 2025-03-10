@@ -27,8 +27,8 @@ public class PostsDAO {
                     String contenu = rs.getString("contenu");
                     String media = rs.getString("media");
                     LocalDateTime dpub = BAO.conversion(rs.getTimestamp("dpub"));
-                    Duration dureePost = BAO.conversionIntervalToDuration(rs.getString("dureePost"));
-                    posts.add(new Post(pid, uid, gid, pidParent, contenu, media, dpub, dureePost));
+                    LocalDateTime dfin = BAO.conversion(rs.getTimestamp("dfin"));
+                    posts.add(new Post(pid, uid, gid, pidParent, contenu, media, dpub, dfin));
                 }
             }
         } catch (Exception e) {
@@ -44,7 +44,7 @@ public class PostsDAO {
      */
     public void insert(Post post) throws Exception { 
         try (Connection con = DS.getConnection()) {
-            String requetePrepare = "INSERT INTO Posts (uid, gid, pidParent, contenu, media, dpub, dureePost) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            String requetePrepare = "INSERT INTO Posts (uid, gid, pidParent, contenu, media, dpub, dfin) VALUES (?, ?, ?, ?, ?, ?, ?)";
             try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
                 pstmt.setInt(1, post.getUid());
                 if (post.getGid() != null) pstmt.setInt(2, post.getGid());
@@ -54,7 +54,7 @@ public class PostsDAO {
                 pstmt.setString(4, post.getContenu());
                 pstmt.setString(5, post.getMedia());
                 pstmt.setTimestamp(6, BAO.conversion(post.getDpub()));
-                pstmt.setObject(7, BAO.conversionDurationToInterval(post.getDureePost()));
+                pstmt.setTimestamp(7, BAO.conversion(post.getDfin()));
                 pstmt.executeUpdate();
             }
         }
@@ -79,8 +79,8 @@ public class PostsDAO {
                         String contenu = rs.getString("contenu");
                         String media = rs.getString("media");
                         LocalDateTime dpub = BAO.conversion(rs.getTimestamp("dpub"));
-                        Duration dureePost = BAO.conversionIntervalToDuration(rs.getString("dureePost"));
-                        post = new Post(pid, uid, gid, pidParent, contenu, media, dpub, dureePost);
+                        LocalDateTime dfin = BAO.conversion(rs.getTimestamp("dfin"));
+                        post = new Post(pid, uid, gid, pidParent, contenu, media, dpub, dfin);
                     }
                 }
             }
@@ -156,8 +156,8 @@ public class PostsDAO {
                     String contenu = rs.getString("contenu");
                     String media = rs.getString("media");
                     LocalDateTime dpub = BAO.conversion(rs.getTimestamp("dpub"));
-                    Duration dureePost = BAO.conversionIntervalToDuration(rs.getString("dureePost"));
-                    posts.add(new Post(pid, uid, gid, pidParent, contenu, media, dpub, dureePost));
+                    LocalDateTime dfin = BAO.conversion(rs.getTimestamp("dfin"));
+                    posts.add(new Post(pid, uid, gid, pidParent, contenu, media, dpub, dfin));
                 }
             }
         } catch (Exception e) {
@@ -191,8 +191,8 @@ public class PostsDAO {
                         String contenu = rs.getString("contenu");
                         String media = rs.getString("media");
                         LocalDateTime dpub = BAO.conversion(rs.getTimestamp("dpub"));
-                        Duration dureePost = BAO.conversionIntervalToDuration(rs.getString("dureePost"));
-                        posts.add(new Post(pid, uid, gid, pidParent, contenu, media, dpub, dureePost));
+                        LocalDateTime dfin = BAO.conversion(rs.getTimestamp("dfin"));
+                        posts.add(new Post(pid, uid, gid, pidParent, contenu, media, dpub, dfin));
                     }
                 }
             }
@@ -221,8 +221,8 @@ public class PostsDAO {
                         String contenu = rs.getString("contenu");
                         String media = rs.getString("media");
                         LocalDateTime dpub = BAO.conversion(rs.getTimestamp("dpub"));
-                        Duration dureePost = BAO.conversionIntervalToDuration(rs.getString("dureePost"));
-                        posts.add(new Post(pid, uid, gid, pidParent, contenu, media, dpub, dureePost));
+                        LocalDateTime dfin = BAO.conversion(rs.getTimestamp("dfin"));
+                        posts.add(new Post(pid, uid, gid, pidParent, contenu, media, dpub, dfin));
                     }
                 }
             }

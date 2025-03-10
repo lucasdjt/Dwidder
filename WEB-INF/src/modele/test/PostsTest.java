@@ -1,6 +1,5 @@
 package modele.test;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +65,7 @@ public class PostsTest {
         post.setContenu("This is a test post");
         post.setMedia("testMedia.png");
         post.setDpub(LocalDateTime.now());
-        post.setDureePost(Duration.ofHours(1));
+        post.setDfin(LocalDateTime.now().plusHours(1));
         return post;
     }
 }

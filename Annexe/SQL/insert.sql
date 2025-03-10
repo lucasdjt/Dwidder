@@ -30,14 +30,14 @@ INSERT INTO Membres (uid, gid, djoin) VALUES
 (4, 4, CURRENT_DATE); -- Ajout tom, Test2
 
 \echo '2/ Création de Posts'
-INSERT INTO Posts (uid, gid, pidParent, contenu, media, dpub, dureePost) VALUES
-(1, 1, NULL, 'Post 1 du groupe DraggasCorp, plus disponible dans 7j', 'post1.jpg', NOW(), INTERVAL '7 days'), -- Post Draggas avec toutes les infos sans parent au groupe DraggasCorp
+INSERT INTO Posts (uid, gid, pidParent, contenu, media, dpub, dfin) VALUES
+(1, 1, NULL, 'Post 1 du groupe DraggasCorp, plus disponible dans 7j', 'post1.jpg', NOW(), NOW() + INTERVAL '7 days'), -- Post Draggas avec toutes les infos sans parent au groupe DraggasCorp
 (2, NULL, NULL, 'Post 2 public', NULL, CURRENT_DATE, NULL), -- Post Lucas sans grp, ni parent
 (3, NULL, NULL, 'Post 3 public ancien', NULL, '2000-01-01', NULL), -- Post Test John sans grp, ni parent [le plus vieux]  
 (2, NULL, 1, 'Post 4 réponse à Post 1', NULL, CURRENT_DATE, NULL), -- Post Test réponse John à Lucas
 (4, NULL, NULL, 'Post 5 public futur', NULL, '2030-01-01', NULL), -- Post Test John sans grp, ni parent [dans le futur] 
 (3, NULL, 1, 'Post 6 réponse à Post 1', NULL, CURRENT_DATE, NULL), -- Post Test John sans grp, ni parent [dans le futur] 
-(2, NULL, 6, 'Post 7 réponse à Post 6, plus disponible dans 10j', 'post3.jpg', NOW(), INTERVAL '10 day'); -- Post Test réponse Lucas à John [futur]
+(2, NULL, 6, 'Post 7 réponse à Post 6, plus disponible dans 10j', 'post3.jpg', NOW(), NOW() + INTERVAL '10 day'); -- Post Test réponse Lucas à John [futur]
 
 \echo '4/ Création de Conversations'
 INSERT INTO Conversations (uidEnvoyeur, uidReceveur) VALUES

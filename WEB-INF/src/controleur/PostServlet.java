@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.time.Duration;
 import java.time.LocalDateTime;
 
 import jakarta.servlet.ServletException;
@@ -68,21 +67,22 @@ public class PostServlet extends HttpServlet {
         LocalDateTime dpub = LocalDateTime.now();
         String dureeStr = req.getParameter("duree");
         String dureeUnite = req.getParameter("dureeUnite");
-        Integer dureeInt = null;
-        if(dureeStr != null){
+        Integer dureeDuration = null;
+        if(dureeStr != null && !dureeStr.isEmpty()){
             if ("hours".equalsIgnoreCase(dureeUnite)) {
-                dureeInt = Integer.parseInt(dureeStr);
+                dureeDuration = Integer.parseInt(dureeStr);
             } else if ("days".equalsIgnoreCase(dureeUnite)) {
-                dureeInt = Integer.parseInt(dureeStr)*24;
+                dureeDuration = Integer.parseInt(dureeStr)*24;
             }
         }
+        LocalDateTime dfin = dpub.plusHours(dureeDuration);
         PostsDAO dao = new PostsDAO();
         String referer = req.getHeader("Referer");
         if (referer != null && referer.contains("?")) {
             referer = referer.substring(0, referer.indexOf("?"));
         }
         try {
-            dao.insert(new Post(0, uid, gid, pidParent, contenu, media, dpub, dureeInt));
+            dao.insert(new Post(0, uid, gid, pidParent, contenu, media, dpub, dfin));
             res.sendRedirect(referer + "?success=1");
         } catch (Exception e) {
             res.sendRedirect(referer + "?success=0");

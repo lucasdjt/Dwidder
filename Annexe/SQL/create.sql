@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS Posts (
     contenu varchar(200),
     media varchar(255),
     dpub TIMESTAMP NOT NULL DEFAULT NOW(),
-    dureePost INTERVAL,
+    dfin TIMESTAMP,
     CONSTRAINT fk_user FOREIGN KEY (uid) REFERENCES Users(uid) ON DELETE CASCADE,
     CONSTRAINT fk_groupe FOREIGN KEY (gid) REFERENCES Groupes(gid) ON DELETE CASCADE,
     CONSTRAINT fk_post_parent FOREIGN KEY (pidParent) REFERENCES Posts(pid) ON DELETE CASCADE

@@ -1,6 +1,5 @@
 package modele.dto;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
 
 public class Post {
@@ -11,10 +10,10 @@ public class Post {
     private String contenu;
     private String media;
     private LocalDateTime dpub;
-    private Duration dureePost;
+    private LocalDateTime dfin;
 
     public Post(int pid, int uid, Integer gid, Integer pidParent, String contenu, String media, LocalDateTime dpub,
-            Duration dureePost) {
+        LocalDateTime dfin) {
         this.pid = pid;
         this.uid = uid;
         this.gid = gid;
@@ -22,7 +21,7 @@ public class Post {
         this.contenu = contenu;
         this.media = media;
         this.dpub = dpub;
-        this.dureePost = dureePost;
+        this.dfin = dfin;
     }
 
     public Post() {
@@ -31,13 +30,13 @@ public class Post {
         contenu = null;
         media = null;
         dpub = null;
-        dureePost = null;
+        dfin = null;
     }
 
     @Override
     public String toString() {
         return "Post [pid=" + pid + ", uid=" + uid + ", gid=" + gid + ", pidParent=" + pidParent + ", contenu="
-                + contenu + ", media=" + media + ", dpub=" + dpub + ", dureePost=" + dureePost + "]";
+                + contenu + ", media=" + media + ", dpub=" + dpub + ", dfin=" + dfin + "]";
     }
     
     public int getPid() {
@@ -96,11 +95,11 @@ public class Post {
         this.dpub = dpub;
     }
 
-    public Duration getDureePost() {
-        return dureePost;
+    public LocalDateTime getDfin() {
+        return dfin;
     }
 
-    public void setDureePost(Duration dureePost) {
-        this.dureePost = dureePost;
+    public void setDfin(LocalDateTime dfin) {
+        this.dfin = dfin;
     }
 }
