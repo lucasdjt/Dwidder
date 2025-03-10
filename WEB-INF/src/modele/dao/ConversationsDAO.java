@@ -8,11 +8,6 @@ import modele.dto.*;
 import utils.*;
 
 public class ConversationsDAO {
-    private DS ds;
-    
-    public ConversationsDAO(){
-        ds = DSFactory.newDS();
-    }
 
     /**
      * Récupère toutes les conversations de la base de données.
@@ -21,7 +16,7 @@ public class ConversationsDAO {
      */
     public List<Conversation> selectAll() {
         List<Conversation> conversations = new ArrayList<>();
-        try (Connection con = ds.getConnection()) {
+        try (Connection con = DS.getConnection()) {
             String requete = "SELECT * FROM Conversations";
             try (Statement stmt = con.createStatement();
                  ResultSet rs = stmt.executeQuery(requete)) {
@@ -44,7 +39,7 @@ public class ConversationsDAO {
      * @param conversation L'objet {@code Conversation} à insérer.
      */
     public void insert(Conversation conversation) {
-        try (Connection con = ds.getConnection()) {
+        try (Connection con = DS.getConnection()) {
             String requetePrepare = "INSERT INTO Conversations (uidEnvoyeur, uidReceveur) VALUES (?, ?)";
             try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
                 pstmt.setInt(1, conversation.getUidEnvoyeur());
@@ -62,7 +57,7 @@ public class ConversationsDAO {
      * @param conversation L'objet {@code Conversation} à supprimer.
      */
     public void delete(Conversation conversation) {
-        try (Connection con = ds.getConnection()) {
+        try (Connection con = DS.getConnection()) {
             String requetePrepare = "DELETE FROM Conversations WHERE uidEnvoyeur = ? AND uidReceveur = ?";
             try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
                 pstmt.setInt(1, conversation.getUidEnvoyeur());
@@ -82,7 +77,7 @@ public class ConversationsDAO {
      */
     public List<Message> getMessageConv(int cid){
         List<Message> messages = new ArrayList<>();
-        try (Connection con = ds.getConnection()) {
+        try (Connection con = DS.getConnection()) {
             String requetePrepare = "SELECT * FROM Messages WHERE cid = ? ORDER BY dmess DESC";
             try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
                 pstmt.setInt(1, cid);

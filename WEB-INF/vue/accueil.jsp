@@ -19,19 +19,19 @@
         <section class="col-md-8">
             <h2 class="text-primary">Accueil</h2>
             <% 
-            String sucess = request.getParameter("sucess");
-            if ("1".equals(sucess)) {
+            String success = request.getParameter("success");
+            if ("1".equals(success)) {
             %>
                 <p style="color:green;">Vous avez ajouté un Post.</p>
             <%
-            } else if ("0".equals(sucess)) {
+            } else if ("0".equals(success)) {
             %>
                 <p style="color:red;">Erreur lors de la création du Post.</p>
             <%
             }
             %>
             <form class="mb-3" action="posts" method="post" enctype="multipart/form-data">
-                <textarea class="form-control bg-dark text-white mb-2" name="contenu" rows="3" maxlength="150" placeholder="Exprimez-vous..."></textarea>
+                <textarea class="form-control bg-dark text-white mb-2" name="contenu" rows="3" maxlength="150" placeholder="Exprimez-vous..." required></textarea>
                 <input type="file" class="form-control bg-dark text-white mb-2" name="image" accept="image/*">
                 <label for="duration" class="form-label text-white">Durée du post</label>
                 <div class="input-group mb-2">

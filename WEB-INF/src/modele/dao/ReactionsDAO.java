@@ -8,11 +8,6 @@ import modele.dto.*;
 import utils.*;
 
 public class ReactionsDAO {
-    private DS ds;
-    
-    public ReactionsDAO(){
-        ds = DSFactory.newDS();
-    }
 
     /**
      * Récupère toutes les réactions de la base de données.
@@ -20,7 +15,7 @@ public class ReactionsDAO {
      */
     public List<Reaction> selectAll() {
         List<Reaction> reactions = new ArrayList<>();
-        try (Connection con = ds.getConnection()) {
+        try (Connection con = DS.getConnection()) {
             String requete = "SELECT * FROM Reactions";
             try (Statement stmt = con.createStatement();
                  ResultSet rs = stmt.executeQuery(requete)) {
@@ -43,7 +38,7 @@ public class ReactionsDAO {
      * @param reaction La réaction à ajouter.
      */
     public void insert(Reaction reaction) {
-        try (Connection con = ds.getConnection()) {
+        try (Connection con = DS.getConnection()) {
             String requetePrepare = "INSERT INTO Reactions (uid, pid, type, dreact) VALUES (?, ?, ?, ?)";
             try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
                 pstmt.setInt(1, reaction.getUid());
@@ -62,7 +57,7 @@ public class ReactionsDAO {
      * @param reaction La réaction mise à jour.
      */
     public void update(Reaction reaction) {
-        try (Connection con = ds.getConnection()) {
+        try (Connection con = DS.getConnection()) {
             String requetePrepare = "UPDATE Reactions SET type = ? WHERE uid = ? AND pid = ?";
             try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
                 pstmt.setString(1, reaction.getType());
@@ -80,7 +75,7 @@ public class ReactionsDAO {
      * @param reaction La réaction à supprimer.
      */
     public void delete(Reaction reaction) {
-        try (Connection con = ds.getConnection()) {
+        try (Connection con = DS.getConnection()) {
             String requetePrepare = "DELETE FROM Reactions WHERE uid = ? AND pid = ?";
             try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
                 pstmt.setInt(1, reaction.getUid());
@@ -100,7 +95,7 @@ public class ReactionsDAO {
      */
     public Reaction findByUidAndPid(int uid, int pid) {
         Reaction reaction = null;
-        try (Connection con = ds.getConnection()) {
+        try (Connection con = DS.getConnection()) {
             String requetePrepare = "SELECT * FROM Reactions WHERE uid = ? AND pid = ?";
             try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
                 pstmt.setInt(1, uid);

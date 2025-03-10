@@ -63,9 +63,9 @@ psql -h psqlserv -U lucasdejesusteixeiraetu but2
 \i select.sh
 \i delete.sh
 
-- dans classes : 
-javac ../src/modele/*/*.java -d .
-javac ../src/controleur/*.java -d .
+- dans classes :
+./remove.sh
+./compile.sh
 
 - dans le répertoire BIN : 
 ./startup.sh

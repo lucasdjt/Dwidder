@@ -8,11 +8,6 @@ import modele.dto.*;
 import utils.*;
 
 public class FavorisDAO {
-    private DS ds;
-    
-    public FavorisDAO(){
-        ds = DSFactory.newDS();
-    }
 
     /**
      * Récupère tous les favoris de la base de données.
@@ -21,7 +16,7 @@ public class FavorisDAO {
      */
     public List<Favori> selectAll() {
         List<Favori> favoris = new ArrayList<>();
-        try (Connection con = ds.getConnection()) {
+        try (Connection con = DS.getConnection()) {
             String requete = "SELECT * FROM Favoris";
             try (Statement stmt = con.createStatement();
                  ResultSet rs = stmt.executeQuery(requete)) {
@@ -44,7 +39,7 @@ public class FavorisDAO {
      * @param favori L'objet {@code Favori} à insérer.
      */
     public void insert(Favori favori) {
-        try (Connection con = ds.getConnection()) {
+        try (Connection con = DS.getConnection()) {
             String requetePrepare = "INSERT INTO Favoris (uid, pid, dfavori) VALUES (?, ?, ?)";
             try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
                 pstmt.setInt(1, favori.getUid());
@@ -63,7 +58,7 @@ public class FavorisDAO {
      * @param favori L'objet {@code Favori} à supprimer.
      */
     public void delete(Favori favori) {
-        try (Connection con = ds.getConnection()) {
+        try (Connection con = DS.getConnection()) {
             String requetePrepare = "DELETE FROM Favoris WHERE uid = ? AND pid = ?";
             try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
                 pstmt.setInt(1, favori.getUid());
@@ -84,7 +79,7 @@ public class FavorisDAO {
      */
     public Favori findByUidAndPid(int uid, int pid) {
         Favori favori = null;
-        try (Connection con = ds.getConnection()) {
+        try (Connection con = DS.getConnection()) {
             String requetePrepare = "SELECT * FROM Favoris WHERE uid = ? AND pid = ?";
             try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
                 pstmt.setInt(1, uid);

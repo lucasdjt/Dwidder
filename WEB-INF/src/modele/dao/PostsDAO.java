@@ -8,11 +8,6 @@ import modele.dto.*;
 import utils.*;
 
 public class PostsDAO {
-    private DS ds;
-    
-    public PostsDAO(){
-        ds = DSFactory.newDS();
-    }
 
     /**
      * Récupère tous les posts de la base de données.
@@ -20,7 +15,7 @@ public class PostsDAO {
      */
     public List<Post> selectAll() {
         List<Post> posts = new ArrayList<>();
-        try (Connection con = ds.getConnection()) {
+        try (Connection con = DS.getConnection()) {
             String requete = "SELECT * FROM Posts";
             try (Statement stmt = con.createStatement();
                  ResultSet rs = stmt.executeQuery(requete)) {
@@ -48,7 +43,7 @@ public class PostsDAO {
      * @throws Exception Si une erreur survient lors de l'insertion. 
      */
     public void insert(Post post) throws Exception { 
-        try (Connection con = ds.getConnection()) {
+        try (Connection con = DS.getConnection()) {
             String requetePrepare = "INSERT INTO Posts (uid, gid, pidParent, contenu, media, dpub, dureePost) VALUES (?, ?, ?, ?, ?, ?, ?)";
             try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
                 pstmt.setInt(1, post.getUid());
@@ -72,7 +67,7 @@ public class PostsDAO {
      */
     public Post findByPid(int pid) {
         Post post = null;
-        try (Connection con = ds.getConnection()) {
+        try (Connection con = DS.getConnection()) {
             String requetePrepare = "SELECT * FROM Posts WHERE pid = ?";
             try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
                 pstmt.setInt(1, pid);
@@ -100,7 +95,7 @@ public class PostsDAO {
      * @param post Le post à supprimer.
      */
     public void delete(Post post) {
-        try (Connection con = ds.getConnection()) {
+        try (Connection con = DS.getConnection()) {
             String requetePrepare = "DELETE FROM Posts WHERE pid = ?";
             try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
                 pstmt.setInt(1, post.getPid());
@@ -118,7 +113,7 @@ public class PostsDAO {
      */
     public List<Reaction> getPostReactions(int pid) {
         List<Reaction> reactions = new ArrayList<>();
-        try (Connection con = ds.getConnection()) {
+        try (Connection con = DS.getConnection()) {
             String requetePrepare = "SELECT * FROM Reactions WHERE pid = ? ORDER BY dreact DESC";
             try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
                 pstmt.setInt(1, pid);
@@ -144,7 +139,7 @@ public class PostsDAO {
      */
     public List<Post> selectAllPublic(boolean triParDate) {
         List<Post> posts = new ArrayList<>();
-        try (Connection con = ds.getConnection()) {
+        try (Connection con = DS.getConnection()) {
             String requete = "";
             if (triParDate) {
                 requete = "SELECT * FROM Posts WHERE gid IS NULL AND pidParent IS NULL ORDER BY dpub DESC";
@@ -179,7 +174,7 @@ public class PostsDAO {
      */
     public List<Post> selectFromGroup(int gid, boolean triParDate) {
         List<Post> posts = new ArrayList<>();
-        try (Connection con = ds.getConnection()) {
+        try (Connection con = DS.getConnection()) {
             String requetePrepare = "";
             if (triParDate) {
                 requetePrepare = "SELECT * FROM Posts WHERE gid = ? AND pidParent IS NULL ORDER BY dpub DESC";
@@ -214,7 +209,7 @@ public class PostsDAO {
      */
     public List<Post> selectFromPostParent(int pidParent) {
         List<Post> posts = new ArrayList<>();
-        try (Connection con = ds.getConnection()) {
+        try (Connection con = DS.getConnection()) {
             String requetePrepare = "SELECT P.*, (SELECT COUNT(*) FROM Reactions R WHERE R.pid = P.pid) AS nbReact FROM Posts P WHERE P.pidParent = ? ORDER BY nbReact DESC";
             try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
                 pstmt.setInt(1, pidParent);

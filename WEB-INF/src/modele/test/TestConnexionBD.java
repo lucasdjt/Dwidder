@@ -8,8 +8,7 @@ public class TestConnexionBD {
     public static void main(String args[]) throws Exception {
         try {
             Class.forName("org.postgresql.Driver");
-            DS ds = DSFactory.newDS();
-            Connection con = ds.getConnection();
+            Connection con = DS.getConnection();
             con.close();
             System.out.println("Tout fonctionne");
         } catch (Exception e) {

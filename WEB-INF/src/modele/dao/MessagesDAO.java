@@ -8,11 +8,6 @@ import modele.dto.*;
 import utils.*;
 
 public class MessagesDAO {
-    private DS ds;
-    
-    public MessagesDAO(){
-        ds = DSFactory.newDS();
-    }
 
     /**
      * Récupère tous les messages de la base de données.
@@ -20,7 +15,7 @@ public class MessagesDAO {
      */
     public List<Message> selectAll() {
         List<Message> messages = new ArrayList<>();
-        try (Connection con = ds.getConnection()) {
+        try (Connection con = DS.getConnection()) {
             String requete = "SELECT * FROM Messages";
             try (Statement stmt = con.createStatement();
                  ResultSet rs = stmt.executeQuery(requete)) {
@@ -44,7 +39,7 @@ public class MessagesDAO {
      * @param message Le message à insérer.
      */
     public void insert(Message message) {
-        try (Connection con = ds.getConnection()) {
+        try (Connection con = DS.getConnection()) {
             String requetePrepare = "INSERT INTO Messages (cid, uid, corps, dmess) VALUES (?, ?, ?, ?)";
             try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
                 pstmt.setInt(1, message.getCid());
@@ -63,7 +58,7 @@ public class MessagesDAO {
      * @param message Le message à supprimer.
      */
     public void delete(Message message) {
-        try (Connection con = ds.getConnection()) {
+        try (Connection con = DS.getConnection()) {
             String requetePrepare = "DELETE FROM Messages WHERE mid = ?";
             try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
                 pstmt.setInt(1, message.getMid());
@@ -81,7 +76,7 @@ public class MessagesDAO {
      */
     public Message findByMid(int mid) {
         Message message = null;
-        try (Connection con = ds.getConnection()) {
+        try (Connection con = DS.getConnection()) {
             String requetePrepare = "SELECT * FROM Messages WHERE mid = ?";
             try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
                 pstmt.setInt(1, mid);

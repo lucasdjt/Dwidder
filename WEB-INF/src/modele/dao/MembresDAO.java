@@ -8,11 +8,6 @@ import modele.dto.*;
 import utils.*;
 
 public class MembresDAO {
-    private DS ds;
-    
-    public MembresDAO(){
-        ds = DSFactory.newDS();
-    }
 
     /**
      * Récupère tous les membres enregistrés.
@@ -21,7 +16,7 @@ public class MembresDAO {
      */
     public List<Membre> selectAll() {
         List<Membre> membres = new ArrayList<>();
-        try (Connection con = ds.getConnection()) {
+        try (Connection con = DS.getConnection()) {
             String requete = "SELECT * FROM Membres";
             try (Statement stmt = con.createStatement();
                  ResultSet rs = stmt.executeQuery(requete)) {
@@ -44,7 +39,7 @@ public class MembresDAO {
      * @param membre L'objet {@code Membre} à ajouter.
      */
     public void insert(Membre membre) {
-        try (Connection con = ds.getConnection()) {
+        try (Connection con = DS.getConnection()) {
             String requetePrepare = "INSERT INTO Membres (uid, gid, djoin) VALUES (?, ?, ?)";
             try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
                 pstmt.setInt(1, membre.getUid());
@@ -63,7 +58,7 @@ public class MembresDAO {
      * @param membre L'objet {@code Membre} à retirer.
      */
     public void delete(Membre membre) {
-        try (Connection con = ds.getConnection()) {
+        try (Connection con = DS.getConnection()) {
             String requetePrepare = "DELETE FROM Membres WHERE uid = ? AND gid = ?";
             try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
                 pstmt.setInt(1, membre.getUid());

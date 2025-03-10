@@ -8,11 +8,6 @@ import modele.dto.*;
 import utils.*;
 
 public class AbonnementsDAO {
-    private DS ds;
-    
-    public AbonnementsDAO(){
-        ds = DSFactory.newDS();
-    }
 
     /**
      * Récupère toutes les abonnements de la base de données.
@@ -21,7 +16,7 @@ public class AbonnementsDAO {
      */
     public List<Abonnement> selectAll() {
         List<Abonnement> abonnements = new ArrayList<>();
-        try (Connection con = ds.getConnection()) {
+        try (Connection con = DS.getConnection()) {
             String requete = "SELECT * FROM Abonnements";
             try (Statement stmt = con.createStatement();
                  ResultSet rs = stmt.executeQuery(requete)) {
@@ -44,7 +39,7 @@ public class AbonnementsDAO {
      * @param abonnement L'objet {@code Abonnement} à insérer.
      */
     public void insert(Abonnement abonnement) {
-        try (Connection con = ds.getConnection()) {
+        try (Connection con = DS.getConnection()) {
             String requetePrepare = "INSERT INTO Abonnements (uidAbonne, uidAbonnement, dabonnement) VALUES (?, ?, ?)";
             try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
                 pstmt.setInt(1, abonnement.getUidAbonne());
@@ -63,7 +58,7 @@ public class AbonnementsDAO {
      * @param abonnement L'objet {@code Abonnement} à supprimer.
      */
     public void delete(Abonnement abonnement) {
-        try (Connection con = ds.getConnection()) {
+        try (Connection con = DS.getConnection()) {
             String requetePrepare = "DELETE FROM Abonnements WHERE uidAbonne = ? AND uidAbonnement = ?";
             try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
                 pstmt.setInt(1, abonnement.getUidAbonne());
@@ -84,7 +79,7 @@ public class AbonnementsDAO {
      */
     public Abonnement findByFollowAndFollowers(int uidAbonne, int uidAbonnement) {
         Abonnement abonnement = null;
-        try (Connection con = ds.getConnection()) {
+        try (Connection con = DS.getConnection()) {
             String requetePrepare = "SELECT * FROM Abonnements WHERE uidAbonne = ? AND uidAbonnement = ?";
             try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
                 pstmt.setInt(1, uidAbonne);

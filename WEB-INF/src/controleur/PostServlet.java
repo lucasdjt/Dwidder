@@ -26,58 +26,66 @@ import modele.dto.Post;
 )
 public class PostServlet extends HttpServlet {
     private static final String UPLOAD_DIR = "img";
+    private static final String SEP = File.separator;
     
     protected void doPost(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
         
         req.setCharacterEncoding("UTF-8");
         int uid = Integer.parseInt(req.getParameter("uid"));
-        Integer gid = Integer.parseInt(req.getParameter("gid"));
-        Integer pidParent = Integer.parseInt(req.getParameter("pidParent"));
+        Integer gid = null;
+        if(req.getParameter("gid") != null){
+            gid = Integer.parseInt(req.getParameter("gid"));
+        }
+        Integer pidParent = null;
+        if(req.getParameter("pidParent") != null){
+            pidParent = Integer.parseInt(req.getParameter("pidParent"));
+        }
         String contenu = req.getParameter("contenu");
-
         Part filePart = req.getPart("image");
         String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
         String media = null;
         if (fileName != null && !fileName.isEmpty()) {
-            String uploadPath = getServletContext().getRealPath("") + File.separator + UPLOAD_DIR;
+            String uploadPath = getServletContext().getRealPath("") + SEP + UPLOAD_DIR;
             File uploadDir = new File(uploadPath);
             if (!uploadDir.exists()) uploadDir.mkdir();
-
-            media = uploadPath + File.separator + fileName;
+            
+            File file = new File(uploadPath + SEP + fileName);
+            String baseName = fileName.substring(0, fileName.lastIndexOf('.'));
+            String extension = fileName.substring(fileName.lastIndexOf('.'));
+            int counter = 1;
+            while (file.exists()) {
+            fileName = baseName + "_" + counter + extension;
+            file = new File(uploadPath + SEP + fileName);
+            counter++;
+            }
+            media = UPLOAD_DIR + SEP + fileName;
             try (InputStream fileContent = filePart.getInputStream()) {
-                Files.copy(fileContent, new File(media).toPath());
+            Files.copy(fileContent, file.toPath());
             }
         }
 
         LocalDateTime dpub = LocalDateTime.now();
         String dureeStr = req.getParameter("duree");
         String dureeUnite = req.getParameter("dureeUnite");
-        int dureeInt = (dureeStr != null && !dureeStr.isEmpty()) ? Integer.parseInt(dureeStr) : 0;
-        Duration dureePost = Duration.ZERO;
-
-        if ("Heures".equalsIgnoreCase(dureeUnite)) {
-            dureePost = Duration.ofHours(dureeInt);
-        } else if ("Jours".equalsIgnoreCase(dureeUnite)) {
-            dureePost = Duration.ofDays(dureeInt);
+        Integer dureeInt = null;
+        if(dureeStr != null){
+            if ("hours".equalsIgnoreCase(dureeUnite)) {
+                dureeInt = Integer.parseInt(dureeStr);
+            } else if ("days".equalsIgnoreCase(dureeUnite)) {
+                dureeInt = Integer.parseInt(dureeStr)*24;
+            }
         }
-
         PostsDAO dao = new PostsDAO();
+        String referer = req.getHeader("Referer");
+        if (referer != null && referer.contains("?")) {
+            referer = referer.substring(0, referer.indexOf("?"));
+        }
         try {
-            dao.insert(new Post(0, uid, gid, pidParent, contenu, media, dpub, dureePost));
-            String referer = req.getHeader("Referer");
-            if (referer != null && !referer.isEmpty()) {
+            dao.insert(new Post(0, uid, gid, pidParent, contenu, media, dpub, dureeInt));
             res.sendRedirect(referer + "?success=1");
-            } else {
-            res.sendRedirect(req.getContextPath() + "/accueil?success=1");
-            }
         } catch (Exception e) {
-            String referer = req.getHeader("Referer");
-            if (referer != null && !referer.isEmpty()) {
             res.sendRedirect(referer + "?success=0");
-            } else {
-            res.sendRedirect(req.getContextPath() + "/accueil?success=0");
-            }
         }
     }
 }

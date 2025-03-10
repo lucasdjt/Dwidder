@@ -8,11 +8,6 @@ import modele.dto.*;
 import utils.*;
 
 public class GroupesDAO {
-    private DS ds;
-    
-    public GroupesDAO(){
-        ds = DSFactory.newDS();
-    }
 
     /**
      * Récupère tous les groupes de la base de données.
@@ -21,7 +16,7 @@ public class GroupesDAO {
      */
     public List<Groupe> selectAll() {
         List<Groupe> groupes = new ArrayList<>();
-        try (Connection con = ds.getConnection()) {
+        try (Connection con = DS.getConnection()) {
             String requete = "SELECT * FROM Groupes";
             try (Statement stmt = con.createStatement();
                  ResultSet rs = stmt.executeQuery(requete)) {
@@ -47,7 +42,7 @@ public class GroupesDAO {
      * @param groupe L'objet {@code Groupe} à insérer.
      */
     public void insert(Groupe groupe) {
-        try (Connection con = ds.getConnection()) {
+        try (Connection con = DS.getConnection()) {
             String requetePrepare = "INSERT INTO Groupes (uid, pid, nomGrp, description, dcreat) VALUES (?, ?, ?, ?, ?)";
             try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
                 pstmt.setInt(1, groupe.getUid());
@@ -69,7 +64,7 @@ public class GroupesDAO {
      * @param groupe L'objet {@code Groupe} à mettre à jour.
      */
     public void update(Groupe groupe) {
-        try (Connection con = ds.getConnection()) {
+        try (Connection con = DS.getConnection()) {
             String requetePrepare = "UPDATE Groupes SET uid = ?, pid = ?, nomGrp = ?, description = ? WHERE gid = ?";
             try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
                 pstmt.setInt(1, groupe.getUid());
@@ -90,7 +85,7 @@ public class GroupesDAO {
      * @param groupe L'objet {@code Groupe} à supprimer.
      */
     public void delete(Groupe groupe) {
-        try (Connection con = ds.getConnection()) {
+        try (Connection con = DS.getConnection()) {
             String requetePrepare = "DELETE FROM Groupes WHERE gid = ?";
             try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
                 pstmt.setInt(1, groupe.getGid());
@@ -109,7 +104,7 @@ public class GroupesDAO {
      */
     public List<User> getGroupeMembers(int gid){
         List<User> membres = new ArrayList<>();
-        try (Connection con = ds.getConnection()) {
+        try (Connection con = DS.getConnection()) {
             String requetePrepare = "SELECT U.*  FROM Membres M JOIN Users U ON M.uid = U.uid WHERE M.gid = ? ORDER BY M.djoin DESC;";
             try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
                 pstmt.setInt(1, gid);
@@ -148,7 +143,7 @@ public class GroupesDAO {
      */
     public Groupe findByGid(int gid) {
         Groupe groupe = null;
-        try (Connection con = ds.getConnection()) {
+        try (Connection con = DS.getConnection()) {
             String requetePrepare = "SELECT * FROM Groupes WHERE gid = ?";
             try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
                 pstmt.setInt(1, gid);
