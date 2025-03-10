@@ -9,7 +9,7 @@ WHERE pseudo = 'DraggasAV';
 
 \echo 'User Test (Clara) avec suppression au minimum'
 UPDATE Users
-SET prenom = NULL, nomUser = NULL, bio = NULL, pdp = NULL, dnaiss = NULL, loca = NULL, tel = NULL
+SET prenom = NULL, nomUser = NULL, bio = NULL, dnaiss = NULL, loca = NULL, tel = NULL
 WHERE pseudo = 'Clara';
 
 \echo 'Groupe (DraggasCorp) épinglé le post7'

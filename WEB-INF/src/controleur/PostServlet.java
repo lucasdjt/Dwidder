@@ -26,7 +26,7 @@ import modele.dto.Post;
 public class PostServlet extends HttpServlet {
     private static final String UPLOAD_DIR = "img";
     private static final String SEP = File.separator;
-    
+
     protected void doPost(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
         
@@ -68,14 +68,15 @@ public class PostServlet extends HttpServlet {
         String dureeStr = req.getParameter("duree");
         String dureeUnite = req.getParameter("dureeUnite");
         Integer dureeDuration = null;
+        LocalDateTime dfin = null;
         if(dureeStr != null && !dureeStr.isEmpty()){
             if ("hours".equalsIgnoreCase(dureeUnite)) {
                 dureeDuration = Integer.parseInt(dureeStr);
             } else if ("days".equalsIgnoreCase(dureeUnite)) {
                 dureeDuration = Integer.parseInt(dureeStr)*24;
             }
+            dfin = dpub.plusHours(dureeDuration);
         }
-        LocalDateTime dfin = dpub.plusHours(dureeDuration);
         PostsDAO dao = new PostsDAO();
         String referer = req.getHeader("Referer");
         if (referer != null && referer.contains("?")) {

@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import="modele.dto.PostDetails, modele.dto.User, java.util.List, java.util.ArrayList" %>
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -12,6 +13,7 @@
 </head>
 <body>
 
+<%int uidSet = 1;%>
 <jsp:include page="header.jsp" />
 
 <main class="container mt-4">
@@ -41,78 +43,60 @@
                         <option value="days">Jours</option>
                     </select>
                 </div>
-                <input type="hidden" name="uid" value="1">
+                <input type="hidden" name="uid" value="<%= uidSet %>">
                 <button type="submit" class="btn btn-primary w-100">Publier</button>
             </form>
+        <%
+        List<PostDetails> posts = (ArrayList<PostDetails>) request.getAttribute("posts");
+        if (posts != null) {
+            for(PostDetails p : posts){
+        %>
             <article class="card mb-3">
-                <header class="card-header d-flex align-items-center">
-                    <img src="img/pdp.png" alt="Pdp" class="rounded-circle me-2" width="40">
-                    <div>
-                        <a href="user.html" class="text-decoration-none text-white"><h6 class="mb-0">Draggas</h6></a>
-                        <small class="text-muted">@draggas - 12/10/2024</small>
-                    </div>
-                </header>
-                <main class="card-body">
-                    <p>C'est le 1er post du réseau social, on est tous heureux !!</p>
-                    <img src="img/pdp.png" alt="Image" class="rounded w-100">
-                </main>
-                <footer class="card-footer d-flex justify-content-around">
-                    <a href="listeLike.html" class="btn btn-outline-primary btn-sm">👍 25k</a>
-                    <a href="listeReponse.html" class="btn btn-outline-secondary btn-sm">💬 192</a>
-                    <button class="btn btn-outline-warning btn-sm">⭐ Favoris</button>
-                </footer>
+            <header class="card-header d-flex align-items-center">
+                <img src="<%= p.getPdp() %>" alt="<%= p.getPdp() %>" class="rounded-circle me-2" width="40">
+                <div>
+                <a href="user/<%= p.getIdPseudo() %>" class="text-decoration-none text-white"><h6 class="mb-0"><%= p.getPseudo() %></h6></a>
+                <small class="text-muted">@<%= p.getIdPseudo() %> - <%= p.getDpubAsDate() %></small>
+                </div>
+            </header>
+            <main class="card-body">
+                <p><%= p.getContenu() %></p>
+                <% if(p.getMedia() != null) { %>
+                <img src="<%= p.getMedia() %>" alt="<%= p.getMedia() %>" class="rounded w-100">
+                <% } %>
+                <% if(p.getDuree() < 700) { %>
+                <blockquote class="text-muted small">Il reste <%= p.getDuree() %>h à ce post avant d'être supprimé</blockquote>
+                <% } %>
+            </main>
+            <footer class="card-footer d-flex justify-content-around">
+                <a href="addLike?pid=<%= p.getPid() %>&uid=<%= p.getUid() %>" class="btn btn-outline-primary btn-sm">👍 <%= p.getNbLikes() %></a>
+                <a href="post/<%= p.getPid() %>" class="btn btn-outline-secondary btn-sm">💬 <%= p.getNbComm() %></a>
+                <a href="addFavori?pid=<%= p.getPid() %>&uid=<%= p.getUid() %>" class="btn btn-outline-warning btn-sm">⭐ Favoris</a>
+            </footer>
             </article>
-
-            <article class="card mb-3">
-                <header class="card-header d-flex align-items-center">
-                    <img src="img/pdp.png" alt="Pdp" class="rounded-circle me-2" width="40">
-                    <div>
-                        <a href="user.html" class="text-decoration-none text-white"><h6 class="mb-0">OMG</h6></a>
-                        <small class="text-muted">@omg - 10h</small>
-                    </div>
-                </header>
-                <main class="card-body">
-                    <p>Je suis là</p>
-                    <blockquote class="text-muted small">Dure plus que 2h</blockquote>
-                </main>
-                <footer class="card-footer d-flex justify-content-around">
-                    <a href="listeLike.html" class="btn btn-outline-primary btn-sm">👍 10</a>
-                    <a href="listeReponse.html" class="btn btn-outline-secondary btn-sm">💬 0</a>
-                    <button class="btn btn-outline-warning btn-sm">⭐ Favoris</button>
-                </footer>
-            </article>
+        <%
+            }
+        }
+        %>
+        </section>
         </section>
 
         <aside class="col-md-4">
             <h2 class="text-primary">Utilisateurs</h2>
             <ul class="list-group">
+        <%
+        List<User> users = (ArrayList<User>) request.getAttribute("users");
+        if (users != null) {
+            for(User u : users){
+        %>
                 <li class="border list-group-item d-flex align-items-center">
-                    <img src="img/pdp.png" alt="Utilisateur1" class="rounded-circle me-2" width="40">
-                    <a href="user.html" class="text-decoration-none text-white">Utilisateur 1</a>
-                    <button class="btn btn-sm btn-outline-success ms-auto">+ Suivre</button>
+                    <img src="<%= u.getPdp() %>" alt="<%= u.getPseudo() %>" class="rounded-circle me-2" width="40">
+                    <a href="user/<%= u.getIdPseudo() %>" class="text-decoration-none text-white"><%= u.getPseudo() %></a>
+                    <a href="addFollow?follow=<%= u.getUid() %>&follower=<%= uidSet %>" class="btn btn-sm btn-outline-success ms-auto">+ Suivre</a>
                 </li>
-                <li class="border list-group-item d-flex align-items-center">
-                    <img src="img/pdp.png" alt="Utilisateur2" class="rounded-circle me-2" width="40">
-                    <a href="user.html" class="text-decoration-none text-white">Utilisateur 2</a>
-                    <button class="btn btn-sm btn-outline-success ms-auto">+ Suivre</button>
-                </li>
-                <li class="border list-group-item d-flex align-items-center">
-                    <img src="img/pdp.png" alt="Utilisateur3" class="rounded-circle me-2" width="40">
-                    <a href="user.html" class="text-decoration-none text-white">Utilisateur 3</a>
-                    <button class="btn btn-sm btn-outline-success ms-auto">- Supprimer</button>
-                </li>
-                <li class="border list-group-item d-flex align-items-center">
-                    <img src="img/pdp.png" alt="Utilisateur4" class="rounded-circle me-2" width="40">
-                    <a href="user.html" class="text-decoration-none text-white">Utilisateur 4</a>
-                    <button class="btn btn-sm btn-outline-success ms-auto">+ Suivre</button>
-                </li>
-                <li class="border list-group-item d-flex align-items-center">
-                    <img src="img/pdp.png" alt="Utilisateur5" class="rounded-circle me-2" width="40">
-                    <a href="user.html" class="text-decoration-none text-white">Utilisateur 5</a>
-                    <button class="btn btn-sm btn-outline-success ms-auto">+ Suivre</button>
-                </li>
+        <%}}%>
             </ul>
-            <a href="listeUser.html" class="btn btn-outline-primary mt-2 w-100">Afficher Plus</a>
+            <a href="user" class="btn btn-outline-primary mt-2 w-100">Afficher Plus</a>
         </aside>
     </div>
 </main>

@@ -13,22 +13,29 @@ public class PostsDAO {
      * Récupère tous les posts de la base de données.
      * @return Liste des posts.
      */
-    public List<Post> selectAll() {
-        List<Post> posts = new ArrayList<>();
+    public List<PostDetails> selectAll() {
+        List<PostDetails> posts = new ArrayList<>();
         try (Connection con = DS.getConnection()) {
-            String requete = "SELECT * FROM Posts";
+            String requete = "SELECT * FROM PostDetails";
             try (Statement stmt = con.createStatement();
                  ResultSet rs = stmt.executeQuery(requete)) {
                 while (rs.next()) {
                     int pid = rs.getInt("pid");
-                    int uid = rs.getInt("uid");
                     Integer gid = rs.getInt("gid");
+                    String nomGrp = rs.getString("nomGrp");
                     Integer pidParent = rs.getInt("pidParent");
                     String contenu = rs.getString("contenu");
                     String media = rs.getString("media");
                     LocalDateTime dpub = BAO.conversion(rs.getTimestamp("dpub"));
                     LocalDateTime dfin = BAO.conversion(rs.getTimestamp("dfin"));
-                    posts.add(new Post(pid, uid, gid, pidParent, contenu, media, dpub, dfin));
+                    long duree = (dfin != null) ? Duration.between(dpub, dfin).toHours() : 720;
+                    String pdp = rs.getString("pdp");
+                    String pseudo = rs.getString("pseudo");
+                    int uid = rs.getInt("uid");
+                    int nbLikes = rs.getInt("nbLikes");
+                    int nbComm = rs.getInt("nbComm");
+                    String idPseudo = rs.getString("idPseudo");
+                    posts.add(new PostDetails(pid, gid, nomGrp, pidParent, contenu, media, dpub, dfin, duree, pdp, pseudo, uid, nbLikes, nbComm, idPseudo));
                 }
             }
         } catch (Exception e) {
@@ -137,27 +144,34 @@ public class PostsDAO {
      * @param triParDate Indique si le tri doit être fait par date ou par nombre de réactions.
      * @return Liste des posts publics.
      */
-    public List<Post> selectAllPublic(boolean triParDate) {
-        List<Post> posts = new ArrayList<>();
+    public List<PostDetails> selectAllPublic(boolean triParDate) {
+        List<PostDetails> posts = new ArrayList<>();
         try (Connection con = DS.getConnection()) {
             String requete = "";
             if (triParDate) {
-                requete = "SELECT * FROM Posts WHERE gid IS NULL AND pidParent IS NULL ORDER BY dpub DESC";
+                requete = "SELECT * FROM PostDetails WHERE gid IS NULL AND pidParent IS NULL ORDER BY dpub DESC";
             } else {
-                requete = "SELECT P.*, (SELECT COUNT(*) FROM Reactions R WHERE R.pid = P.pid) AS nbReact FROM Posts P WHERE P.gid IS NULL AND P.pidParent IS NULL ORDER BY nbReact DESC";
+                requete = "SELECT P.*, (SELECT COUNT(*) FROM Reactions R WHERE R.pid = P.pid) AS nbReact FROM PostDetails P WHERE P.gid IS NULL AND P.pidParent IS NULL ORDER BY nbReact DESC";
             }
             try (Statement stmt = con.createStatement();
                  ResultSet rs = stmt.executeQuery(requete)) {
                 while (rs.next()) {
                     int pid = rs.getInt("pid");
-                    int uid = rs.getInt("uid");
                     Integer gid = rs.getInt("gid");
+                    String nomGrp = rs.getString("nomGrp");
                     Integer pidParent = rs.getInt("pidParent");
                     String contenu = rs.getString("contenu");
                     String media = rs.getString("media");
                     LocalDateTime dpub = BAO.conversion(rs.getTimestamp("dpub"));
                     LocalDateTime dfin = BAO.conversion(rs.getTimestamp("dfin"));
-                    posts.add(new Post(pid, uid, gid, pidParent, contenu, media, dpub, dfin));
+                    long duree = (dfin != null) ? Duration.between(dpub, dfin).toHours() : 720;
+                    String pdp = rs.getString("pdp");
+                    String pseudo = rs.getString("pseudo");
+                    int uid = rs.getInt("uid");
+                    int nbLikes = rs.getInt("nbLikes");
+                    int nbComm = rs.getInt("nbComm");
+                    String idPseudo = rs.getString("idPseudo");
+                    posts.add(new PostDetails(pid, gid, nomGrp, pidParent, contenu, media, dpub, dfin, duree, pdp, pseudo, uid, nbLikes, nbComm, idPseudo));
                 }
             }
         } catch (Exception e) {

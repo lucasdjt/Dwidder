@@ -2,6 +2,8 @@ package controleur;
 
 import java.io.IOException;
 
+import modele.dao.PostsDAO;
+import modele.dao.UsersDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -14,6 +16,10 @@ public class AccueilServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
+        PostsDAO postsDAO = new PostsDAO();
+        UsersDAO usersDAO = new UsersDAO();
+        req.setAttribute("posts", postsDAO.selectAllPublic(true));
+        req.setAttribute("users", usersDAO.selectAll());
         req.getRequestDispatcher(REPERTORY + "accueil.jsp").forward(req, res);
     }
 }

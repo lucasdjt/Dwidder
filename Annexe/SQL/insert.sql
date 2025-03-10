@@ -3,12 +3,12 @@
 \echo '------------------------------------------------------'
 
 \echo '1/ Création de Comptes utilisateurs'
-INSERT INTO Users (idPseudo, pseudo, prenom, nomUser, email, mdp, bio, pdp, dinsc, dnaiss, loca, sexe, tel, langue, admin) VALUES
-('draggas', 'DraggasAV', 'Lucas', 'De Jesus Teixeira', 'draggasav@gmail.com', 'draggasav', 'Admin du réseau', 'pdp_draggas.png', CURRENT_DATE, '2005-05-10', 'Isbergues', 'M', '+33000000000', 'EN', TRUE), -- ADMIN
-('lucasdjt', 'Lucas', 'Lucas', 'DJT', 'lucasdjtpro@gmail.com', 'lucas', 'Étudiant en informatique', 'pdp_lucasdjt.jpg', CURRENT_DATE, '2005-05-10', NULL, 'M', NULL, 'FR', FALSE),
-('johndoe', 'John', NULL, NULL, 'john.doe@gmail.com', 'john', NULL, NULL, '2000-01-01', '1950-01-01', NULL, 'O', NULL, 'EN', FALSE), -- LE PLUS VIEUX / Compte Test
-('tom', 'Tom', NULL, NULL, 'tom@gmail.com', 'tom', NULL, NULL, '2030-01-01', '1950-01-01', NULL, 'M', NULL, 'FR', FALSE), -- DANS LE FUTUR / Compte Test
-('clara', 'Clara', 'Clara', 'Dupont', 'clara@gmail.com', 'clara', 'Graphiste', 'pdp_clara.jpg', CURRENT_DATE, '1950-01-01', 'Paris', 'F', '+33333333333', 'FR', FALSE); -- Compte Test
+INSERT INTO Users (idPseudo, pseudo, prenom, nomUser, email, mdp, bio, dinsc, dnaiss, loca, sexe, tel, langue, admin) VALUES
+('draggas', 'DraggasAV', 'Lucas', 'De Jesus Teixeira', 'draggasav@gmail.com', 'draggasav', 'Admin du réseau', CURRENT_DATE, '2005-05-10', 'Isbergues', 'M', '+33000000000', 'EN', TRUE), -- ADMIN
+('lucasdjt', 'Lucas', 'Lucas', 'DJT', 'lucasdjtpro@gmail.com', 'lucas', 'Étudiant en informatique', CURRENT_DATE, '2005-05-10', NULL, 'M', NULL, 'FR', FALSE),
+('johndoe', 'John', NULL, NULL, 'john.doe@gmail.com', 'john', NULL, '2000-01-01', '1950-01-01', NULL, 'O', NULL, 'EN', FALSE), -- LE PLUS VIEUX / Compte Test
+('tom', 'Tom', NULL, NULL, 'tom@gmail.com', 'tom', NULL, '2030-01-01', '1950-01-01', NULL, 'M', NULL, 'FR', FALSE), -- DANS LE FUTUR / Compte Test
+('clara', 'Clara', 'Clara', 'Dupont', 'clara@gmail.com', 'clara', 'Graphiste', CURRENT_DATE, '1950-01-01', 'Paris', 'F', '+33333333333', 'FR', FALSE); -- Compte Test
 
 \echo '3/ Création de Groupes'
 INSERT INTO Groupes (uid, pid, nomGrp, description, dcreat) VALUES
@@ -31,13 +31,13 @@ INSERT INTO Membres (uid, gid, djoin) VALUES
 
 \echo '2/ Création de Posts'
 INSERT INTO Posts (uid, gid, pidParent, contenu, media, dpub, dfin) VALUES
-(1, 1, NULL, 'Post 1 du groupe DraggasCorp, plus disponible dans 7j', 'post1.jpg', NOW(), NOW() + INTERVAL '7 days'), -- Post Draggas avec toutes les infos sans parent au groupe DraggasCorp
+(1, 1, NULL, 'Post 1 du groupe DraggasCorp, plus disponible dans 7j', 'img/post1.jpg', NOW(), NOW() + INTERVAL '7 days'), -- Post Draggas avec toutes les infos sans parent au groupe DraggasCorp
 (2, NULL, NULL, 'Post 2 public', NULL, CURRENT_DATE, NULL), -- Post Lucas sans grp, ni parent
 (3, NULL, NULL, 'Post 3 public ancien', NULL, '2000-01-01', NULL), -- Post Test John sans grp, ni parent [le plus vieux]  
 (2, NULL, 1, 'Post 4 réponse à Post 1', NULL, CURRENT_DATE, NULL), -- Post Test réponse John à Lucas
 (4, NULL, NULL, 'Post 5 public futur', NULL, '2030-01-01', NULL), -- Post Test John sans grp, ni parent [dans le futur] 
 (3, NULL, 1, 'Post 6 réponse à Post 1', NULL, CURRENT_DATE, NULL), -- Post Test John sans grp, ni parent [dans le futur] 
-(2, NULL, 6, 'Post 7 réponse à Post 6, plus disponible dans 10j', 'post3.jpg', NOW(), NOW() + INTERVAL '10 day'); -- Post Test réponse Lucas à John [futur]
+(2, NULL, 6, 'Post 7 réponse à Post 6, plus disponible dans 10j', 'img/post3.jpg', NOW(), NOW() + INTERVAL '10 day'); -- Post Test réponse Lucas à John [futur]
 
 \echo '4/ Création de Conversations'
 INSERT INTO Conversations (uidEnvoyeur, uidReceveur) VALUES

@@ -77,7 +77,7 @@ public class AbonnementsDAO {
      * @param uidAbonnement L'identifiant {@code uidAbonnement} à chercher.
      * @return L'objet {@code Abonnement} correspondant.
      */
-    public Abonnement findByFollowAndFollowers(int uidAbonne, int uidAbonnement) {
+    public Abonnement findByFollowAndFollowed(int uidAbonne, int uidAbonnement) {
         Abonnement abonnement = null;
         try (Connection con = DS.getConnection()) {
             String requetePrepare = "SELECT * FROM Abonnements WHERE uidAbonne = ? AND uidAbonnement = ?";
