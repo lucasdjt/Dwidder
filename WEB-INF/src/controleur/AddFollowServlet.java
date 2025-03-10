@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 
 import modele.dao.AbonnementsDAO;
-import modele.dto.Favori;
+import modele.dto.Abonnement;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -19,12 +19,12 @@ public class AddFollowServlet extends HttpServlet {
         int uidFollowers = Integer.parseInt(req.getParameter("follower"));
         AbonnementsDAO abonnementsDAO = new AbonnementsDAO();
 
-        Abonnement existingFavori = abonnementsDAO.findByFollowAndFollowed(uidFollowers, uidFollowed);
-        if (existingFavori == null) {
-            Favori newFavori = new Favori(uid, pid, LocalDateTime.now());
-            favorisDAO.insert(newFavori);
+        Abonnement existingAbonnement = abonnementsDAO.findByFollowAndFollowed(uidFollowers, uidFollowed);
+        if (existingAbonnement == null) {
+            Abonnement newAbonnement = new Abonnement(uidFollowers, uidFollowed, LocalDateTime.now());
+            abonnementsDAO.insert(newAbonnement);
         } else {
-            favorisDAO.delete(existingFavori);
+            abonnementsDAO.delete(existingAbonnement);
         }
         String referer = req.getHeader("Referer");
         if (referer != null && referer.contains("?")) {

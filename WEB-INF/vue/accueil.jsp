@@ -88,6 +88,9 @@
         List<User> users = (ArrayList<User>) request.getAttribute("users");
         if (users != null) {
             for(User u : users){
+                if (u.getUid() == uidSet) {
+                    continue;
+                }
         %>
                 <li class="border list-group-item d-flex align-items-center">
                     <img src="<%= u.getPdp() %>" alt="<%= u.getPseudo() %>" class="rounded-circle me-2" width="40">
