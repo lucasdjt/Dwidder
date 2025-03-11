@@ -44,7 +44,7 @@
                 %>
                 <img src="${pageContext.request.contextPath}/<%= user.getPdp() %>" alt="<%= user.getPdp() %>" class="rounded-circle me-3" width="50">
                 <div>
-                    <h4><a href="${pageContext.request.contextPath}/user/<%= user.getUid() %>" class="text-decoration-none text-white"><%= user.getPseudo() %></a></h4>
+                    <h4><a href="${pageContext.request.contextPath}/user/<%= user.getIdPseudo() %>" class="text-decoration-none text-white"><%= user.getPseudo() %></a></h4>
                     <p class="text-muted mb-0"><%= user.getBio() %></p>
                     <small class="text-secondary">Utilisateur créée le <%= user.getDinscAsDate() %></small>
                 </div>

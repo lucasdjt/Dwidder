@@ -4,6 +4,6 @@
     <div class="container d-flex justify-content-around">
         <a class="btn btn-outline-light" id="footerAccueil" href="${pageContext.request.contextPath}/accueil">🏠 Accueil</a>
         <a class="btn btn-outline-light" id="footerGroupes" href="${pageContext.request.contextPath}/groupes/1">👥 Groupes</a>
-        <a class="btn btn-outline-light" id="footerMessages" href="${pageContext.request.contextPath}/messages">📩 Messages</a>
+        <a class="btn btn-outline-light" id="footerMessages" href="${pageContext.request.contextPath}/messages/1">📩 Messages</a>
     </div>
 </footer>

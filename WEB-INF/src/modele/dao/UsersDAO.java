@@ -397,27 +397,34 @@ public class UsersDAO {
      * @param tri Indicateur de tri (true pour tri par date de publication, false pour tri par nombre de réactions).
      * @return Liste des posts de l'utilisateur.
      */
-    public List<Post> getUsersPosts(int uid, boolean tri) {
-        List<Post> posts = new ArrayList<>();
+    public List<PostDetails> getUsersPosts(int uid, boolean tri) {
+        List<PostDetails> posts = new ArrayList<>();
         try (Connection con = DS.getConnection()) {
             String requetePrepare = "";
             if(tri){
-                requetePrepare = "SELECT * FROM Posts WHERE uid = ? ORDER BY dpub DESC";
+                requetePrepare = "SELECT * FROM PostDetails WHERE uid = ? ORDER BY dpub DESC";
             } else {
-                requetePrepare = "SELECT P.*, COUNT(R.pid) AS nbReact FROM Posts P LEFT JOIN Reactions R ON P.pid = R.pid LEFT JOIN Users U ON P.uid = U.uid WHERE U.uid = ? GROUP BY P.pid ORDER BY nbReact DESC";
+                requetePrepare = "SELECT * FROM PostDetails WHERE uid = ? ORDER BY nbLikes DESC";
             }
             try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
                 pstmt.setInt(1, uid);
                 try (ResultSet rs = pstmt.executeQuery()) {
                     while (rs.next()) {
                         int pid = rs.getInt("pid");
-                        Integer gid = rs.getInt("gid");
+                        String nomGrp = rs.getString("nomGrp");
                         Integer pidParent = rs.getInt("pidParent");
+                        Integer gid = rs.getInt("gid");
                         String contenu = rs.getString("contenu");
                         String media = rs.getString("media");
                         LocalDateTime dpub = BAO.conversion(rs.getTimestamp("dpub"));
                         LocalDateTime dfin = BAO.conversion(rs.getTimestamp("dfin"));
-                        posts.add(new Post(pid, uid, gid, pidParent, contenu, media, dpub, dfin));
+                        long duree = (dfin != null) ? Duration.between(dpub, dfin).toHours() : 720;
+                        String pdp = rs.getString("pdp");
+                        String pseudo = rs.getString("pseudo");
+                        int nbLikes = rs.getInt("nbLikes");
+                        int nbComm = rs.getInt("nbComm");
+                        String idPseudo = rs.getString("idPseudo");
+                        posts.add(new PostDetails(pid, gid, nomGrp, pidParent, contenu, media, dpub, dfin, duree, pdp, pseudo, uid, nbLikes, nbComm, idPseudo));
                     }
                 }
             }

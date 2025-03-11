@@ -73,22 +73,34 @@ psql -h psqlserv -U lucasdejesusteixeiraetu but2
 ./catalina.sh run
 killall java
 
-## ETAPES
+### Points techniques qui ont été difficile à garder pour le README.md
 
-- Afficher le profil d'un user : /user/<uid> - profil.jsp - user.jsp
+- LocalDateTime, Interval et Duration
+
+
+## ETAPES
 - Ajouter / Enlever un follow de son compte : /follows - /followers - listeUser.jsp
 - Afficher la liste de ses favoris : /favoris - listeFavoris.jsp
 - Ajouter les réactions à ses posts : /react - listeLike.jsp
 - Création d'un compte : /inscription - inscription.jsp
 - Création d'un compte : /connexion - connexion.jsp
 - Paramètres d'un compte : /parametres - parametres.jsp
-- Gestion d'un compte entre les différentes pages (Cookie)
-
-
+- Gestion d'un compte entre les différentes pages (Cookie), Connexion et Création de compte
+- Gestion Sécurité
 V2.0
 
-Amélioration avec bootstrap
-Ajouts bonus
-V3.0
+Mettre en parallèle un Service Web permettant en GET de récupérer en JSON les fils du membre
+identifié, les messages postés sur ces fils.
+Rectifier les classes <--> Simplifier les requêtes, Optimiser la base de données
+Gestion des affichages - Ajouter/Supprimer pour les boutons
 
-V4.0
+Réalisez en Markdown une documentation de votre application contenant au minimum
+— La description générale de l’application
+— Le MCD et le MDL réalisés
+— Les requêtes pertinentes de la partie1 avec leurs significations
+— L’arborescence globale de l’application
+— La liste des entrées du/des controleurs avec leur fonctionalité
+— Les points techniques difficiles et comment ils ont été réglés.
+
+Amélioration avec bootstrap
+V3.0
