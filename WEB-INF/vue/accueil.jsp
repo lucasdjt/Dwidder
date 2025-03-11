@@ -77,7 +77,7 @@
             <footer class="card-footer d-flex justify-content-around">
                 <a href="${pageContext.request.contextPath}/addLike?pid=<%= p.getPid() %>&uid=<%= p.getUid() %>" class="btn btn-outline-primary btn-sm">👍 <%= p.getNbLikes() %></a>
                 <a href="${pageContext.request.contextPath}/posts/<%= p.getPid() %>" class="btn btn-outline-secondary btn-sm">💬 <%= p.getNbComm() %></a>
-                <a href="${pageContext.request.contextPath}/addFavori?pid=<%= p.getPid() %>&uid=<%= p.getUid() %>" class="btn btn-outline-warning btn-sm">⭐ Favoris</a>
+                <a href="${pageContext.request.contextPath}/addFavori?pid=<%= p.getPid() %>&uid=<%= uidSet %>" class="btn btn-outline-warning btn-sm">⭐ Favoris</a>
             </footer>
             </article>
         <%

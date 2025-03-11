@@ -80,13 +80,12 @@ killall java
 
 
 ## ETAPES
-- 23h Afficher la liste de ses favoris : /favoris - listeFavoris.jsp
-- 00h Ajouter les réactions à ses posts : /react - listeLike.jsp
-- 01h Création d'un compte : /inscription - inscription.jsp
-- 02h Création d'un compte : /connexion - connexion.jsp
-- 03h Paramètres d'un compte : /parametres - parametres.jsp
-- 04h Gestion d'un compte entre les différentes pages (Cookie), Connexion et Création de compte
-- 05h Gestion Sécurité
+- Création d'un compte : /inscription - inscription.jsp
+- Création d'un compte : /connexion - connexion.jsp
+- Paramètres d'un compte : /parametres - parametres.jsp
+- Gestion d'un compte entre les différentes pages (Cookie), Connexion et Création de compte
+- Gestion Sécurité
+- Gestion des différentes pages
 V2.0
 
 Gestion Admin

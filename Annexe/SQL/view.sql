@@ -17,7 +17,7 @@ SELECT
     u.pseudo,
     u.uid,
     u.idPseudo,
-    (SELECT COUNT(*) FROM Reactions r WHERE r.pid = p.pid AND r.type = 'LIKES') AS nbLikes,
+    (SELECT COUNT(*) FROM Reactions r WHERE r.pid = p.pid) AS nbLikes,
     (SELECT COUNT(*) FROM Posts c WHERE c.pidParent = p.pid) AS nbComm
 FROM 
     Posts p

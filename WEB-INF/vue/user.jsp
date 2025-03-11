@@ -46,6 +46,7 @@
                     <div class="d-flex flex-column align-items-stretch mt-3">
                         <a href="${pageContext.request.contextPath}/followers/<%= u.getIdPseudo() %>" class="btn btn-outline-primary mb-2">Abonnés : <%= request.getAttribute("followers") %></a>
                         <a href="${pageContext.request.contextPath}/follows/<%=  u.getIdPseudo() %>" class="btn btn-outline-secondary mb-2">Abonnements : <%= request.getAttribute("follows") %></a>
+                        <a href="${pageContext.request.contextPath}/favoris" class="btn btn-outline-warning mb-2">Favoris</a>
                     </div>
                 </div>
                 <%}%>
@@ -79,7 +80,7 @@
                 <footer class="card-footer d-flex justify-content-around">
                     <a href="${pageContext.request.contextPath}/addLike?pid=<%= rep.getPid() %>&uid=<%= rep.getUid() %>" class="btn btn-outline-primary btn-sm">👍 <%= rep.getNbLikes() %></a>
                     <a href="${pageContext.request.contextPath}/posts/<%= rep.getPid() %>" class="btn btn-outline-secondary btn-sm">💬 <%= rep.getNbComm() %></a>
-                    <a href="${pageContext.request.contextPath}/addFavori?pid=<%= rep.getPid() %>&uid=<%= rep.getUid() %>" class="btn btn-outline-warning btn-sm">⭐ Favoris</a>
+                    <a href="${pageContext.request.contextPath}/addFavori?pid=<%= rep.getPid() %>&uid=<%= uidSet %>" class="btn btn-outline-warning btn-sm">⭐ Favoris</a>
                 </footer>
                 </article>
             <%

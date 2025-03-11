@@ -22,8 +22,10 @@ public class AddFavoriServlet extends HttpServlet {
         Favori existingFavori = favorisDAO.findByUidAndPid(uid, pid);
         if (existingFavori == null) {
             Favori newFavori = new Favori(uid, pid, LocalDateTime.now());
+            System.out.println("insert");
             favorisDAO.insert(newFavori);
         } else {
+            System.out.println(existingFavori);
             favorisDAO.delete(existingFavori);
         }
         String referer = req.getHeader("Referer");
