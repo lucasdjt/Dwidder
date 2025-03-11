@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import="java.util.ArrayList, java.util.List, modele.dto.User"%>
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -12,91 +13,30 @@
 </head>
 <body>
 
+<%int uidSet = 1;%>
 <jsp:include page="header.jsp" />
 
 <main class="container mt-4">
-        <h2 class="text-primary">Utilisateurs/Abonnements/Abonnés</h2>
+        <h2 class="text-primary">Liste de compte</h2>
         <ul class="list-group">
+            <%
+                List<User> list = (ArrayList<User>) request.getAttribute("listFollow");
+                if (list != null) {
+                    for(User u : list){
+            %>
             <li class="border list-group-item d-flex align-items-center">
-                <img src="img/pdp.png" alt="Utilisateur1" class="rounded-circle me-2" width="40">
+                <img src="${pageContext.request.contextPath}/<%= u.getPdp() %>" alt="<%= u.getPdp() %>" class="rounded-circle me-2" width="40">
                 <div>
-                    <a href="user.html" class="text-decoration-none text-white"><h6 class="mb-0">Utilisateur 1</h6></a>
-                    <small class="text-muted">@utilisateur1</small>
-                    <p class="mb-1">Description de l'utilisateur 1</p>
+                    <a href="${pageContext.request.contextPath}/user/<%= u.getIdPseudo() %>" class="text-decoration-none text-white"><h6 class="mb-0"><%= u.getPseudo() %></h6></a>
+                    <small class="text-muted">@<%= u.getIdPseudo() %></small>
+                    <p class="mb-1"><%= u.getBio() %></p>
                 </div>
-                <button class="btn btn-sm btn-outline-success ms-auto me-2">+ Suivre</button>
-                <a href="user.html" class="btn btn-sm btn-outline-primary">Consulter le profil</a>
+                <%if(u.getUid() != uidSet){%>
+                <a href="${pageContext.request.contextPath}/addFollow?follow=<%= u.getUid() %>&follower=<%= uidSet %>" class="btn btn-sm btn-outline-success ms-auto me-2">+ Suivre</a>
+                <a href="${pageContext.request.contextPath}/user/<%= u.getIdPseudo() %>" class="btn btn-sm btn-outline-primary">Consulter le profil</a>
+                <%}%>
             </li>
-            <li class="border list-group-item d-flex align-items-center">
-                <img src="img/pdp.png" alt="Utilisateur2" class="rounded-circle me-2" width="40">
-                <div>
-                    <a href="user.html" class="text-decoration-none text-white"><h6 class="mb-0">Utilisateur 2</h6></a>
-                    <small class="text-muted">@utilisateur2</small>
-                    <p class="mb-1">Description de l'utilisateur 2</p>
-                </div>
-                <button class="btn btn-sm btn-outline-success ms-auto me-2">- Supprimer</button>
-                <a href="user.html" class="btn btn-sm btn-outline-primary">Consulter le profil</a>
-            </li>
-            <li class="border list-group-item d-flex align-items-center">
-                <img src="img/pdp.png" alt="Utilisateur3" class="rounded-circle me-2" width="40">
-                <div>
-                    <a href="user.html" class="text-decoration-none text-white"><h6 class="mb-0">Utilisateur 3</h6></a>
-                    <small class="text-muted">@utilisateur3</small>
-                    <p class="mb-1">Description de l'utilisateur 3</p>
-                </div>
-                <button class="btn btn-sm btn-outline-success ms-auto me-2">+ Suivre</button>
-                <a href="user.html" class="btn btn-sm btn-outline-primary">Consulter le profil</a>
-            </li>
-            <li class="border list-group-item d-flex align-items-center">
-                <img src="img/pdp.png" alt="Utilisateur4" class="rounded-circle me-2" width="40">
-                <div>
-                    <a href="user.html" class="text-decoration-none text-white"><h6 class="mb-0">Utilisateur 4</h6></a>
-                    <small class="text-muted">@utilisateur4</small>
-                    <p class="mb-1">Description de l'utilisateur 4</p>
-                </div>
-                <button class="btn btn-sm btn-outline-success ms-auto me-2">+ Suivre</button>
-                <a href="user.html" class="btn btn-sm btn-outline-primary">Consulter le profil</a>
-            </li>
-            <li class="border list-group-item d-flex align-items-center">
-                <img src="img/pdp.png" alt="Utilisateur5" class="rounded-circle me-2" width="40">
-                <div>
-                    <a href="user.html" class="text-decoration-none text-white"><h6 class="mb-0">Utilisateur 5</h6></a>
-                    <small class="text-muted">@utilisateur5</small>
-                    <p class="mb-1">Description de l'utilisateur 5</p>
-                </div>
-                <button class="btn btn-sm btn-outline-success ms-auto me-2">+ Suivre</button>
-                <a href="user.html" class="btn btn-sm btn-outline-primary">Consulter le profil</a>
-            </li>
-            <li class="border list-group-item d-flex align-items-center">
-                <img src="img/pdp.png" alt="Utilisateur6" class="rounded-circle me-2" width="40">
-                <div>
-                    <a href="user.html" class="text-decoration-none text-white"><h6 class="mb-0">Utilisateur 6</h6></a>
-                    <small class="text-muted">@utilisateur6</small>
-                    <p class="mb-1">Description de l'utilisateur 6</p>
-                </div>
-                <button class="btn btn-sm btn-outline-success ms-auto me-2">+ Suivre</button>
-                <a href="user.html" class="btn btn-sm btn-outline-primary">Consulter le profil</a>
-            </li>
-            <li class="border list-group-item d-flex align-items-center">
-                <img src="img/pdp.png" alt="Utilisateur7" class="rounded-circle me-2" width="40">
-                <div>
-                    <a href="user.html" class="text-decoration-none text-white"><h6 class="mb-0">Utilisateur 7</h6></a>
-                    <small class="text-muted">@utilisateur7</small>
-                    <p class="mb-1">Description de l'utilisateur 7</p>
-                </div>
-                <button class="btn btn-sm btn-outline-success ms-auto me-2">+ Suivre</button>
-                <a href="user.html" class="btn btn-sm btn-outline-primary">Consulter le profil</a>
-            </li>
-            <li class="border list-group-item d-flex align-items-center">
-                <img src="img/pdp.png" alt="Utilisateur5" class="rounded-circle me-2" width="40">
-                <div>
-                    <a href="user.html" class="text-decoration-none text-white"><h6 class="mb-0">Utilisateur 8</h6></a>
-                    <small class="text-muted">@utilisateur8</small>
-                    <p class="mb-1">Description de l'utilisateur 8</p>
-                </div>
-                <button class="btn btn-sm btn-outline-success ms-auto me-2">+ Suivre</button>
-                <a href="user.html" class="btn btn-sm btn-outline-primary">Consulter le profil</a>
-            </li>
+            <%}}%>
         </ul>
 </main>
 

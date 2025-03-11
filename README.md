@@ -76,19 +76,20 @@ killall java
 ### Points techniques qui ont été difficile à garder pour le README.md
 
 - LocalDateTime, Interval et Duration
+- sendRedirect qd c une servlet /element/*
 
 
 ## ETAPES
-- Ajouter / Enlever un follow de son compte : /follows - /followers - listeUser.jsp
-- Afficher la liste de ses favoris : /favoris - listeFavoris.jsp
-- Ajouter les réactions à ses posts : /react - listeLike.jsp
-- Création d'un compte : /inscription - inscription.jsp
-- Création d'un compte : /connexion - connexion.jsp
-- Paramètres d'un compte : /parametres - parametres.jsp
-- Gestion d'un compte entre les différentes pages (Cookie), Connexion et Création de compte
-- Gestion Sécurité
+- 23h Afficher la liste de ses favoris : /favoris - listeFavoris.jsp
+- 00h Ajouter les réactions à ses posts : /react - listeLike.jsp
+- 01h Création d'un compte : /inscription - inscription.jsp
+- 02h Création d'un compte : /connexion - connexion.jsp
+- 03h Paramètres d'un compte : /parametres - parametres.jsp
+- 04h Gestion d'un compte entre les différentes pages (Cookie), Connexion et Création de compte
+- 05h Gestion Sécurité
 V2.0
 
+Gestion Admin
 Mettre en parallèle un Service Web permettant en GET de récupérer en JSON les fils du membre
 identifié, les messages postés sur ces fils.
 Rectifier les classes <--> Simplifier les requêtes, Optimiser la base de données

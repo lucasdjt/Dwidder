@@ -268,14 +268,15 @@ public class UsersDAO {
      * @param uid Identifiant de l'utilisateur.
      * @return Liste des utilisateurs suivis.
      */
-    public List<User> getUserFollows(int uid){
+    public List<User> getUserFollows(int uidChercher){
         List<User> followers = new ArrayList<>();
         try (Connection con = DS.getConnection()) {
             String requetePrepare = "SELECT U.* FROM Abonnements A JOIN Users U ON A.uidAbonnement = U.uid WHERE A.uidAbonne = ? ORDER BY A.dabonnement DESC";
             try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
-                pstmt.setInt(1, uid);
+                pstmt.setInt(1, uidChercher);
                 try (ResultSet rs = pstmt.executeQuery()) {
                     while (rs.next()) {
+                        int uid = rs.getInt("uid");
                         String idPseudo = rs.getString("idPseudo");
                         String pseudo = rs.getString("pseudo");
                         String prenom = rs.getString("prenom");
@@ -306,14 +307,15 @@ public class UsersDAO {
      * @param uid Identifiant de l'utilisateur.
      * @return Liste des utilisateurs qui suivent l'utilisateur.
      */
-    public List<User> getUserFollowers(int uid){
+    public List<User> getUserFollowers(int uidChercher){
         List<User> followers = new ArrayList<>();
         try (Connection con = DS.getConnection()) {
             String requetePrepare = "SELECT U.* FROM Abonnements A JOIN Users U ON A.uidAbonne = U.uid WHERE A.uidAbonnement = ? ORDER BY A.dabonnement DESC";
             try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
-                pstmt.setInt(1, uid);
+                pstmt.setInt(1, uidChercher);
                 try (ResultSet rs = pstmt.executeQuery()) {
                     while (rs.next()) {
+                        int uid = rs.getInt("uid");
                         String idPseudo = rs.getString("idPseudo");
                         String pseudo = rs.getString("pseudo");
                         String prenom = rs.getString("prenom");

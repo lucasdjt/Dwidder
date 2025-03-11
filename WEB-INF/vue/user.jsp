@@ -44,8 +44,8 @@
                         <li class="list-group-item"><strong>Date d'inscription : </strong><%= u.getDinscAsDate() %></li>
                     </ul>
                     <div class="d-flex flex-column align-items-stretch mt-3">
-                        <a href="${pageContext.request.contextPath}/followers/<%= u.getPseudo() %>" class="btn btn-outline-primary mb-2">Abonnés : <%= request.getAttribute("followers") %></a>
-                        <a href="${pageContext.request.contextPath}/follows/<%=  u.getPseudo() %>" class="btn btn-outline-secondary mb-2">Abonnements : <%= request.getAttribute("follows") %></a>
+                        <a href="${pageContext.request.contextPath}/followers/<%= u.getIdPseudo() %>" class="btn btn-outline-primary mb-2">Abonnés : <%= request.getAttribute("followers") %></a>
+                        <a href="${pageContext.request.contextPath}/follows/<%=  u.getIdPseudo() %>" class="btn btn-outline-secondary mb-2">Abonnements : <%= request.getAttribute("follows") %></a>
                     </div>
                 </div>
                 <%}%>

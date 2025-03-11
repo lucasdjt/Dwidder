@@ -12,13 +12,13 @@ import jakarta.servlet.http.HttpServletResponse;
 import modele.dao.UsersDAO;
 import modele.dto.User;
 
-@WebServlet("/user/*")
+@WebServlet("/followers/*")
 @MultipartConfig(
     fileSizeThreshold = 1024 * 1024 * 2,
     maxFileSize = 1024 * 1024 * 10,
     maxRequestSize = 1024 * 1024 * 50
 )
-public class UsersServlet extends HttpServlet {
+public class FollowerServlet extends HttpServlet {
     private static final String REPERTORY = "/WEB-INF/vue/";
 
     protected void doGet(HttpServletRequest req, HttpServletResponse res)
@@ -26,12 +26,7 @@ public class UsersServlet extends HttpServlet {
         res.setContentType("text/html; charset=UTF-8");
         res.setCharacterEncoding("UTF-8");
         String pathInfo = req.getPathInfo();
-        UsersDAO dao = new UsersDAO();
-        if (pathInfo == null){
-            req.setAttribute("listFollow", dao.selectAll());
-            req.getRequestDispatcher(REPERTORY + "listeUser.jsp").forward(req, res);
-        }
-        if (pathInfo.equals("/")) {
+        if (pathInfo == null || pathInfo.equals("/")) {
             res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid user IdPseudo");
             return;
         }
@@ -43,18 +38,15 @@ public class UsersServlet extends HttpServlet {
         }
         try {
             String idPseudo = pathParts[1];
+            UsersDAO dao = new UsersDAO();
             User user = dao.findByIdPseudo(idPseudo);
             if (user == null) {
             res.sendError(HttpServletResponse.SC_NOT_FOUND, "User not found");
             return;
             }
-            List<User> follow = dao.getUserFollows(user.getUid());
             List<User> followers = dao.getUserFollowers(user.getUid());
-            req.setAttribute("user", user);
-            req.setAttribute("posts", dao.getUsersPosts(user.getUid(), false));
-            req.setAttribute("follows", follow.size());
-            req.setAttribute("followers", followers.size());
-            req.getRequestDispatcher(REPERTORY + "user.jsp").forward(req, res);
+            req.setAttribute("listFollow", followers);
+            req.getRequestDispatcher(REPERTORY + "listeUser.jsp").forward(req, res);
         } catch (NumberFormatException e) {
             res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid");
         }
