@@ -1,12 +1,12 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ page import="java.util.ArrayList, java.util.List, modele.dto.PostDetails, modele.dto.Groupe" %>
+<%@ page import="java.util.ArrayList, java.util.List, modele.dto.PostDetails" %>
 
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Groupes - Dwidder</title>
+    <title>Liste des Réponses au post - Dwidder</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="icon" href="${pageContext.request.contextPath}/img/logo.ico">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
@@ -19,42 +19,40 @@
 <main class="container mt-5 pt-4">
     <div class="row">
         <aside class="col-md-4">
-            <h2 class="text-primary">Groupes</h2>
-            <a href="${pageContext.request.contextPath}/groupes" class="btn btn-outline-success mt-2 w-100">Créer un Groupe</a>
-            <ul class="list-group">
             <%
-            List<Groupe> listGrp = (ArrayList<Groupe>) request.getAttribute("listGrp");
-            if (listGrp != null) {
-                for(Groupe g : listGrp){
+            PostDetails p = (PostDetails) request.getAttribute("post");
+            if (p != null) {
             %>
-                <li class="border list-group-item d-flex align-items-center btn-outline-success">
-                    <img src="${pageContext.request.contextPath}/img/pdp.png" alt="Photo par défaut" class="rounded-circle me-2" width="40">
-                    <a href="${pageContext.request.contextPath}/groupes/<%= g.getGid() %>" class="stretched-link text-decoration-none text-white"><%= g.getNomGrp() %></a>
-                </li>
-            <%}}
+            <article class="card mb-3">
+            <header class="card-header d-flex align-items-center">
+                <img src="${pageContext.request.contextPath}/<%= p.getPdp() %>" alt="<%= p.getPdp() %>" class="rounded-circle me-2" width="40">
+                <div>
+                <a href="${pageContext.request.contextPath}/user/<%= p.getIdPseudo() %>" class="text-decoration-none text-white"><h6 class="mb-0"><%= p.getPseudo() %></h6></a>
+                <small class="text-muted">@<%= p.getIdPseudo() %> - <%= p.getDpubAsDate() %></small>
+                </div>
+            </header>
+            <main class="card-body">
+                <p><%= p.getContenu() %></p>
+                <% if(p.getMedia() != null) { %>
+                <img src="${pageContext.request.contextPath}/<%= p.getMedia() %>" alt="<%= p.getMedia() %>" class="rounded w-100">
+                <% } %>
+                <% if(p.getDuree() < 700) { %>
+                <blockquote class="text-muted small">Il reste <%= p.getDuree() %>h à ce post avant d'être supprimé</blockquote>
+                <% } %>
+            </main>
+            <footer class="card-footer d-flex justify-content-around">
+                <a href="${pageContext.request.contextPath}/addLike?pid=<%= p.getPid() %>&uid=<%= p.getUid() %>" class="btn btn-outline-primary btn-sm">👍 <%= p.getNbLikes() %></a>
+                <a href="${pageContext.request.contextPath}/posts/<%= p.getPid() %>" class="btn btn-outline-secondary btn-sm">💬 <%= p.getNbComm() %></a>
+                <a href="${pageContext.request.contextPath}/addFavori?pid=<%= p.getPid() %>&uid=<%= p.getUid() %>" class="btn btn-outline-warning btn-sm">⭐ Favoris</a>
+            </footer>
+            </article>
+            <%
+            }
             %>
-            </ul>
         </aside>
         
         <section class="col-md-8">
-            <div class="card text-center">
-            <%
-            Groupe gSelect = (Groupe) request.getAttribute("groupe");
-            if (gSelect != null) {
-            %>
-                <img src="${pageContext.request.contextPath}/img/pdp.png" alt="Photo par défaut" class="card-img-top rounded-circle mx-auto mt-3" style="width: 100px; height: 100px;">
-                
-                <div class="card-body">
-                    <h3 class="card-title"><%= gSelect.getNomGrp() %></h3>
-                    <p class="text-muted">Crée le <%= gSelect.getDcreatAsDate() %></p>
-                    <div class="card p-2 border">
-                        <p class="mb-0"><%= gSelect.getDescription() %></p>
-                    </div>
-                </div>
-            <%}%>
-            </div>
-
-            <h3>Ajouter un Post au groupe</h3>
+            <h3>Ajouter un post réponse</h3>
             <% 
             String success = request.getParameter("success");
             if ("1".equals(success)) {
@@ -79,14 +77,15 @@
                     </select>
                 </div>
                 <input type="hidden" name="uid" value="<%= uidSet %>">
-                <input type="hidden" name="gid" value="<%= gSelect.getGid() %>">
+                <input type="hidden" name="pidParent" value="<%= p.getPid() %>">
                 <button type="submit" class="btn btn-primary w-100">Publier</button>
             </form>
-                <%
-                List<PostDetails> list = (ArrayList<PostDetails>) request.getAttribute("posts");
-                if (list != null) {
-                    for(PostDetails rep : list){
-                %>
+            <h3 class="title">Réponses au post</h3>
+            <%
+            List<PostDetails> list = (ArrayList<PostDetails>) request.getAttribute("responses");
+            if (list != null) {
+                for(PostDetails rep : list){
+            %>
                 <article class="card mb-3">
                 <header class="card-header d-flex align-items-center">
                     <img src="${pageContext.request.contextPath}/<%= rep.getPdp() %>" alt="<%= rep.getPdp() %>" class="rounded-circle me-2" width="40">

@@ -1,2 +1,4 @@
 .vscode/
 WEB-INF/classes/
+*.prop
+WEB-INF/src/utils/DS.java

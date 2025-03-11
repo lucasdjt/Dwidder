@@ -18,7 +18,6 @@ public class AddLikeServlet extends HttpServlet {
         int pid = Integer.parseInt(req.getParameter("pid"));
         ReactionsDAO reactionsDAO = new ReactionsDAO();
 
-        System.out.println(uid + "d" + pid);
         Reaction existingReaction = reactionsDAO.findByUidAndPid(uid, pid);
         if (existingReaction == null) {
             Reaction newReaction = new Reaction(uid, pid, "LIKES", LocalDateTime.now());

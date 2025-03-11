@@ -16,8 +16,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
 import modele.dao.PostsDAO;
 import modele.dto.Post;
+import modele.dto.PostDetails;
 
-@WebServlet("/posts")
+@WebServlet("/posts/*")
 @MultipartConfig(
     fileSizeThreshold = 1024 * 1024 * 2,
     maxFileSize = 1024 * 1024 * 10,
@@ -25,11 +26,43 @@ import modele.dto.Post;
 )
 public class PostServlet extends HttpServlet {
     private static final String UPLOAD_DIR = "img";
+    private static final String REPERTORY = "/WEB-INF/vue/";
     private static final String SEP = File.separator;
+
+    protected void doGet(HttpServletRequest req, HttpServletResponse res)
+        throws ServletException, IOException {
+        res.setContentType("text/html; charset=UTF-8");
+        res.setCharacterEncoding("UTF-8");
+        String pathInfo = req.getPathInfo();
+        if (pathInfo == null || pathInfo.equals("/")) {
+            res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid post PID");
+            return;
+        }
+        
+        String[] pathParts = pathInfo.split("/");
+        if (pathParts.length < 2) {
+            res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid PID format");
+            return;
+        }
+        try {
+            String pidStr = pathParts[1];
+            int pid = Integer.parseInt(pidStr);
+            PostsDAO dao = new PostsDAO();
+            PostDetails post = dao.findByPid(pid);
+            if (post == null) {
+            res.sendError(HttpServletResponse.SC_NOT_FOUND, "Post not found");
+            return;
+            }
+            req.setAttribute("post", post);
+            req.setAttribute("responses", dao.selectFromPostParent(pid));
+            req.getRequestDispatcher(REPERTORY + "posts.jsp").forward(req, res);
+        } catch (NumberFormatException e) {
+            res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid");
+        }
+    }
 
     protected void doPost(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
-        
         req.setCharacterEncoding("UTF-8");
         int uid = Integer.parseInt(req.getParameter("uid"));
         Integer gid = null;

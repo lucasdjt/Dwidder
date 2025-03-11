@@ -12,10 +12,12 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @WebServlet("/accueil")
 public class AccueilServlet extends HttpServlet {
-    private static final String REPERTORY = "WEB-INF/vue/";
+    private static final String REPERTORY = "/WEB-INF/vue/";
 
     protected void doGet(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
+        res.setContentType("text/html; charset=UTF-8");
+        res.setCharacterEncoding("UTF-8");
         PostsDAO postsDAO = new PostsDAO();
         UsersDAO usersDAO = new UsersDAO();
         req.setAttribute("posts", postsDAO.selectAllPublic(true));

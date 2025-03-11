@@ -8,8 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Accueil - Dwidder</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="icon" href="Exemple/img/logo.ico">
-    <link rel="stylesheet" href="Exemple/css/style.css">
+    <link rel="icon" href="${pageContext.request.contextPath}/img/logo.ico">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
 </head>
 <body>
 
@@ -21,6 +21,12 @@
         <section class="col-md-8">
             <h2 class="text-primary">Accueil</h2>
             <% 
+            String groupeSuccess = request.getParameter("groupe");
+            if ("1".equals(groupeSuccess)) {
+            %>
+                <p style="color:green;">Vous avez créer un groupe.</p>
+            <% 
+            }
             String success = request.getParameter("success");
             if ("1".equals(success)) {
             %>
@@ -32,7 +38,7 @@
             <%
             }
             %>
-            <form class="mb-3" action="posts" method="post" enctype="multipart/form-data">
+            <form class="mb-3" action="${pageContext.request.contextPath}/posts" method="post" enctype="multipart/form-data">
                 <textarea class="form-control bg-dark text-white mb-2" name="contenu" rows="3" maxlength="150" placeholder="Exprimez-vous..." required></textarea>
                 <input type="file" class="form-control bg-dark text-white mb-2" name="image" accept="image/*">
                 <label for="duration" class="form-label text-white">Durée du post</label>
@@ -53,25 +59,25 @@
         %>
             <article class="card mb-3">
             <header class="card-header d-flex align-items-center">
-                <img src="<%= p.getPdp() %>" alt="<%= p.getPdp() %>" class="rounded-circle me-2" width="40">
+                <img src="${pageContext.request.contextPath}/<%= p.getPdp() %>" alt="<%= p.getPdp() %>" class="rounded-circle me-2" width="40">
                 <div>
-                <a href="user/<%= p.getIdPseudo() %>" class="text-decoration-none text-white"><h6 class="mb-0"><%= p.getPseudo() %></h6></a>
+                <a href="${pageContext.request.contextPath}/user/<%= p.getIdPseudo() %>" class="text-decoration-none text-white"><h6 class="mb-0"><%= p.getPseudo() %></h6></a>
                 <small class="text-muted">@<%= p.getIdPseudo() %> - <%= p.getDpubAsDate() %></small>
                 </div>
             </header>
             <main class="card-body">
                 <p><%= p.getContenu() %></p>
                 <% if(p.getMedia() != null) { %>
-                <img src="<%= p.getMedia() %>" alt="<%= p.getMedia() %>" class="rounded w-100">
+                <img src="${pageContext.request.contextPath}/<%= p.getMedia() %>" alt="<%= p.getMedia() %>" class="rounded w-100">
                 <% } %>
                 <% if(p.getDuree() < 700) { %>
                 <blockquote class="text-muted small">Il reste <%= p.getDuree() %>h à ce post avant d'être supprimé</blockquote>
                 <% } %>
             </main>
             <footer class="card-footer d-flex justify-content-around">
-                <a href="addLike?pid=<%= p.getPid() %>&uid=<%= p.getUid() %>" class="btn btn-outline-primary btn-sm">👍 <%= p.getNbLikes() %></a>
-                <a href="post/<%= p.getPid() %>" class="btn btn-outline-secondary btn-sm">💬 <%= p.getNbComm() %></a>
-                <a href="addFavori?pid=<%= p.getPid() %>&uid=<%= p.getUid() %>" class="btn btn-outline-warning btn-sm">⭐ Favoris</a>
+                <a href="${pageContext.request.contextPath}/addLike?pid=<%= p.getPid() %>&uid=<%= p.getUid() %>" class="btn btn-outline-primary btn-sm">👍 <%= p.getNbLikes() %></a>
+                <a href="${pageContext.request.contextPath}/posts/<%= p.getPid() %>" class="btn btn-outline-secondary btn-sm">💬 <%= p.getNbComm() %></a>
+                <a href="${pageContext.request.contextPath}/addFavori?pid=<%= p.getPid() %>&uid=<%= p.getUid() %>" class="btn btn-outline-warning btn-sm">⭐ Favoris</a>
             </footer>
             </article>
         <%
@@ -93,9 +99,9 @@
                 }
         %>
                 <li class="border list-group-item d-flex align-items-center">
-                    <img src="<%= u.getPdp() %>" alt="<%= u.getPseudo() %>" class="rounded-circle me-2" width="40">
-                    <a href="user/<%= u.getIdPseudo() %>" class="text-decoration-none text-white"><%= u.getPseudo() %></a>
-                    <a href="addFollow?follow=<%= u.getUid() %>&follower=<%= uidSet %>" class="btn btn-sm btn-outline-success ms-auto">+ Suivre</a>
+                    <img src="${pageContext.request.contextPath}/<%= u.getPdp() %>" alt="<%= u.getPseudo() %>" class="rounded-circle me-2" width="40">
+                    <a href="${pageContext.request.contextPath}/user/<%= u.getIdPseudo() %>" class="text-decoration-none text-white"><%= u.getPseudo() %></a>
+                    <a href="${pageContext.request.contextPath}/addFollow?follow=<%= u.getUid() %>&follower=<%= uidSet %>" class="btn btn-sm btn-outline-success ms-auto">+ Suivre</a>
                 </li>
         <%}}%>
             </ul>

@@ -19,8 +19,8 @@ public class DS {
         } catch (Exception e) {
             try {
             Class.forName("org.postgresql.Driver");
-            String url = "jdbc:postgresql://psqlserv/but2";
-            String login = "lucasdejesusteixeiraetu";
+            String url = "jdbc:postgresql://localhost:5432/reseau_social";
+            String login = "postgres";
             String password = "moi";
             return DriverManager.getConnection(url, login, password);
             } catch (Exception ex) {

@@ -11,7 +11,7 @@ public class TestRecup {
         try {
             PostsDAO postsDAO = new PostsDAO();
             System.out.println(rouge + "Test selectAllPublic :" + reset);
-            for (PostDetails p : postsDAO.selectAllPublic(true)) {
+            for (PostDetails p : postsDAO.selectFromGroup(1, true)) {
                 System.out.println(p);
             }
             

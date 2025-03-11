@@ -12,13 +12,28 @@
 </head>
 <body>
 
+<%int uidSet = 1;%>
 <jsp:include page="header.jsp" />
 
 <main class="container mt-5 pt-4">
     <h2 class="text-primary text-center">Créer un Groupe</h2>
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <form action="SERVLET" method="POST">
+            <%
+            String success = request.getParameter("success");
+            String existant = request.getParameter("existant");
+            if ("0".equals(success)) {
+            %>
+                <p style="color:red;">Erreur lors de la création du groupe.</p>
+            <%
+            }
+            if ("0".equals(existant)) {
+            %>
+                <p style="color:red;">Nom déjà utilisé.</p>
+            <%
+            }
+            %>
+            <form action="addGroupe" method="POST">
                 <div class="mb-3">
                     <label for="nomGrp" class="form-label">Nom du Groupe</label>
                     <input type="text" class="form-control" id="nomGrp" name="nomGrp" placeholder="Nom unique du groupe" required>
@@ -28,7 +43,7 @@
                     <label for="description" class="form-label">Description</label>
                     <textarea class="form-control" id="description" name="description" rows="3" placeholder="Décrivez votre groupe"></textarea>
                 </div>
-
+                <input type="hidden" name="uid" value="<%= uidSet %>">
                 <button type="submit" class="btn btn-primary w-100">Créer</button>
             </form>
         </div>

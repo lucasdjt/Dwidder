@@ -75,6 +75,10 @@ public class Groupe {
         return dcreat;
     }
 
+    public String getDcreatAsDate() {
+        return dcreat.format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+    }
+
     public void setDcreat(LocalDateTime dcreat) {
         this.dcreat = dcreat;
     }

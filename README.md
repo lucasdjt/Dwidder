@@ -48,9 +48,10 @@ Rien de plus simple, vous avez juste à accéder au lien qui est disponible sur 
 pg_ctl -D "C:\Program Files\PostgreSQL\17\data" restart
 psql -U postgres -d reseau_social
 
-- dans classes : 
-javac -cp ".;../../../../lib/servlet-api.jar;../../../../lib" ../src/modele/*/*.java -d .
-javac -cp ".;../../../../lib/servlet-api.jar;../../../../lib" ../src/controleur/*.java -d .
+    - dans classes : 
+    javac -cp ".;../../../../lib/servlet-api.jar;../../../../lib" ../src/utils/*.java -d .
+    javac -cp ".;../../../../lib/servlet-api.jar;../../../../lib" ../src/modele/*/*.java -d .
+    javac -cp ".;../../../../lib/servlet-api.jar;../../../../lib" ../src/controleur/*.java -d .
 
 - dans le répertoire BIN : 
 .\startup.bat

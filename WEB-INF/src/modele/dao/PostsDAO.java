@@ -72,22 +72,29 @@ public class PostsDAO {
      * @param pid L'ID du post.
      * @return Le post trouvé ou null si inexistant.
      */
-    public Post findByPid(int pid) {
-        Post post = null;
+    public PostDetails findByPid(int pid) {
+        PostDetails post = null;
         try (Connection con = DS.getConnection()) {
-            String requetePrepare = "SELECT * FROM Posts WHERE pid = ?";
+            String requetePrepare = "SELECT * FROM PostDetails WHERE pid = ?";
             try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
                 pstmt.setInt(1, pid);
                 try (ResultSet rs = pstmt.executeQuery()) {
                     if (rs.next()) {
-                        int uid = rs.getInt("uid");
                         Integer gid = rs.getInt("gid");
+                        String nomGrp = rs.getString("nomGrp");
                         Integer pidParent = rs.getInt("pidParent");
                         String contenu = rs.getString("contenu");
                         String media = rs.getString("media");
                         LocalDateTime dpub = BAO.conversion(rs.getTimestamp("dpub"));
                         LocalDateTime dfin = BAO.conversion(rs.getTimestamp("dfin"));
-                        post = new Post(pid, uid, gid, pidParent, contenu, media, dpub, dfin);
+                        long duree = (dfin != null) ? Duration.between(dpub, dfin).toHours() : 720;
+                        String pdp = rs.getString("pdp");
+                        String pseudo = rs.getString("pseudo");
+                        int uid = rs.getInt("uid");
+                        int nbLikes = rs.getInt("nbLikes");
+                        int nbComm = rs.getInt("nbComm");
+                        String idPseudo = rs.getString("idPseudo");
+                        post = new PostDetails(pid, gid, nomGrp, pidParent, contenu, media, dpub, dfin, duree, pdp, pseudo, uid, nbLikes, nbComm, idPseudo);
                     }
                 }
             }
@@ -151,7 +158,7 @@ public class PostsDAO {
             if (triParDate) {
                 requete = "SELECT * FROM PostDetails WHERE gid IS NULL AND pidParent IS NULL ORDER BY dpub DESC";
             } else {
-                requete = "SELECT P.*, (SELECT COUNT(*) FROM Reactions R WHERE R.pid = P.pid) AS nbReact FROM PostDetails P WHERE P.gid IS NULL AND P.pidParent IS NULL ORDER BY nbReact DESC";
+                requete = "SELECT * FROM PostDetails WHERE gid IS NULL AND pidParent IS NULL ORDER BY nbLikes DESC";
             }
             try (Statement stmt = con.createStatement();
                  ResultSet rs = stmt.executeQuery(requete)) {
@@ -186,27 +193,34 @@ public class PostsDAO {
      * @param triParReactions Indique si le tri doit être fait par la date.
      * @return Liste des posts du groupe.
      */
-    public List<Post> selectFromGroup(int gid, boolean triParDate) {
-        List<Post> posts = new ArrayList<>();
+    public List<PostDetails> selectFromGroup(int gid, boolean triParDate) {
+        List<PostDetails> posts = new ArrayList<>();
         try (Connection con = DS.getConnection()) {
             String requetePrepare = "";
             if (triParDate) {
-                requetePrepare = "SELECT * FROM Posts WHERE gid = ? AND pidParent IS NULL ORDER BY dpub DESC";
+                requetePrepare = "SELECT * FROM PostDetails WHERE gid = ? AND pidParent IS NULL ORDER BY dpub DESC";
             } else {
-                requetePrepare = "SELECT P.*, (SELECT COUNT(*) FROM Reactions R WHERE R.pid = P.pid) AS nbReact FROM Posts P WHERE P.gid = ? ORDER BY nbReact DESC";
+                requetePrepare = "SELECT * FROM PostDetails WHERE gid = ? ORDER BY nbLikes DESC";
             }
             try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
                 pstmt.setInt(1, gid);
                 try (ResultSet rs = pstmt.executeQuery()) {
                     while (rs.next()) {
                         int pid = rs.getInt("pid");
-                        Integer uid = rs.getInt("uid");
+                        String nomGrp = rs.getString("nomGrp");
                         Integer pidParent = rs.getInt("pidParent");
                         String contenu = rs.getString("contenu");
                         String media = rs.getString("media");
                         LocalDateTime dpub = BAO.conversion(rs.getTimestamp("dpub"));
                         LocalDateTime dfin = BAO.conversion(rs.getTimestamp("dfin"));
-                        posts.add(new Post(pid, uid, gid, pidParent, contenu, media, dpub, dfin));
+                        long duree = (dfin != null) ? Duration.between(dpub, dfin).toHours() : 720;
+                        String pdp = rs.getString("pdp");
+                        String pseudo = rs.getString("pseudo");
+                        int uid = rs.getInt("uid");
+                        int nbLikes = rs.getInt("nbLikes");
+                        int nbComm = rs.getInt("nbComm");
+                        String idPseudo = rs.getString("idPseudo");
+                        posts.add(new PostDetails(pid, gid, nomGrp, pidParent, contenu, media, dpub, dfin, duree, pdp, pseudo, uid, nbLikes, nbComm, idPseudo));
                     }
                 }
             }
@@ -221,22 +235,29 @@ public class PostsDAO {
      * @param pidParent L'ID du post parent.
      * @return Liste des réponses associées.
      */
-    public List<Post> selectFromPostParent(int pidParent) {
-        List<Post> posts = new ArrayList<>();
+    public List<PostDetails> selectFromPostParent(int pidParent) {
+        List<PostDetails> posts = new ArrayList<>();
         try (Connection con = DS.getConnection()) {
-            String requetePrepare = "SELECT P.*, (SELECT COUNT(*) FROM Reactions R WHERE R.pid = P.pid) AS nbReact FROM Posts P WHERE P.pidParent = ? ORDER BY nbReact DESC";
+            String requetePrepare = "SELECT * FROM PostDetails WHERE pidParent = ? ORDER BY nbLikes DESC";
             try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
                 pstmt.setInt(1, pidParent);
                 try (ResultSet rs = pstmt.executeQuery()) {
                     while (rs.next()) {
                         int pid = rs.getInt("pid");
-                        Integer uid = rs.getInt("uid");
                         Integer gid = rs.getInt("gid");
+                        String nomGrp = rs.getString("nomGrp");
                         String contenu = rs.getString("contenu");
                         String media = rs.getString("media");
                         LocalDateTime dpub = BAO.conversion(rs.getTimestamp("dpub"));
                         LocalDateTime dfin = BAO.conversion(rs.getTimestamp("dfin"));
-                        posts.add(new Post(pid, uid, gid, pidParent, contenu, media, dpub, dfin));
+                        long duree = (dfin != null) ? Duration.between(dpub, dfin).toHours() : 720;
+                        String pdp = rs.getString("pdp");
+                        String pseudo = rs.getString("pseudo");
+                        int uid = rs.getInt("uid");
+                        int nbLikes = rs.getInt("nbLikes");
+                        int nbComm = rs.getInt("nbComm");
+                        String idPseudo = rs.getString("idPseudo");
+                        posts.add(new PostDetails(pid, gid, nomGrp, pidParent, contenu, media, dpub, dfin, duree, pdp, pseudo, uid, nbLikes, nbComm, idPseudo));
                     }
                 }
             }

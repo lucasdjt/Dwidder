@@ -163,4 +163,27 @@ public class GroupesDAO {
         }
         return groupe;
     }
+
+    public Groupe findByName(String nomGrp){
+        Groupe groupe = null;
+        try (Connection con = DS.getConnection()) {
+            String requetePrepare = "SELECT * FROM Groupes WHERE nomGrp = ?";
+            try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
+                pstmt.setString(1, nomGrp);
+                try (ResultSet rs = pstmt.executeQuery()) {
+                    if (rs.next()) {
+                        int gid = rs.getInt("gid");
+                        int uid = rs.getInt("uid");
+                        Integer pid = rs.getInt("pid");
+                        String description = rs.getString("description");
+                        LocalDateTime dcreat = BAO.conversion(rs.getTimestamp("dcreat"));
+                        groupe = new Groupe(gid, uid, pid, nomGrp, description, dcreat);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return groupe;
+    }
 }
