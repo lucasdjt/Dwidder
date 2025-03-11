@@ -78,7 +78,7 @@ public class ConversationsDAO {
     public List<Message> getMessageConv(int cid){
         List<Message> messages = new ArrayList<>();
         try (Connection con = DS.getConnection()) {
-            String requetePrepare = "SELECT * FROM Messages WHERE cid = ? ORDER BY dmess DESC";
+            String requetePrepare = "SELECT * FROM Messages WHERE cid = ? ORDER BY dmess ASC";
             try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
                 pstmt.setInt(1, cid);
                 try (ResultSet rs = pstmt.executeQuery()) {
@@ -95,5 +95,30 @@ public class ConversationsDAO {
             e.printStackTrace();
         }
         return messages;
+    }
+
+    /**
+     * Trouve une conversation spécifique à partir de son cid.
+     * @param cid L'identifiant de la conversation.
+     * @return La conversation trouvé ou null si aucune conversation n'est trouvé.
+     */
+    public Conversation findByCid(int cid) {
+        Conversation conv = null;
+        try (Connection con = DS.getConnection()) {
+            String requetePrepare = "SELECT * FROM Conversations WHERE cid = ?";
+            try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
+                pstmt.setInt(1, cid);
+                try (ResultSet rs = pstmt.executeQuery()) {
+                    if (rs.next()) {
+                        int uidEnvoyeur = rs.getInt("uidEnvoyeur");
+                        int uidReceveur = rs.getInt("uidReceveur");
+                        conv = new Conversation(cid, uidEnvoyeur, uidReceveur);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return conv;
     }
 }

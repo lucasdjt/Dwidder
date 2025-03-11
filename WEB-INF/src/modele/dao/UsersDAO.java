@@ -83,6 +83,44 @@ public class UsersDAO {
         return user;
     }
 
+        /**
+     * Recherche un utilisateur par son identifiant de pseudo.
+     * @param idPseudo Identifiant du pseudo à rechercher.
+     * @return L'utilisateur correspondant à l'idPseudo, ou null si non trouvé.
+     */
+    public User findByUid(int uid) {
+        User user = null;
+        try (Connection con = DS.getConnection()) {
+            String requetePrepare = "SELECT * FROM Users WHERE uid = ?";
+            try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
+                pstmt.setInt(1, uid);
+                try (ResultSet rs = pstmt.executeQuery()) {
+                    if (rs.next()) {
+                        String idPseudo = rs.getString("idPseudo");
+                        String pseudo = rs.getString("pseudo");
+                        String prenom = rs.getString("prenom");
+                        String nomUser = rs.getString("nomUser");
+                        String email = rs.getString("email");
+                        String mdp = rs.getString("mdp");
+                        String bio = rs.getString("bio");
+                        String pdp = rs.getString("pdp");
+                        LocalDateTime dinsc = BAO.conversion(rs.getTimestamp("dinsc"));
+                        LocalDate dnaiss = BAO.conversion(rs.getDate("dnaiss"));
+                        String loca = rs.getString("loca");
+                        String sexe = rs.getString("sexe");
+                        String tel = rs.getString("tel");
+                        String langue = rs.getString("langue");
+                        boolean admin = rs.getBoolean("admin");
+                        user = new User(uid, idPseudo, pseudo, prenom, nomUser, email, mdp, bio, pdp, dinsc, dnaiss, loca, sexe, tel, langue, admin);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return user;
+    }
+
     /**
      * Recherche un utilisateur par son adresse email.
      * @param email Adresse email de l'utilisateur.

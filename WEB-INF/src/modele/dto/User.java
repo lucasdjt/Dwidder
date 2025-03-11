@@ -143,6 +143,10 @@ public class User {
         return dinsc;
     }
 
+    public String getDinscAsDate() {
+        return dinsc.format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+    }
+
     public void setDinsc(LocalDateTime dinsc) {
         this.dinsc = dinsc;
     }

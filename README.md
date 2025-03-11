@@ -75,43 +75,20 @@ killall java
 
 ## ETAPES
 
-SERVLETS :
-- Accueil : /
-- Connexion : /connexion
-- Créer groupe : /groupeadd
-- Groupes : /groupes/<gid>
-- Créer un compte : /inscription
-- Favoris : /favoris
-- Likes : /likes/<pid>
-- Reponse : /posts/<pid>
-- ListeUser : /follows/<uid>
-- ListeUser : /followers/<uid>
-- Messages : /messages
-- Paramètres : /parametres
-- Profil/User : /<uid>
+- Afficher le profil d'un user : /user/<uid> - profil.jsp - user.jsp
+- Ajouter / Enlever un follow de son compte : /follows - /followers - listeUser.jsp
+- Afficher la liste de ses favoris : /favoris - listeFavoris.jsp
+- Ajouter les réactions à ses posts : /react - listeLike.jsp
+- Création d'un compte : /inscription - inscription.jsp
+- Création d'un compte : /connexion - connexion.jsp
+- Paramètres d'un compte : /parametres - parametres.jsp
+- Gestion d'un compte entre les différentes pages (Cookie)
 
-Ajout des servlets :
-- ServletConnexion
-- ServletCreatCompte
-- ServletPosts
-- ServletProfil
-- ServletMessages
-- ServletParamètres
-- ServletPrincipale
+
 V2.0
-
-Ajout du back-end Servlet :
-- Connexion de la Servlet entre Connexion <--> ServletConnexion
-- Connexion de la Servlet entre Création de Compte <--> ServletCreatCompte
-- Connexion de la Servlet entre Posts <--> ServletPosts
-- Connexion de la Servlet entre Profil <--> ServletProfil
-- Connexion de la Servlet entre Messages privés <--> ServletMessages
-- Connexion de la Servlet entre Paramètres <--> ServletParamètres
-- Connexion de la Servlet entre Page Principale <--> ServletPrincipale
-
-Adaptation des Servlets <--> JSP
-V3.0
 
 Amélioration avec bootstrap
 Ajouts bonus
+V3.0
+
 V4.0

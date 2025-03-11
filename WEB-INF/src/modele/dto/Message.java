@@ -1,6 +1,7 @@
 package modele.dto;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Message {
     private int mid;
@@ -61,6 +62,10 @@ public class Message {
 
     public LocalDateTime getDmess() {
         return dmess;
+    }
+
+    public String getDmessAsDate() {
+        return dmess.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
     }
 
     public void setDmess(LocalDateTime dmess) {
