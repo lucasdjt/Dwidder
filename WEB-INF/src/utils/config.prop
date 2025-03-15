@@ -1,4 +1,1 @@
-driver=org.postgresql.Driver
-url=jdbc:postgresql://localhost:5432/reseau_social
-login=postgres
-password=moi
+<<A CONFIG>>

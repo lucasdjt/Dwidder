@@ -20,8 +20,8 @@ public class DS {
             try {
             Class.forName("org.postgresql.Driver");
             String url = "jdbc:postgresql://localhost:5432/reseau_social";
-            String login = "postgres";
-            String password = "moi";
+            String login = "xxx";
+            String password = "xxx";
             return DriverManager.getConnection(url, login, password);
             } catch (Exception ex) {
             throw new Exception("Connexion fail", ex);
