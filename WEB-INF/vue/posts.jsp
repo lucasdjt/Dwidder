@@ -46,7 +46,7 @@ int User_ID = (int) request.getSession().getAttribute("uid");
             <footer class="card-footer d-flex justify-content-around">
                 <a href="${pageContext.request.contextPath}/addLike?pid=<%= p.getPid() %>&uid=<%= p.getUid() %>" class="btn btn-outline-primary btn-sm">👍 <%= p.getNbLikes() %></a>
                 <a href="${pageContext.request.contextPath}/posts/<%= p.getPid() %>" class="btn btn-outline-secondary btn-sm">💬 <%= p.getNbComm() %></a>
-                <a href="${pageContext.request.contextPath}/addFavori?pid=<%= p.getPid() %>&uid=<%= p.getUid() %>" class="btn btn-outline-warning btn-sm">⭐ Favoris</a>
+                <a href="${pageContext.request.contextPath}/addFavori?pid=<%= p.getPid() %>&uid=<%= User_ID %>" class="btn btn-outline-warning btn-sm">⭐ Favoris</a>
             </footer>
             </article>
             <%
@@ -109,7 +109,7 @@ int User_ID = (int) request.getSession().getAttribute("uid");
                 <footer class="card-footer d-flex justify-content-around">
                     <a href="${pageContext.request.contextPath}/addLike?pid=<%= rep.getPid() %>&uid=<%= rep.getUid() %>" class="btn btn-outline-primary btn-sm">👍 <%= rep.getNbLikes() %></a>
                     <a href="${pageContext.request.contextPath}/posts/<%= rep.getPid() %>" class="btn btn-outline-secondary btn-sm">💬 <%= rep.getNbComm() %></a>
-                    <a href="${pageContext.request.contextPath}/addFavori?pid=<%= rep.getPid() %>&uid=<%= rep.getUid() %>" class="btn btn-outline-warning btn-sm">⭐ Favoris</a>
+                    <a href="${pageContext.request.contextPath}/addFavori?pid=<%= rep.getPid() %>&uid=<%= User_ID %>" class="btn btn-outline-warning btn-sm">⭐ Favoris</a>
                 </footer>
                 </article>
             <%

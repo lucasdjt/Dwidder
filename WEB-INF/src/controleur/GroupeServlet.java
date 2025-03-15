@@ -8,6 +8,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import modele.dao.GroupesDAO;
 import modele.dao.PostsDAO;
 import modele.dao.UsersDAO;
@@ -24,17 +25,24 @@ public class GroupeServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest req, HttpServletResponse res)
         throws ServletException, IOException {
-        if (req.getSession().getAttribute("uid") == null) {
+        HttpSession session = req.getSession(false);
+        if (session == null || session.getAttribute("uid") == null || session.getAttribute("pseudo") == null) {
             res.sendRedirect(req.getContextPath() + "/connexion");
             return;
         }
         res.setContentType("text/html; charset=UTF-8");
         res.setCharacterEncoding("UTF-8");
 
-        int uid = (int) req.getSession().getAttribute("uid");
+        UsersDAO uDao = new UsersDAO();
+        int uid = (int) session.getAttribute("uid");
         String pathInfo = req.getPathInfo();
         if (pathInfo == null || pathInfo.equals("/")) {
-            req.getRequestDispatcher(REPERTORY + "creerGroupe.jsp").forward(req, res);
+            try {
+                req.setAttribute("listGrp", uDao.getUserGroups(uid));
+                req.getRequestDispatcher(REPERTORY + "groupes.jsp").forward(req, res);
+            } catch (NumberFormatException e) {
+                res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid");
+            }
             return;
         }
         
@@ -49,7 +57,6 @@ public class GroupeServlet extends HttpServlet {
             PostsDAO dao = new PostsDAO();
             GroupesDAO gDao = new GroupesDAO();
             Groupe groupe = gDao.findByGid(gid);
-            UsersDAO uDao = new UsersDAO();
             if (groupe == null) {
             res.sendError(HttpServletResponse.SC_NOT_FOUND, "Groupe not found");
             return;

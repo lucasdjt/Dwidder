@@ -9,6 +9,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import modele.dao.GroupesDAO;
 import modele.dao.MembresDAO;
 import modele.dto.Groupe;
@@ -21,7 +22,17 @@ import modele.dto.Membre;
     maxRequestSize = 1024 * 1024 * 50
 )
 public class AddGroupeServlet extends HttpServlet {
+    final String REPERTORY = "/WEB-INF/vue/";
 
+    protected void doGet(HttpServletRequest req, HttpServletResponse res)
+        throws ServletException, IOException {
+        HttpSession session = req.getSession(false);
+        if (session == null || session.getAttribute("uid") == null || session.getAttribute("pseudo") == null) {
+            res.sendRedirect(req.getContextPath() + "/connexion");
+            return;
+        }
+        req.getRequestDispatcher(REPERTORY + "creerGroupe.jsp").forward(req, res);
+    }
     protected void doPost(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");

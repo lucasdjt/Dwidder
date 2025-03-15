@@ -9,6 +9,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 @WebServlet("/accueil")
 public class AccueilServlet extends HttpServlet {
@@ -16,7 +17,8 @@ public class AccueilServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
-        if (req.getSession().getAttribute("uid") == null) {
+        HttpSession session = req.getSession(false);
+        if (session == null || session.getAttribute("uid") == null || session.getAttribute("pseudo") == null) {
             res.sendRedirect(req.getContextPath() + "/connexion");
             return;
         }

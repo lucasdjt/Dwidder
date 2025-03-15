@@ -40,18 +40,17 @@ int User_ID = (int) request.getSession().getAttribute("uid");
         </aside>
 
         <section class="col-md-8 d-flex flex-column">
-            <header class="card d-flex align-items-center p-3 border">
                 <%
                 User user = (User) request.getAttribute("user");
                 if (user != null) {
                 %>
+            <header class="card d-flex align-items-center p-3 border">
                 <img src="${pageContext.request.contextPath}/<%= user.getPdp() %>" alt="<%= user.getPdp() %>" class="rounded-circle me-3" width="50">
                 <div>
                     <h4><a href="${pageContext.request.contextPath}/user/<%= user.getIdPseudo() %>" class="text-decoration-none text-white"><%= user.getPseudo() %></a></h4>
                     <p class="text-muted mb-0"><%= user.getBio() %></p>
                     <small class="text-secondary">Utilisateur créée le <%= user.getDinscAsDate() %></small>
                 </div>
-                <%}%>
             </header>
             <div class="card flex-grow-1 d-flex flex-column">
                 <div class="card-body overflow-auto" id="conversation" style="height: 400px;">
@@ -88,6 +87,7 @@ int User_ID = (int) request.getSession().getAttribute("uid");
                     %>
                 </div>
             </div>
+                <% } %>
         </section>
 
     </div>

@@ -78,31 +78,11 @@ killall java
 - LocalDateTime, Interval et Duration
 - sendRedirect qd c une servlet /element/*
 
-## Consignes 
+## CONSIGNES (V2)
+- Résister aux injections classiques SQL et XSS
+- Mettre en parallèle un Service Web permettant en GET de récupérer en JSON les fils du membre identifié, les messages postés sur ces fils. (/api/...)
 
-Créer des fils de discussion avec 1 ou plusieurs personnes <--> Fil Public / Groupes / Messages privés
-Poster des messages textuels dans les différents fils [v]
-Lire les messages des autres abonnés au même fil [v]
-Pouvoir créer un compte [v]
-S’authentifier [v]
-Créer, gérer, poster et visualiser ses fils de discussions [x]
-Gérer ses abonnés [v]
-Vue Responsive [v]
-Architecture MVC [v]
-Résister aux injections classiques SQL et XSS [x]
-Mettre en place un style avec une feuille de styles reconnue [v]
-Gérer les like/unlike sur les messages [v]
-Permettre de poster des images [v]
-Donner une durée de vie aux messages [v]
-Mettre en parallèle un Service Web permettant en GET de récupérer en JSON les fils du membre
-identifié, les messages postés sur ces fils. [x]
-
-## ETAPES
-- Paramètres d'un compte : Update / Delete + Déconnexion
-- Gestion des Injections SQL + XSS
-- Mettre en parallèle un Service Web permettant en GET de récupérer en JSON les fils du membre
-identifié, les messages postés sur ces fils. (/api/...)
-V2.0
+## AJOUT BONUS (V3)
 
 Gestion de son propre compte :
 - Gestion des posts à durée limité

@@ -31,10 +31,6 @@
                     <button class="btn btn-outline-light" type="button" id="togglePassword">👁️</button>
                 </div>
             </div>
-            <div class="mb-3 form-check">
-                <input type="checkbox" class="form-check-input" id="rememberMe">
-                <label class="form-check-label" for="rememberMe">Se souvenir de moi (30 jours)</label>
-            </div>
             <button type="submit" class="btn btn-primary w-100">Se connecter</button>
         </form>
         <div class="text-center mt-3">

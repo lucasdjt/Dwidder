@@ -12,6 +12,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import modele.dao.ConversationsDAO;
 import modele.dao.MessagesDAO;
 import modele.dao.UsersDAO;
@@ -30,19 +31,34 @@ public class MessageServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest req, HttpServletResponse res)
         throws ServletException, IOException {
-        if (req.getSession().getAttribute("uid") == null) {
-            res.sendRedirect(req.getContextPath() + "/connexion");
-            return;
-        }
+            HttpSession session = req.getSession(false);
+            if (session == null || session.getAttribute("uid") == null || session.getAttribute("pseudo") == null) {
+                res.sendRedirect(req.getContextPath() + "/connexion");
+                return;
+            }
+        int uid = (int) session.getAttribute("uid");
         res.setContentType("text/html; charset=UTF-8");
         res.setCharacterEncoding("UTF-8");
         String pathInfo = req.getPathInfo();
         if (pathInfo == null || pathInfo.equals("/")) {
-            res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid message CID");
+            try {
+                UsersDAO uDao = new UsersDAO();
+                List<Conversation> l = uDao.getUserConversations(uid);
+                Map<Integer, User> listUser = new HashMap<>();
+                for(Conversation c : l){
+                    if(c.getUidEnvoyeur() == uid){
+                        listUser.put(c.getCid(), uDao.findByUid(c.getUidReceveur()));
+                    } else {
+                        listUser.put(c.getCid(), uDao.findByUid(c.getUidEnvoyeur()));
+                    }
+                }
+                req.setAttribute("listUser", listUser);
+                req.getRequestDispatcher(REPERTORY + "messages.jsp").forward(req, res);
+            } catch (NumberFormatException e) {
+                res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid");
+            }
             return;
         }
-        
-        int uid = (int) req.getSession().getAttribute("uid");
 
         String[] pathParts = pathInfo.split("/");
         if (pathParts.length < 2) {

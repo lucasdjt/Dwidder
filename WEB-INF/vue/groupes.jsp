@@ -23,7 +23,7 @@ int User_ID = (int) request.getSession().getAttribute("uid");
     <div class="row">
         <aside class="col-md-4">
             <h2 class="text-primary">Groupes</h2>
-            <a href="${pageContext.request.contextPath}/groupes" class="btn btn-outline-success mt-2 w-100">Créer un Groupe</a>
+            <a href="${pageContext.request.contextPath}/addGroupe" class="btn btn-outline-success mt-2 w-100">Créer un Groupe</a>
             <ul class="list-group">
             <%
             List<Groupe> listGrp = (ArrayList<Groupe>) request.getAttribute("listGrp");
@@ -34,7 +34,7 @@ int User_ID = (int) request.getSession().getAttribute("uid");
                     <img src="${pageContext.request.contextPath}/img/pdp.png" alt="Photo par défaut" class="rounded-circle me-2" width="40">
                     <a href="${pageContext.request.contextPath}/groupes/<%= g.getGid() %>" class="stretched-link text-decoration-none text-white"><%= g.getNomGrp() %></a>
                 </li>
-            <%}}
+            <% }}
             %>
             </ul>
         </aside>
@@ -54,9 +54,10 @@ int User_ID = (int) request.getSession().getAttribute("uid");
                         <p class="mb-0"><%= gSelect.getDescription() %></p>
                     </div>
                 </div>
-            <%}%>
+            <% } %>
             </div>
 
+            <% if (gSelect != null) { %>
             <h3>Ajouter un Post au groupe</h3>
             <% 
             String success = request.getParameter("success");
@@ -117,6 +118,7 @@ int User_ID = (int) request.getSession().getAttribute("uid");
                 }
             }
             %>
+            <% } %>
         </section>
 
     </div>

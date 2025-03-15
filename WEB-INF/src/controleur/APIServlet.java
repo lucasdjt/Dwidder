@@ -86,7 +86,6 @@ public class APIServlet extends HttpServlet {
                 case "followers":
                     if (pathParts.length == 3) {
                         int userId = Integer.parseInt(pathParts[2]);
-                        // Intégration du DAO pour récupérer les followers de l'utilisateur avec id = userId
                         responseJson = "{\"message\": \"Liste des followers de l'utilisateur " + userId + "\"}";
                     } else {
                         res.sendError(HttpServletResponse.SC_BAD_REQUEST, "User ID required");
