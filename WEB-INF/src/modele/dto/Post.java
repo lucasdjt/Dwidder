@@ -2,6 +2,8 @@ package modele.dto;
 
 import java.time.LocalDateTime;
 
+import utils.BAO;
+
 public class Post {
     private int pid;
     private int uid;
@@ -72,6 +74,10 @@ public class Post {
     }
 
     public String getContenu() {
+        return BAO.escapeHTML(contenu);
+    }
+
+    public String getHTMLContenu() {
         return contenu;
     }
 

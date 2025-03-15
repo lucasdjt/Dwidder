@@ -22,7 +22,7 @@
         <form action="${pageContext.request.contextPath}/addAccount" method="post" enctype="multipart/form-data">
             <div class="mb-3">
                 <label for="idPseudo" class="form-label">Identifiant (3-15 caractères) *</label>
-                <input type="text" class="form-control bg-dark text-white" name="idPseudo" minlength="3" maxlength="15" required>
+                <input type="text" class="form-control bg-dark text-white" name="idPseudo" minlength="3" maxlength="15" pattern="[a-z0-9]*" required>
             </div>
             <div class="mb-3">
                 <label for="pseudo" class="form-label">Pseudo *</label>

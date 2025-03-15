@@ -2,6 +2,8 @@ package modele.dto;
 
 import java.time.LocalDateTime;
 
+import utils.BAO;
+
 public class Groupe {
     private int gid;
     private int uid;
@@ -56,6 +58,10 @@ public class Groupe {
     }
 
     public String getNomGrp() {
+        return BAO.escapeHTML(nomGrp);
+    }
+
+    public String getHTMLNomGrp() {
         return nomGrp;
     }
 
@@ -64,6 +70,10 @@ public class Groupe {
     }
 
     public String getDescription() {
+        return BAO.escapeHTML(description);
+    }
+
+    public String getHTMLDescription() {
         return description;
     }
 

@@ -1,6 +1,7 @@
 package modele.dto;
 
 import java.time.LocalDateTime;
+import utils.BAO;
 
 public class PostDetails {
     private int pid;
@@ -65,6 +66,10 @@ public class PostDetails {
     }
 
     public String getNomGrp() {
+        return BAO.escapeHTML(nomGrp);
+    }
+
+    public String getHTMLNomGrp() {
         return nomGrp;
     }
 
@@ -81,6 +86,10 @@ public class PostDetails {
     }
 
     public String getContenu() {
+        return BAO.escapeHTML(contenu);
+    }
+
+    public String getHTMLContenu() {
         return contenu;
     }
 
@@ -133,6 +142,10 @@ public class PostDetails {
     }
 
     public String getPseudo() {
+        return BAO.escapeHTML(pseudo);
+    }
+
+    public String getHTMLPseudo() {
         return pseudo;
     }
 

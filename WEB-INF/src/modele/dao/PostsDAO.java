@@ -58,7 +58,7 @@ public class PostsDAO {
                 else pstmt.setNull(2, java.sql.Types.INTEGER);
                 if (post.getPidParent() != null) pstmt.setInt(3, post.getPidParent());
                 else pstmt.setNull(3, java.sql.Types.INTEGER);
-                pstmt.setString(4, post.getContenu());
+                pstmt.setString(4, post.getHTMLContenu());
                 pstmt.setString(5, post.getMedia());
                 pstmt.setTimestamp(6, BAO.conversion(post.getDpub()));
                 pstmt.setTimestamp(7, BAO.conversion(post.getDfin()));

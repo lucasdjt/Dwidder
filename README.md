@@ -79,7 +79,6 @@ killall java
 - sendRedirect qd c une servlet /element/*
 
 ## CONSIGNES (V2)
-- Résister aux injections classiques SQL et XSS
 - Mettre en parallèle un Service Web permettant en GET de récupérer en JSON les fils du membre identifié, les messages postés sur ces fils. (/api/...)
 
 ## AJOUT BONUS (V3)
@@ -93,6 +92,9 @@ Gestion de son propre compte :
 - Permettre l'ajout de nouvelles conversations
 - Permettre le delete de ses posts / delete de ses posts expirés
 - Vérifier tous les pages pour le user
+
+DAO/DTO :
+Vérifier si les "SELECT *" sont obligatoires dans le DAO
 
 Gestion Admin :
 - Avoir une page extra nommé "ADMIN" permettant de modifier toute la base de données à sa guise.
@@ -111,4 +113,7 @@ Réalisez en Markdown une documentation de votre application contenant au minimu
 - La liste des entrées du/des controleurs avec leur fonctionalité
 - Les points techniques difficiles et comment ils ont été réglés.
 
+Base de données :
+- Créer un utilisateur bidon avant l'admin
+- Configurer 2 scripts : Un script pour remplir au minimum / un script pour remplir au maximum
 V3.0

@@ -1,6 +1,7 @@
 package modele.dto;
 
 import java.time.*;
+import utils.BAO;
 
 public class User {
     private int uid;
@@ -84,6 +85,10 @@ public class User {
     }
 
     public String getPseudo() {
+        return BAO.escapeHTML(pseudo);
+    }
+
+    public String getHTMLPseudo() {
         return pseudo;
     }
 
@@ -92,6 +97,10 @@ public class User {
     }
 
     public String getPrenom() {
+        return BAO.escapeHTML(prenom);
+    }
+
+    public String getHTMLPrenom() {
         return prenom;
     }
 
@@ -100,6 +109,10 @@ public class User {
     }
 
     public String getNomUser() {
+        return BAO.escapeHTML(nomUser);
+    }
+    
+    public String getHTMLNomUser() {
         return nomUser;
     }
 
@@ -108,6 +121,10 @@ public class User {
     }
 
     public String getEmail() {
+        return BAO.escapeHTML(email);
+    }
+
+    public String getHTMLEmail() {
         return email;
     }
 
@@ -116,6 +133,10 @@ public class User {
     }
 
     public String getMdp() {
+        return BAO.escapeHTML(mdp);
+    }
+
+    public String getHTMLMdp() {
         return mdp;
     }
 
@@ -124,6 +145,10 @@ public class User {
     }
 
     public String getBio() {
+        return BAO.escapeHTML(bio);
+    }
+
+    public String getHTMLBio() {
         return bio;
     }
 
@@ -160,6 +185,10 @@ public class User {
     }
 
     public String getLoca() {
+        return BAO.escapeHTML(loca);
+    }
+
+    public String getHTMLLoca() {
         return loca;
     }
 
@@ -176,6 +205,10 @@ public class User {
     }
 
     public String getTel() {
+        return BAO.escapeHTML(tel);
+    }
+
+    public String getHTMLTel() {
         return tel;
     }
 

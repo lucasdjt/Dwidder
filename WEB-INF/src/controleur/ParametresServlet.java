@@ -97,7 +97,7 @@ public class ParametresServlet extends HttpServlet {
             res.sendRedirect(referer + "?success=0");
             return;
         }
-        if(!email.equals(user.getEmail()) && uDao.findByEmail(email) != null && email.contains("@")){
+        if(!email.equals(user.getHTMLEmail()) && uDao.findByEmail(email) != null && email.contains("@")){
             res.sendRedirect(referer + "?success=0");
             return;
         }

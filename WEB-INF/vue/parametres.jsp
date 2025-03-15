@@ -25,7 +25,7 @@
         %>
         <div class="mb-3">
             <label for="idPseudo" class="form-label">Identifiant *</label>
-            <input type="text" class="form-control bg-dark text-white" name="idPseudo" minlength="3" maxlength="15" value="<%= user.getIdPseudo() %>" required>
+            <input type="text" class="form-control bg-dark text-white" name="idPseudo" minlength="3" maxlength="15" value="<%= user.getIdPseudo() %>" pattern="[a-z0-9]*" required>
         </div>
         <div class="mb-3">
             <label for="pseudo" class="form-label">Pseudo *</label>

@@ -48,8 +48,8 @@ public class GroupesDAO {
                 pstmt.setInt(1, groupe.getUid());
                 if (groupe.getPid() != null) pstmt.setInt(2, groupe.getPid());
                 else pstmt.setNull(2, java.sql.Types.INTEGER);
-                pstmt.setString(3, groupe.getNomGrp());
-                pstmt.setString(4, groupe.getDescription());
+                pstmt.setString(3, groupe.getHTMLNomGrp());
+                pstmt.setString(4, groupe.getHTMLDescription());
                 pstmt.setTimestamp(5, BAO.conversion(groupe.getDcreat()));
                 pstmt.executeUpdate();
             }
@@ -69,8 +69,8 @@ public class GroupesDAO {
             try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
                 pstmt.setInt(1, groupe.getUid());
                 pstmt.setInt(2, groupe.getPid());
-                pstmt.setString(3, groupe.getNomGrp());
-                pstmt.setString(4, groupe.getDescription());
+                pstmt.setString(3, groupe.getHTMLNomGrp());
+                pstmt.setString(4, groupe.getHTMLDescription());
                 pstmt.setInt(5, groupe.getGid());
                 pstmt.executeUpdate();
             }

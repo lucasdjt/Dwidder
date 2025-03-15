@@ -44,7 +44,7 @@ public class MessagesDAO {
             try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
                 pstmt.setInt(1, message.getCid());
                 pstmt.setInt(2, message.getUid());
-                pstmt.setString(3, message.getCorps());
+                pstmt.setString(3, message.getHTMLCorps());
                 pstmt.setTimestamp(4, BAO.conversion(message.getDmess()));
                 pstmt.executeUpdate();
             }

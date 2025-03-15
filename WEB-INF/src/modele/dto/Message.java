@@ -3,6 +3,8 @@ package modele.dto;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import utils.BAO;
+
 public class Message {
     private int mid;
     private int cid;
@@ -53,6 +55,10 @@ public class Message {
     }
 
     public String getCorps() {
+        return BAO.escapeHTML(corps);
+    }
+
+    public String getHTMLCorps() {
         return corps;
     }
 
