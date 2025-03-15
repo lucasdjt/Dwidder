@@ -15,6 +15,10 @@ import jakarta.servlet.http.HttpServletResponse;
 public class AddFavoriServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
+        if (req.getSession().getAttribute("uid") == null) {
+            res.sendRedirect(req.getContextPath() + "/connexion");
+            return;
+        }
         int uid = Integer.parseInt(req.getParameter("uid"));
         int pid = Integer.parseInt(req.getParameter("pid"));
         FavorisDAO favorisDAO = new FavorisDAO();

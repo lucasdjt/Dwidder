@@ -13,7 +13,10 @@
 </head>
 <body>
 
-<%int uidSet = 1;%>
+<% 
+int User_ID = (int) request.getSession().getAttribute("uid");
+%>
+
 <jsp:include page="header.jsp" />
 
 <main class="container mt-4">
@@ -49,7 +52,7 @@
                         <option value="days">Jours</option>
                     </select>
                 </div>
-                <input type="hidden" name="uid" value="<%= uidSet %>">
+                <input type="hidden" name="uid" value="<%= User_ID %>">
                 <button type="submit" class="btn btn-primary w-100">Publier</button>
             </form>
         <%
@@ -77,7 +80,7 @@
             <footer class="card-footer d-flex justify-content-around">
                 <a href="${pageContext.request.contextPath}/addLike?pid=<%= p.getPid() %>&uid=<%= p.getUid() %>" class="btn btn-outline-primary btn-sm">👍 <%= p.getNbLikes() %></a>
                 <a href="${pageContext.request.contextPath}/posts/<%= p.getPid() %>" class="btn btn-outline-secondary btn-sm">💬 <%= p.getNbComm() %></a>
-                <a href="${pageContext.request.contextPath}/addFavori?pid=<%= p.getPid() %>&uid=<%= uidSet %>" class="btn btn-outline-warning btn-sm">⭐ Favoris</a>
+                <a href="${pageContext.request.contextPath}/addFavori?pid=<%= p.getPid() %>&uid=<%= User_ID %>" class="btn btn-outline-warning btn-sm">⭐ Favoris</a>
             </footer>
             </article>
         <%
@@ -94,14 +97,14 @@
         List<User> users = (ArrayList<User>) request.getAttribute("users");
         if (users != null) {
             for(User u : users){
-                if (u.getUid() == uidSet) {
+                if (u.getUid() == User_ID) {
                     continue;
                 }
         %>
                 <li class="border list-group-item d-flex align-items-center">
                     <img src="${pageContext.request.contextPath}/<%= u.getPdp() %>" alt="<%= u.getPseudo() %>" class="rounded-circle me-2" width="40">
                     <a href="${pageContext.request.contextPath}/user/<%= u.getIdPseudo() %>" class="text-decoration-none text-white"><%= u.getPseudo() %></a>
-                    <a href="${pageContext.request.contextPath}/addFollow?follow=<%= u.getUid() %>&follower=<%= uidSet %>" class="btn btn-sm btn-outline-success ms-auto">+ Suivre</a>
+                    <a href="${pageContext.request.contextPath}/addFollow?follow=<%= u.getUid() %>&follower=<%= User_ID %>" class="btn btn-sm btn-outline-success ms-auto">+ Suivre</a>
                 </li>
         <%}}%>
             </ul>

@@ -26,12 +26,16 @@ public class FavorisServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest req, HttpServletResponse res)
         throws ServletException, IOException {
+        if (req.getSession().getAttribute("uid") == null) {
+            res.sendRedirect(req.getContextPath() + "/connexion");
+            return;
+        }
         res.setContentType("text/html; charset=UTF-8");
         res.setCharacterEncoding("UTF-8");
         UsersDAO usersDAO = new UsersDAO();
         PostsDAO postsDAO = new PostsDAO();
-        int uidSet = 1;
-        List<Favori> fav = usersDAO.getUserFavoris(uidSet);
+        int uid = (int) req.getSession().getAttribute("uid");
+        List<Favori> fav = usersDAO.getUserFavoris(uid);
         List<PostDetails> list = new ArrayList<>();
         for(Favori f : fav){
             list.add(postsDAO.findByPid(f.getPid()));

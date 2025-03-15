@@ -13,7 +13,10 @@
 </head>
 <body>
 
-<%int uidSet = 1;%>
+<% 
+int User_ID = (int) request.getSession().getAttribute("uid");
+%>
+
 <jsp:include page="header.jsp" />
 
 <main class="container mt-5 pt-4">
@@ -78,7 +81,7 @@
                         <option value="days">Jours</option>
                     </select>
                 </div>
-                <input type="hidden" name="uid" value="<%= uidSet %>">
+                <input type="hidden" name="uid" value="<%= User_ID %>">
                 <input type="hidden" name="gid" value="<%= gSelect.getGid() %>">
                 <button type="submit" class="btn btn-primary w-100">Publier</button>
             </form>

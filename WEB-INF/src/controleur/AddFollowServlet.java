@@ -15,6 +15,10 @@ import jakarta.servlet.http.HttpServletResponse;
 public class AddFollowServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
+        if (req.getSession().getAttribute("uid") == null) {
+            res.sendRedirect(req.getContextPath() + "/connexion");
+            return;
+        }
         int uidFollowed = Integer.parseInt(req.getParameter("follow"));
         int uidFollowers = Integer.parseInt(req.getParameter("follower"));
         AbonnementsDAO abonnementsDAO = new AbonnementsDAO();

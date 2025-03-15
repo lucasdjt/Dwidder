@@ -24,10 +24,14 @@ public class GroupeServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest req, HttpServletResponse res)
         throws ServletException, IOException {
+        if (req.getSession().getAttribute("uid") == null) {
+            res.sendRedirect(req.getContextPath() + "/connexion");
+            return;
+        }
         res.setContentType("text/html; charset=UTF-8");
         res.setCharacterEncoding("UTF-8");
 
-        int uidSet = 1;
+        int uid = (int) req.getSession().getAttribute("uid");
         String pathInfo = req.getPathInfo();
         if (pathInfo == null || pathInfo.equals("/")) {
             req.getRequestDispatcher(REPERTORY + "creerGroupe.jsp").forward(req, res);
@@ -52,7 +56,7 @@ public class GroupeServlet extends HttpServlet {
             }
             req.setAttribute("groupe", groupe);
             req.setAttribute("posts", dao.selectFromGroup(gid, false));
-            req.setAttribute("listGrp", uDao.getUserGroups(uidSet));
+            req.setAttribute("listGrp", uDao.getUserGroups(uid));
             req.getRequestDispatcher(REPERTORY + "groupes.jsp").forward(req, res);
         } catch (NumberFormatException e) {
             res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid");

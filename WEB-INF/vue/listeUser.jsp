@@ -13,7 +13,10 @@
 </head>
 <body>
 
-<%int uidSet = 1;%>
+<% 
+int User_ID = (int) request.getSession().getAttribute("uid");
+%>
+
 <jsp:include page="header.jsp" />
 
 <main class="container mt-4">
@@ -31,8 +34,8 @@
                     <small class="text-muted">@<%= u.getIdPseudo() %></small>
                     <p class="mb-1"><%= u.getBio() %></p>
                 </div>
-                <%if(u.getUid() != uidSet){%>
-                <a href="${pageContext.request.contextPath}/addFollow?follow=<%= u.getUid() %>&follower=<%= uidSet %>" class="btn btn-sm btn-outline-success ms-auto me-2">+ Suivre</a>
+                <%if(u.getUid() != User_ID){%>
+                <a href="${pageContext.request.contextPath}/addFollow?follow=<%= u.getUid() %>&follower=<%= User_ID %>" class="btn btn-sm btn-outline-success ms-auto me-2">+ Suivre</a>
                 <a href="${pageContext.request.contextPath}/user/<%= u.getIdPseudo() %>" class="btn btn-sm btn-outline-primary">Consulter le profil</a>
                 <%}%>
             </li>

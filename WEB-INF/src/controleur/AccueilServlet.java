@@ -16,6 +16,10 @@ public class AccueilServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
+        if (req.getSession().getAttribute("uid") == null) {
+            res.sendRedirect(req.getContextPath() + "/connexion");
+            return;
+        }
         res.setContentType("text/html; charset=UTF-8");
         res.setCharacterEncoding("UTF-8");
         PostsDAO postsDAO = new PostsDAO();

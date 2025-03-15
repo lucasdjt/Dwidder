@@ -13,7 +13,10 @@
 </head>
 <body>
 
-<%int uidSet = 1;%>
+<% 
+int User_ID = (int) request.getSession().getAttribute("uid");
+%>
+
 <jsp:include page="header.jsp" />
 
 <main class="container mt-4">
@@ -33,7 +36,7 @@
                     <p class="mb-1"><%= u.getBio() %></p>
                 </div>
                 <button class="btn btn-sm btn-outline-light ms-auto me-2">👍</button>
-                <a href="${pageContext.request.contextPath}/addFollow?follow=<%= u.getUid() %>&follower=<%= uidSet %>" class="btn btn-sm btn-outline-success me-2">+ Suivre</a>
+                <a href="${pageContext.request.contextPath}/addFollow?follow=<%= u.getUid() %>&follower=<%= User_ID %>" class="btn btn-sm btn-outline-success me-2">+ Suivre</a>
                 <a href="${pageContext.request.contextPath}/user/<%= u.getIdPseudo() %>" class="btn btn-sm btn-outline-primary me-2">Consulter le profil</a>
                 <a href="${pageContext.request.contextPath}/addLike?pid=<%= pid %>&uid=<%= u.getUid() %>" class="btn btn-sm btn-outline-danger">Supprimer le like</a>
             </li>

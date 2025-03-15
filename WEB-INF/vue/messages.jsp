@@ -13,7 +13,10 @@
 </head>
 <body>
 
-<%int uidSet = 1;%>
+<% 
+int User_ID = (int) request.getSession().getAttribute("uid");
+%>
+
 <jsp:include page="header.jsp" />
 
 <main class="container mt-5 pt-4">
@@ -57,7 +60,7 @@
                         List<Message> listMess = (List<Message>) request.getAttribute("listMess");
                         if (listMess != null) {
                             for(Message m : listMess){
-                                if(m.getUid() != uidSet){
+                                if(m.getUid() != User_ID){
                         %>
                         <small class="text-muted align-self-start"><%= m.getDmessAsDate() %></small>
                         <p class="bg-secondary p-2 rounded align-self-start"><%= m.getCorps() %></p>
@@ -71,7 +74,7 @@
                 <div class="card-footer">
                     <form class="d-flex" action="messages" method="post">
                         <input type="text" class="form-control me-2" name="corps" placeholder="Écrire un message...">
-                        <input type="hidden" name="uid" value="<%= uidSet %>">
+                        <input type="hidden" name="uid" value="<%= User_ID %>">
                         <input type="hidden" name="cid" value="<%= request.getAttribute("cid") %>">
                         <button class="btn btn-primary">Envoyer</button>
                     </form>

@@ -30,6 +30,10 @@ public class MessageServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest req, HttpServletResponse res)
         throws ServletException, IOException {
+        if (req.getSession().getAttribute("uid") == null) {
+            res.sendRedirect(req.getContextPath() + "/connexion");
+            return;
+        }
         res.setContentType("text/html; charset=UTF-8");
         res.setCharacterEncoding("UTF-8");
         String pathInfo = req.getPathInfo();
@@ -38,7 +42,7 @@ public class MessageServlet extends HttpServlet {
             return;
         }
         
-        int uidSet = 1;
+        int uid = (int) req.getSession().getAttribute("uid");
 
         String[] pathParts = pathInfo.split("/");
         if (pathParts.length < 2) {
@@ -56,13 +60,13 @@ public class MessageServlet extends HttpServlet {
             return;
             }
             int idReceveur = conv.getUidReceveur();
-            if(idReceveur == uidSet){
+            if(idReceveur == uid){
                 idReceveur = conv.getUidEnvoyeur();
             }
-            List<Conversation> l = uDao.getUserConversations(uidSet);
+            List<Conversation> l = uDao.getUserConversations(uid);
             Map<Integer, User> listUser = new HashMap<>();
             for(Conversation c : l){
-                if(c.getUidEnvoyeur() == uidSet){
+                if(c.getUidEnvoyeur() == uid){
                     listUser.put(c.getCid(), uDao.findByUid(c.getUidReceveur()));
                 } else {
                     listUser.put(c.getCid(), uDao.findByUid(c.getUidEnvoyeur()));

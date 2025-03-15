@@ -12,22 +12,22 @@
 </head>
 <body>
 
-<header class="text-center py-3">
-    <img src="img/TexteLogo.png" alt="Dwidder" class="mx-auto d-block" width="140">
+<header class="d-flex justify-content-between align-items-center p-2 bg-dark">
+    <img src="${pageContext.request.contextPath}/img/TexteLogo.png" alt="Dwidder" class="mx-auto d-block" width="140">
 </header>
 
 <main class="container d-flex justify-content-center align-items-center vh-100">
     <div class="card bg-dark text-white p-4" style="max-width: 400px; width: 100%;">
         <h2 class="text-center text-white">Connexion</h2>
-        <form>
+        <form action="${pageContext.request.contextPath}/connexion" method="post" enctype="multipart/form-data">
             <div class="mb-3">
                 <label for="identifier" class="form-label">Email ou Pseudo</label>
-                <input type="text" class="form-control bg-dark text-white" id="identifier" required>
+                <input type="text" class="form-control bg-dark text-white" name="identifier" required>
             </div>
             <div class="mb-3">
                 <label for="password" class="form-label">Mot de passe</label>
                 <div class="input-group">
-                    <input type="password" class="form-control bg-dark text-white" id="password" required>
+                    <input type="password" class="form-control bg-dark text-white" name="password" id="password" required>
                     <button class="btn btn-outline-light" type="button" id="togglePassword">👁️</button>
                 </div>
             </div>
@@ -38,7 +38,7 @@
             <button type="submit" class="btn btn-primary w-100">Se connecter</button>
         </form>
         <div class="text-center mt-3">
-            <a href="inscription.html" class="text-decoration-none text-light">Créer un compte</a>
+            <a href="${pageContext.request.contextPath}/inscrire" class="text-decoration-none text-light">Créer un compte</a>
         </div>
     </div>
 </main>

@@ -23,6 +23,10 @@ public class UsersServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest req, HttpServletResponse res)
         throws ServletException, IOException {
+        if (req.getSession().getAttribute("uid") == null) {
+            res.sendRedirect(req.getContextPath() + "/connexion");
+            return;
+        }
         res.setContentType("text/html; charset=UTF-8");
         res.setCharacterEncoding("UTF-8");
         String pathInfo = req.getPathInfo();
