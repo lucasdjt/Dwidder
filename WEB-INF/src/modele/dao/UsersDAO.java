@@ -231,11 +231,11 @@ public class UsersDAO {
                     while (rs.next()) {
                         int gid = rs.getInt("gid");
                         int uidAdmin = rs.getInt("uid");
-                        int pid = rs.getInt("pid");
+                        String pdpGrp = rs.getString("pdpGrp");
                         String nomGrp = rs.getString("nomGrp");
                         String description = rs.getString("description");
                         LocalDateTime dcreat = BAO.conversion(rs.getTimestamp("dcreat"));
-                        groupes.add(new Groupe(gid, uidAdmin, pid, nomGrp, description, dcreat));
+                        groupes.add(new Groupe(gid, uidAdmin, pdpGrp, nomGrp, description, dcreat));
                     }
                 }
             }

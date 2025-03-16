@@ -39,6 +39,7 @@ CREATE TABLE IF NOT EXISTS Groupes (
     gid serial PRIMARY KEY,
     uid int NOT NULL,
     nomGrp varchar(30) UNIQUE NOT NULL,
+    pdpGrp varchar(255) DEFAULT 'img/pdp.png',
     description varchar(200),
     dcreat TIMESTAMP NOT NULL DEFAULT NOW(),
     CONSTRAINT fk_user_admin FOREIGN KEY (uid) REFERENCES Users(uid) ON DELETE CASCADE
@@ -63,10 +64,6 @@ CREATE TABLE IF NOT EXISTS Posts (
 CREATE INDEX idx_posts_uid ON Posts(uid);
 CREATE INDEX idx_posts_gid ON Posts(gid);
 CREATE INDEX idx_posts_pidParent ON Posts(pidParent);
-
-ALTER TABLE Groupes
-ADD pid int,
-ADD CONSTRAINT fk_post_epingle FOREIGN KEY (pid) REFERENCES Posts(pid) ON DELETE CASCADE;
 
 \echo '4/ Création de la table Conversations'
 CREATE TABLE IF NOT EXISTS Conversations (
@@ -156,11 +153,11 @@ INSERT INTO Users (idPseudo, pseudo, prenom, nomUser, email, mdp, bio, dinsc, dn
 ('clara', 'Clara', 'Clara', 'Dupont', 'clara@gmail.com', 'clara', 'Graphiste', CURRENT_DATE, '1950-01-01', 'Paris', FALSE); -- Compte Test
 
 \echo '3/ Création de Groupes'
-INSERT INTO Groupes (uid, pid, nomGrp, description, dcreat) VALUES
-(1, NULL, 'DraggasCorp', 'Communauté Draggas', CURRENT_DATE), 
-(2, NULL, 'Private', 'Groupe privé', CURRENT_DATE), -- Groupe Test
-(3, NULL, 'Test', NULL, '2000-01-01'), -- LE PLUS VIEUX / Groupe Test
-(4, NULL, 'Test2', 'Groupe de test par Tom', '2030-01-01'); -- DANS LE FUTUR / Groupe Test
+INSERT INTO Groupes (uid, nomGrp, description, dcreat) VALUES
+(1, 'DraggasCorp', 'Communauté Draggas', CURRENT_DATE), 
+(2, 'Private', 'Groupe privé', CURRENT_DATE), -- Groupe Test
+(3, 'Test', NULL, '2000-01-01'), -- LE PLUS VIEUX / Groupe Test
+(4, 'Test2', 'Groupe de test par Tom', '2030-01-01'); -- DANS LE FUTUR / Groupe Test
 
 \echo '9/ Création des Membres'
 INSERT INTO Membres (uid, gid, djoin) VALUES

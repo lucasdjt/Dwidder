@@ -7,15 +7,15 @@ import utils.BAO;
 public class Groupe {
     private int gid;
     private int uid;
-    private Integer pid;
+    private String pdpGrp;
     private String nomGrp;
     private String description;
     private LocalDateTime dcreat;
     
-    public Groupe(int gid, int uid, Integer pid, String nomGrp, String description, LocalDateTime dcreat) {
+    public Groupe(int gid, int uid, String pdpGrp, String nomGrp, String description, LocalDateTime dcreat) {
         this.gid = gid;
         this.uid = uid;
-        this.pid = pid;
+        this.pdpGrp = pdpGrp;
         this.nomGrp = nomGrp;
         this.description = description;
         this.dcreat = dcreat;
@@ -29,7 +29,7 @@ public class Groupe {
 
     @Override
     public String toString() {
-        return "Groupe [gid=" + gid + ", uid=" + uid + ", pid=" + pid + ", nomGrp=" + nomGrp + ", description="
+        return "Groupe [gid=" + gid + ", uid=" + uid + ", pdpGrp=" + pdpGrp + ", nomGrp=" + nomGrp + ", description="
                 + description + ", dcreat=" + dcreat + "]";
     }
 
@@ -49,12 +49,12 @@ public class Groupe {
         this.uid = uid;
     }
 
-    public Integer getPid() {
-        return pid;
+    public String getPdpGrp() {
+        return pdpGrp;
     }
 
-    public void setPid(Integer pid) {
-        this.pid = pid;
+    public void setPdpGrp(String pdpGrp) {
+        this.pdpGrp = pdpGrp;
     }
 
     public String getNomGrp() {

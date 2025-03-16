@@ -31,7 +31,7 @@ int User_ID = (int) request.getSession().getAttribute("uid");
                 for(Groupe g : listGrp){
             %>
                 <li class="border list-group-item d-flex align-items-center btn-outline-success">
-                    <img src="${pageContext.request.contextPath}/img/pdp.png" alt="Photo par défaut" class="rounded-circle me-2" width="40">
+                    <img src="${pageContext.request.contextPath}/<%= g.getPdpGrp() %>" alt="<%= g.getPdpGrp() %>" class="rounded-circle me-2" width="40">
                     <a href="${pageContext.request.contextPath}/groupes/<%= g.getGid() %>" class="stretched-link text-decoration-none text-white"><%= g.getNomGrp() %></a>
                 </li>
             <% }}
@@ -45,7 +45,7 @@ int User_ID = (int) request.getSession().getAttribute("uid");
             Groupe gSelect = (Groupe) request.getAttribute("groupe");
             if (gSelect != null) {
             %>
-                <img src="${pageContext.request.contextPath}/img/pdp.png" alt="Photo par défaut" class="card-img-top rounded-circle mx-auto mt-3" style="width: 100px; height: 100px;">
+                <img src="${pageContext.request.contextPath}/<%= gSelect.getPdpGrp() %>" alt="<%= gSelect.getPdpGrp() %>" class="card-img-top rounded-circle mx-auto mt-3" style="width: 100px; height: 100px;">
                 
                 <div class="card-body">
                     <h3 class="card-title"><%= gSelect.getNomGrp() %></h3>

@@ -23,11 +23,11 @@ public class GroupesDAO {
                 while (rs.next()) {
                     int gid = rs.getInt("gid");
                     int uid = rs.getInt("uid");
-                    Integer pid = rs.getInt("pid");
+                    String pdpGrp = rs.getString("pdpGrp");
                     String nomGrp = rs.getString("nomGrp");
                     String description = rs.getString("description");
                     LocalDateTime dcreat = BAO.conversion(rs.getTimestamp("dcreat"));
-                    groupes.add(new Groupe(gid, uid, pid, nomGrp, description, dcreat));
+                    groupes.add(new Groupe(gid, uid, pdpGrp, nomGrp, description, dcreat));
                 }
             }
         } catch (Exception e) {
@@ -43,12 +43,11 @@ public class GroupesDAO {
      */
     public void insert(Groupe groupe) {
         try (Connection con = DS.getConnection()) {
-            String requetePrepare = "INSERT INTO Groupes (uid, pid, nomGrp, description, dcreat) VALUES (?, ?, ?, ?, ?)";
+            String requetePrepare = "INSERT INTO Groupes (uid, nomGrp, pdpGrp, description, dcreat) VALUES (?, ?, ?, ?, ?)";
             try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
                 pstmt.setInt(1, groupe.getUid());
-                if (groupe.getPid() != null) pstmt.setInt(2, groupe.getPid());
-                else pstmt.setNull(2, java.sql.Types.INTEGER);
-                pstmt.setString(3, groupe.getHTMLNomGrp());
+                pstmt.setString(2, groupe.getHTMLNomGrp());
+                pstmt.setString(3, groupe.getPdpGrp());
                 pstmt.setString(4, groupe.getHTMLDescription());
                 pstmt.setTimestamp(5, BAO.conversion(groupe.getDcreat()));
                 pstmt.executeUpdate();
@@ -65,10 +64,10 @@ public class GroupesDAO {
      */
     public void update(Groupe groupe) {
         try (Connection con = DS.getConnection()) {
-            String requetePrepare = "UPDATE Groupes SET uid = ?, pid = ?, nomGrp = ?, description = ? WHERE gid = ?";
+            String requetePrepare = "UPDATE Groupes SET uid = ?, pdpGrp = ?, nomGrp = ?, description = ? WHERE gid = ?";
             try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
                 pstmt.setInt(1, groupe.getUid());
-                pstmt.setInt(2, groupe.getPid());
+                pstmt.setString(2, groupe.getPdpGrp());
                 pstmt.setString(3, groupe.getHTMLNomGrp());
                 pstmt.setString(4, groupe.getHTMLDescription());
                 pstmt.setInt(5, groupe.getGid());
@@ -147,11 +146,11 @@ public class GroupesDAO {
                 try (ResultSet rs = pstmt.executeQuery()) {
                     if (rs.next()) {
                         int uid = rs.getInt("uid");
-                        Integer pid = rs.getInt("pid");
+                        String pdpGrp = rs.getString("pdpGrp");
                         String nomGrp = rs.getString("nomGrp");
                         String description = rs.getString("description");
                         LocalDateTime dcreat = BAO.conversion(rs.getTimestamp("dcreat"));
-                        groupe = new Groupe(gid, uid, pid, nomGrp, description, dcreat);
+                        groupe = new Groupe(gid, uid, pdpGrp, nomGrp, description, dcreat);
                     }
                 }
             }
@@ -171,10 +170,10 @@ public class GroupesDAO {
                     if (rs.next()) {
                         int gid = rs.getInt("gid");
                         int uid = rs.getInt("uid");
-                        Integer pid = rs.getInt("pid");
+                        String pdpGrp = rs.getString("pdpGrp");
                         String description = rs.getString("description");
                         LocalDateTime dcreat = BAO.conversion(rs.getTimestamp("dcreat"));
-                        groupe = new Groupe(gid, uid, pid, nomGrp, description, dcreat);
+                        groupe = new Groupe(gid, uid, pdpGrp, nomGrp, description, dcreat);
                     }
                 }
             }

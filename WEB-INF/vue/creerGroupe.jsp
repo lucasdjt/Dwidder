@@ -36,12 +36,12 @@ int User_ID = (int) request.getSession().getAttribute("uid");
             <%
             }
             %>
-            <form action="addGroupe" method="POST">
+            <form action="addGroupe" method="POST" enctype="multipart/form-data">
                 <div class="mb-3">
                     <label for="nomGrp" class="form-label">Nom du Groupe</label>
                     <input type="text" class="form-control" id="nomGrp" name="nomGrp" placeholder="Nom unique du groupe" required>
                 </div>
-
+                <input type="file" class="form-control bg-dark text-white mb-2" name="pdpGrp" accept="image/*">
                 <div class="mb-3">
                     <label for="description" class="form-label">Description</label>
                     <textarea class="form-control" id="description" name="description" rows="3" placeholder="Décrivez votre groupe"></textarea>
