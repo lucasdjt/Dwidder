@@ -66,25 +66,6 @@
             <label for="loca" class="form-label">Localisation</label>
             <input type="text" class="form-control bg-dark text-white" name="loca" maxlength="200" value="<%= user.getLoca() %>">
         </div>
-        <div class="mb-3">
-            <label class="form-label">Sexe *</label>
-            <select class="form-select bg-dark text-white" name="sexe" required>
-                <option value="M" selected>Homme</option>
-                <option value="F">Femme</option>
-                <option value="O">Autre</option>
-            </select>
-        </div>
-        <div class="mb-3">
-            <label for="tel" class="form-label">Téléphone</label>
-            <input type="tel" class="form-control bg-dark text-white" name="tel" maxlength="30" value="<%= user.getTel() %>">
-        </div>
-        <div class="mb-3">
-            <label class="form-label">Langue *</label>
-            <select class="form-select bg-dark text-white" name="langue" required>
-                <option value="FR" selected>Français</option>
-                <option value="EN">Anglais</option>
-            </select>
-        </div>
         <button type="submit" class="btn btn-primary w-100">Enregistrer les modifications</button>
         <%
             }

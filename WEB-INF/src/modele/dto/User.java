@@ -16,14 +16,10 @@ public class User {
     private LocalDateTime dinsc;
     private LocalDate dnaiss;
     private String loca;
-    private String sexe;
-    private String tel;
-    private String langue;
     private boolean admin;
 
     public User(int uid, String idPseudo, String pseudo, String prenom, String nomUser, String email, String mdp,
-            String bio, String pdp, LocalDateTime dinsc, LocalDate dnaiss, String loca, String sexe,
-            String tel, String langue, boolean admin) {
+            String bio, String pdp, LocalDateTime dinsc, LocalDate dnaiss, String loca, boolean admin) {
         this.uid = uid;
         this.idPseudo = idPseudo;
         this.pseudo = pseudo;
@@ -36,9 +32,6 @@ public class User {
         this.dinsc = dinsc;
         this.dnaiss = dnaiss;
         this.loca = loca;
-        this.sexe = sexe;
-        this.tel = tel;
-        this.langue = langue;
         this.admin = admin;
     }
 
@@ -54,9 +47,6 @@ public class User {
         this.dinsc = LocalDateTime.now();
         this.dnaiss = null;
         this.loca = null;
-        this.sexe = null;
-        this.tel = null;
-        this.langue = null;
         this.admin = false;
     }
 
@@ -64,8 +54,7 @@ public class User {
     public String toString() {
         return "User [uid=" + uid + ", idPseudo=" + idPseudo + ", pseudo=" + pseudo + ", prenom=" + prenom
                 + ", nomUser=" + nomUser + ", email=" + email + ", mdp=" + mdp + ", bio=" + bio + ", pdp=" + pdp
-                + ", dinsc=" + dinsc + ", dnaiss=" + dnaiss + ", loca=" + loca + ", sexe=" + sexe
-                + ", tel=" + tel + ", langue=" + langue + ", admin=" + admin + "]";
+                + ", dinsc=" + dinsc + ", dnaiss=" + dnaiss + ", loca=" + loca + ", admin=" + admin + "]";
     }
 
     public int getUid() {
@@ -194,34 +183,6 @@ public class User {
 
     public void setLoca(String loca) {
         this.loca = loca;
-    }
-
-    public String getSexe() {
-        return sexe;
-    }
-
-    public void setSexe(String sexe) {
-        this.sexe = sexe;
-    }
-
-    public String getTel() {
-        return BAO.escapeHTML(tel);
-    }
-
-    public String getHTMLTel() {
-        return tel;
-    }
-
-    public void setTel(String tel) {
-        this.tel = tel;
-    }
-
-    public String getLangue() {
-        return langue;
-    }
-
-    public void setLangue(String langue) {
-        this.langue = langue;
     }
 
     public boolean isAdmin() {

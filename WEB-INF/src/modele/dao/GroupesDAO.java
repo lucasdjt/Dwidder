@@ -122,11 +122,8 @@ public class GroupesDAO {
                         LocalDateTime dinsc = BAO.conversion(rs.getTimestamp("dinsc"));
                         LocalDate dnaiss = BAO.conversion(rs.getDate("dnaiss"));
                         String loca = rs.getString("loca");
-                        String sexe = rs.getString("sexe");
-                        String tel = rs.getString("tel");
-                        String langue = rs.getString("langue");
                         boolean admin = rs.getBoolean("admin");
-                        membres.add(new User(uid, idPseudo, pseudo, prenom, nomUser, email, mdp, bio, pdp, dinsc, dnaiss, loca, sexe, tel, langue, admin));
+                        membres.add(new User(uid, idPseudo, pseudo, prenom, nomUser, email, mdp, bio, pdp, dinsc, dnaiss, loca, admin));
                     }
                 }
             }

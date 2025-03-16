@@ -32,11 +32,8 @@ public class UsersDAO {
                     LocalDateTime dinsc = BAO.conversion(rs.getTimestamp("dinsc"));
                     LocalDate dnaiss = BAO.conversion(rs.getDate("dnaiss"));
                     String loca = rs.getString("loca");
-                    String sexe = rs.getString("sexe");
-                    String tel = rs.getString("tel");
-                    String langue = rs.getString("langue");
                     boolean admin = rs.getBoolean("admin");
-                    users.add(new User(uid, idPseudo, pseudo, prenom, nomUser, email, mdp, bio, pdp, dinsc, dnaiss, loca, sexe, tel, langue, admin));
+                    users.add(new User(uid, idPseudo, pseudo, prenom, nomUser, email, mdp, bio, pdp, dinsc, dnaiss, loca, admin));
                 }
             }
         } catch (Exception e) {
@@ -69,11 +66,8 @@ public class UsersDAO {
                         LocalDateTime dinsc = BAO.conversion(rs.getTimestamp("dinsc"));
                         LocalDate dnaiss = BAO.conversion(rs.getDate("dnaiss"));
                         String loca = rs.getString("loca");
-                        String sexe = rs.getString("sexe");
-                        String tel = rs.getString("tel");
-                        String langue = rs.getString("langue");
                         boolean admin = rs.getBoolean("admin");
-                        user = new User(uid, idPseudo, pseudo, prenom, nomUser, email, mdp, bio, pdp, dinsc, dnaiss, loca, sexe, tel, langue, admin);
+                        user = new User(uid, idPseudo, pseudo, prenom, nomUser, email, mdp, bio, pdp, dinsc, dnaiss, loca, admin);
                     }
                 }
             }
@@ -107,11 +101,8 @@ public class UsersDAO {
                         LocalDateTime dinsc = BAO.conversion(rs.getTimestamp("dinsc"));
                         LocalDate dnaiss = BAO.conversion(rs.getDate("dnaiss"));
                         String loca = rs.getString("loca");
-                        String sexe = rs.getString("sexe");
-                        String tel = rs.getString("tel");
-                        String langue = rs.getString("langue");
                         boolean admin = rs.getBoolean("admin");
-                        user = new User(uid, idPseudo, pseudo, prenom, nomUser, email, mdp, bio, pdp, dinsc, dnaiss, loca, sexe, tel, langue, admin);
+                        user = new User(uid, idPseudo, pseudo, prenom, nomUser, email, mdp, bio, pdp, dinsc, dnaiss, loca, admin);
                     }
                 }
             }
@@ -145,11 +136,8 @@ public class UsersDAO {
                         LocalDateTime dinsc = BAO.conversion(rs.getTimestamp("dinsc"));
                         LocalDate dnaiss = BAO.conversion(rs.getDate("dnaiss"));
                         String loca = rs.getString("loca");
-                        String sexe = rs.getString("sexe");
-                        String tel = rs.getString("tel");
-                        String langue = rs.getString("langue");
                         boolean admin = rs.getBoolean("admin");
-                        user = new User(uid, idPseudo, pseudo, prenom, nomUser, email, mdp, bio, pdp, dinsc, dnaiss, loca, sexe, tel, langue, admin);
+                        user = new User(uid, idPseudo, pseudo, prenom, nomUser, email, mdp, bio, pdp, dinsc, dnaiss, loca, admin);
                     }
                 }
             }
@@ -165,7 +153,7 @@ public class UsersDAO {
      */
     public void insert(User user) {
         try (Connection con = DS.getConnection()) {
-            String requetePrepare = "INSERT INTO Users (idPseudo, pseudo, prenom, nomUser, email, mdp, bio, pdp, dinsc, dnaiss, loca, sexe, tel, langue, admin) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String requetePrepare = "INSERT INTO Users (idPseudo, pseudo, prenom, nomUser, email, mdp, bio, pdp, dinsc, dnaiss, loca, admin) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
                 pstmt.setString(1, user.getIdPseudo());
                 pstmt.setString(2, user.getHTMLPseudo());
@@ -178,10 +166,7 @@ public class UsersDAO {
                 pstmt.setTimestamp(9, BAO.conversion(user.getDinsc()));
                 pstmt.setDate(10, BAO.conversion(user.getDnaiss()));
                 pstmt.setString(11, user.getHTMLLoca());
-                pstmt.setString(12, user.getSexe());
-                pstmt.setString(13, user.getHTMLTel());
-                pstmt.setString(14, user.getLangue());
-                pstmt.setBoolean(15, user.isAdmin());
+                pstmt.setBoolean(12, user.isAdmin());
                 pstmt.executeUpdate();
             }
         } catch (Exception e) {
@@ -195,7 +180,7 @@ public class UsersDAO {
      */
     public void update(User user) {
         try (Connection con = DS.getConnection()) {
-            String requetePrepare = "UPDATE Users SET idPseudo = ?, pseudo = ?, prenom = ?, nomUser = ?, email = ?, mdp = ?, bio = ?, pdp = ?, dnaiss = ?, loca = ?, sexe = ?, tel = ?, langue = ? WHERE uid = ?";
+            String requetePrepare = "UPDATE Users SET idPseudo = ?, pseudo = ?, prenom = ?, nomUser = ?, email = ?, mdp = ?, bio = ?, pdp = ?, dnaiss = ?, loca = ? WHERE uid = ?";
             try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
                 pstmt.setString(1, user.getIdPseudo());
                 pstmt.setString(2, user.getHTMLPseudo());
@@ -207,10 +192,7 @@ public class UsersDAO {
                 pstmt.setString(8, user.getPdp());
                 pstmt.setDate(9, BAO.conversion(user.getDnaiss()));
                 pstmt.setString(10, user.getHTMLLoca());
-                pstmt.setString(11, user.getSexe());
-                pstmt.setString(12, user.getHTMLTel());
-                pstmt.setString(13, user.getLangue());
-                pstmt.setInt(14, user.getUid());
+                pstmt.setInt(11, user.getUid());
                 pstmt.executeUpdate();
             }
         } catch (Exception e) {
@@ -288,11 +270,8 @@ public class UsersDAO {
                         LocalDateTime dinsc = BAO.conversion(rs.getTimestamp("dinsc"));
                         LocalDate dnaiss = BAO.conversion(rs.getDate("dnaiss"));
                         String loca = rs.getString("loca");
-                        String sexe = rs.getString("sexe");
-                        String tel = rs.getString("tel");
-                        String langue = rs.getString("langue");
                         boolean admin = rs.getBoolean("admin");
-                        followers.add(new User(uid, idPseudo, pseudo, prenom, nomUser, email, mdp, bio, pdp, dinsc, dnaiss, loca, sexe, tel, langue, admin));
+                        followers.add(new User(uid, idPseudo, pseudo, prenom, nomUser, email, mdp, bio, pdp, dinsc, dnaiss, loca, admin));
                     }
                 }
             }
@@ -327,11 +306,8 @@ public class UsersDAO {
                         LocalDateTime dinsc = BAO.conversion(rs.getTimestamp("dinsc"));
                         LocalDate dnaiss = BAO.conversion(rs.getDate("dnaiss"));
                         String loca = rs.getString("loca");
-                        String sexe = rs.getString("sexe");
-                        String tel = rs.getString("tel");
-                        String langue = rs.getString("langue");
                         boolean admin = rs.getBoolean("admin");
-                        followers.add(new User(uid, idPseudo, pseudo, prenom, nomUser, email, mdp, bio, pdp, dinsc, dnaiss, loca, sexe, tel, langue, admin));
+                        followers.add(new User(uid, idPseudo, pseudo, prenom, nomUser, email, mdp, bio, pdp, dinsc, dnaiss, loca, admin));
                     }
                 }
             }

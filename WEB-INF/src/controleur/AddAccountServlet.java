@@ -66,9 +66,6 @@ public class AddAccountServlet extends HttpServlet {
         LocalDateTime dinsc = LocalDateTime.now();
         LocalDate dnaiss = LocalDate.parse(req.getParameter("dnaiss"));
         String loca = req.getParameter("loca");
-        String sexe = req.getParameter("sexe");
-        String tel = req.getParameter("tel");
-        String langue = req.getParameter("langue");
 
         String referer = req.getHeader("Referer");
         UsersDAO uDao = new UsersDAO();
@@ -80,7 +77,7 @@ public class AddAccountServlet extends HttpServlet {
             return;
         }
         try {
-            uDao.insert(new User(0, idPseudo, pseudo, prenom, nomUser, email, mdp, bio, pdp, dinsc, dnaiss, loca, sexe, tel, langue, false));
+            uDao.insert(new User(0, idPseudo, pseudo, prenom, nomUser, email, mdp, bio, pdp, dinsc, dnaiss, loca, false));
             res.sendRedirect(req.getContextPath() + "/connexion?success=1");
         } catch (Exception e) {
             res.sendRedirect(referer + "?success=0");

@@ -79,9 +79,6 @@ public class ParametresServlet extends HttpServlet {
         }
         user.setDnaiss(LocalDate.parse(req.getParameter("dnaiss")));
         user.setLoca(req.getParameter("loca"));
-        user.setSexe(req.getParameter("sexe"));
-        user.setTel(req.getParameter("tel"));
-        user.setLangue(req.getParameter("langue"));
         String referer = req.getHeader("Referer");
         UsersDAO uDao = new UsersDAO();
         if (referer != null && referer.contains("?")) {

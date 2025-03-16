@@ -42,8 +42,6 @@ int User_ID = (int) request.getSession().getAttribute("uid");
                         <li class="list-group-item"><strong>Nom : </strong><%= u.getNomUser() %> <%= u.getPrenom() %></li>
                         <li class="list-group-item"><strong>Date de naissance : </strong><%= u.getDnaiss() %></li>
                         <li class="list-group-item"><strong>Localisation : </strong><%= u.getLoca() %></li>
-                        <li class="list-group-item"><strong>Sexe : </strong><%= u.getSexe() %></li>
-                        <li class="list-group-item"><strong>Langue : </strong><%= u.getLangue() %></li>
                         <li class="list-group-item"><strong>Date d'inscription : </strong><%= u.getDinscAsDate() %></li>
                     </ul>
                     <div class="d-flex flex-column align-items-stretch mt-3">
