@@ -192,4 +192,95 @@ public class User {
     public void setAdmin(boolean admin) {
         this.admin = admin;
     }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + uid;
+        result = prime * result + ((idPseudo == null) ? 0 : idPseudo.hashCode());
+        result = prime * result + ((pseudo == null) ? 0 : pseudo.hashCode());
+        result = prime * result + ((prenom == null) ? 0 : prenom.hashCode());
+        result = prime * result + ((nomUser == null) ? 0 : nomUser.hashCode());
+        result = prime * result + ((email == null) ? 0 : email.hashCode());
+        result = prime * result + ((mdp == null) ? 0 : mdp.hashCode());
+        result = prime * result + ((bio == null) ? 0 : bio.hashCode());
+        result = prime * result + ((pdp == null) ? 0 : pdp.hashCode());
+        result = prime * result + ((dinsc == null) ? 0 : dinsc.hashCode());
+        result = prime * result + ((dnaiss == null) ? 0 : dnaiss.hashCode());
+        result = prime * result + ((loca == null) ? 0 : loca.hashCode());
+        result = prime * result + (admin ? 1231 : 1237);
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        User other = (User) obj;
+        if (uid != other.uid)
+            return false;
+        if (idPseudo == null) {
+            if (other.idPseudo != null)
+                return false;
+        } else if (!idPseudo.equals(other.idPseudo))
+            return false;
+        if (pseudo == null) {
+            if (other.pseudo != null)
+                return false;
+        } else if (!pseudo.equals(other.pseudo))
+            return false;
+        if (prenom == null) {
+            if (other.prenom != null)
+                return false;
+        } else if (!prenom.equals(other.prenom))
+            return false;
+        if (nomUser == null) {
+            if (other.nomUser != null)
+                return false;
+        } else if (!nomUser.equals(other.nomUser))
+            return false;
+        if (email == null) {
+            if (other.email != null)
+                return false;
+        } else if (!email.equals(other.email))
+            return false;
+        if (mdp == null) {
+            if (other.mdp != null)
+                return false;
+        } else if (!mdp.equals(other.mdp))
+            return false;
+        if (bio == null) {
+            if (other.bio != null)
+                return false;
+        } else if (!bio.equals(other.bio))
+            return false;
+        if (pdp == null) {
+            if (other.pdp != null)
+                return false;
+        } else if (!pdp.equals(other.pdp))
+            return false;
+        if (dinsc == null) {
+            if (other.dinsc != null)
+                return false;
+        } else if (!dinsc.equals(other.dinsc))
+            return false;
+        if (dnaiss == null) {
+            if (other.dnaiss != null)
+                return false;
+        } else if (!dnaiss.equals(other.dnaiss))
+            return false;
+        if (loca == null) {
+            if (other.loca != null)
+                return false;
+        } else if (!loca.equals(other.loca))
+            return false;
+        if (admin != other.admin)
+            return false;
+        return true;
+    }
 }

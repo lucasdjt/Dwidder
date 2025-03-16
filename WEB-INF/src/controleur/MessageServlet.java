@@ -1,10 +1,12 @@
 package controleur;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
@@ -13,10 +15,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import modele.dao.ConversationsDAO;
+import jakarta.servlet.http.Part;
 import modele.dao.MessagesDAO;
 import modele.dao.UsersDAO;
-import modele.dto.Conversation;
 import modele.dto.Message;
 import modele.dto.User;
 
@@ -28,6 +29,8 @@ import modele.dto.User;
 )
 public class MessageServlet extends HttpServlet {
     private static final String REPERTORY = "/WEB-INF/vue/";
+    private static final String UPLOAD_DIR = "img";
+    private static final String SEP = File.separator;
 
     protected void doGet(HttpServletRequest req, HttpServletResponse res)
         throws ServletException, IOException {
@@ -37,29 +40,18 @@ public class MessageServlet extends HttpServlet {
                 return;
             }
         int uid = (int) session.getAttribute("uid");
+        UsersDAO uDao = new UsersDAO();
+        List<User> listUsers = uDao.getUsersWithMessages(uid);
+        List<User> listFollow = uDao.getUserFollows(uid);
+        listFollow.removeAll(listUsers);
+        req.setAttribute("follows", listFollow);
+        req.setAttribute("listUser", listUsers);
+
         res.setContentType("text/html; charset=UTF-8");
         res.setCharacterEncoding("UTF-8");
         String pathInfo = req.getPathInfo();
         if (pathInfo == null || pathInfo.equals("/")) {
-            try {
-                UsersDAO uDao = new UsersDAO();
-                List<Conversation> l = uDao.getUserConversations(uid);
-                Map<Integer, User> listUser = new HashMap<>();
-                for(Conversation c : l){
-                    if(c.getUidEnvoyeur() == uid){
-                        listUser.put(c.getCid(), uDao.findByUid(c.getUidReceveur()));
-                    } else {
-                        listUser.put(c.getCid(), uDao.findByUid(c.getUidEnvoyeur()));
-                    }
-                }
-                List<User> follows = uDao.getUserFollows(uid);
-                follows.removeAll(listUser.values());
-                req.setAttribute("follows", follows);
-                req.setAttribute("listUser", listUser);
-                req.getRequestDispatcher(REPERTORY + "messages.jsp").forward(req, res);
-            } catch (NumberFormatException e) {
-                res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid");
-            }
+            req.getRequestDispatcher(REPERTORY + "messages.jsp").forward(req, res);
             return;
         }
 
@@ -69,60 +61,14 @@ public class MessageServlet extends HttpServlet {
             return;
         }
         String cidStr = pathParts[1];
-        UsersDAO uDao = new UsersDAO();
-        ConversationsDAO dao = new ConversationsDAO();
         try {
-            Integer.parseInt(cidStr);
-        } catch (NumberFormatException e) {
-            try {
-                User user = uDao.findByIdPseudo(cidStr);
-                if (user == null) {
-                    res.sendError(HttpServletResponse.SC_NOT_FOUND, "User not found");
-                    return;
-                    
-                }
-                if(uid > user.getUid()){
-                    dao.insert(new Conversation(0, uid, user.getUid()));
-                } else {
-                    dao.insert(new Conversation(0, user.getUid(), uid));
-                }
-                List<Conversation> l = uDao.getUserConversations(uid);
-                int cid = 0;
-                for(Conversation c : l){
-                    if(c.getUidEnvoyeur() == uid && c.getUidReceveur() == user.getUid()){
-                        cid = c.getCid();
-                    }
-                }
-                res.sendRedirect(req.getContextPath() + "/messages/" + cid);
-            } catch (Exception ex) {
-                res.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error creating conversation");
+            User user = uDao.findByIdPseudo(cidStr);
+            if (user == null) {
+                res.sendError(HttpServletResponse.SC_NOT_FOUND, "User not found");
+                return;
             }
-            return;
-        }
-        try {
-            int cid = Integer.parseInt(cidStr);
-            Conversation conv = dao.findByCid(cid);
-            if (conv == null) {
-            res.sendError(HttpServletResponse.SC_NOT_FOUND, "Conversation not found");
-            return;
-            }
-            int idReceveur = conv.getUidReceveur();
-            if(idReceveur == uid){
-                idReceveur = conv.getUidEnvoyeur();
-            }
-            List<Conversation> l = uDao.getUserConversations(uid);
-            Map<Integer, User> listUser = new HashMap<>();
-            for(Conversation c : l){
-                if(c.getUidEnvoyeur() == uid){
-                    listUser.put(c.getCid(), uDao.findByUid(c.getUidReceveur()));
-                } else {
-                    listUser.put(c.getCid(), uDao.findByUid(c.getUidEnvoyeur()));
-                }
-            }
-            req.setAttribute("user", uDao.findByUid(idReceveur));
-            req.setAttribute("listMess", dao.getMessageConv(cid));
-            req.setAttribute("listUser", listUser);
-            req.setAttribute("cid", cid);
+            req.setAttribute("user", user);
+            req.setAttribute("listMess", uDao.getUserMessages(uid, user.getUid()));
             req.getRequestDispatcher(REPERTORY + "messages.jsp").forward(req, res);
         } catch (NumberFormatException e) {
             res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid");
@@ -132,9 +78,31 @@ public class MessageServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
-        int uid = Integer.parseInt(req.getParameter("uid"));
-        int cid = Integer.parseInt(req.getParameter("cid"));
+        int uidEnvoyeur = Integer.parseInt(req.getParameter("uidEnvoyeur"));
+        int uidReceveur = Integer.parseInt(req.getParameter("uidReceveur"));
         String corps = req.getParameter("corps");
+        Part filePart = req.getPart("imgMess");
+        String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+        String imgMess = null;
+        if (fileName != null && !fileName.isEmpty()) {
+            String uploadPath = getServletContext().getRealPath("") + SEP + UPLOAD_DIR;
+            File uploadDir = new File(uploadPath);
+            if (!uploadDir.exists()) uploadDir.mkdir();
+            
+            File file = new File(uploadPath + SEP + fileName);
+            String baseName = fileName.substring(0, fileName.lastIndexOf('.'));
+            String extension = fileName.substring(fileName.lastIndexOf('.'));
+            int counter = 1;
+            while (file.exists()) {
+            fileName = baseName + "_" + counter + extension;
+            file = new File(uploadPath + SEP + fileName);
+            counter++;
+            }
+            imgMess = UPLOAD_DIR + SEP + fileName;
+            try (InputStream fileContent = filePart.getInputStream()) {
+            Files.copy(fileContent, file.toPath());
+            }
+        }
         LocalDateTime dmess = LocalDateTime.now();
         MessagesDAO dao = new MessagesDAO();
         String referer = req.getHeader("Referer");
@@ -142,7 +110,7 @@ public class MessageServlet extends HttpServlet {
             referer = referer.substring(0, referer.indexOf("?"));
         }
         try {
-            dao.insert(new Message(0, cid, uid, corps, dmess));
+            dao.insert(new Message(0, uidEnvoyeur, uidReceveur, corps, imgMess, dmess));
             res.sendRedirect(referer);
         } catch (Exception e) {
             res.sendRedirect(referer + "?success=0");

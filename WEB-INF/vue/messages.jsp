@@ -26,14 +26,13 @@ int User_ID = (int) request.getSession().getAttribute("uid");
             <h2 class="text-primary">Messages</h2>
             <ul class="list-group">
                 <%
-                Map<Integer, User> list = (HashMap<Integer, User>) request.getAttribute("listUser");
+                List<User> list = (List<User>) request.getAttribute("listUser");
                 if (list != null) {
-                    for(Entry<Integer, User> e : list.entrySet()){
-                        User u = e.getValue();
+                    for(User u : list){
                 %>
                 <li class="border list-group-item d-flex align-items-center btn-outline-success">
                     <img src="${pageContext.request.contextPath}/<%= u.getPdp() %>" alt="<%= u.getPdp() %>" class="rounded-circle me-2" width="40">
-                    <a href="${pageContext.request.contextPath}/messages/<%= e.getKey() %>" class="stretched-link text-decoration-none text-white"><%= u.getPseudo() %></a>
+                    <a href="${pageContext.request.contextPath}/messages/<%= u.getIdPseudo() %>" class="stretched-link text-decoration-none text-white"><%= u.getPseudo() %></a>
                 </li>
                 <% }} %>
             </ul>
@@ -41,13 +40,13 @@ int User_ID = (int) request.getSession().getAttribute("uid");
             <h2 class="text-primary mt-4">Follows</h2>
             <ul class="list-group">
                 <%
-                List<User> follows = (List<User>) request.getAttribute("follows");
-                if (follows != null) {
-                    for(User f : follows){
+                List<User> listFollows = (List<User>) request.getAttribute("follows");
+                if (listFollows != null) {
+                    for(User u : listFollows){
                 %>
-                <li class="border list-group-item d-flex align-items-center btn-outline-info">
-                    <img src="${pageContext.request.contextPath}/<%= f.getPdp() %>" alt="<%= f.getPdp() %>" class="rounded-circle me-2" width="40">
-                    <a href="${pageContext.request.contextPath}/messages/<%= f.getIdPseudo() %>" class="stretched-link text-decoration-none text-white"><%= f.getPseudo() %></a>
+                <li class="border list-group-item d-flex align-items-center btn-outline-success">
+                    <img src="${pageContext.request.contextPath}/<%= u.getPdp() %>" alt="<%= u.getPdp() %>" class="rounded-circle me-2" width="40">
+                    <a href="${pageContext.request.contextPath}/messages/<%= u.getIdPseudo() %>" class="stretched-link text-decoration-none text-white"><%= u.getPseudo() %></a>
                 </li>
                 <% }} %>
             </ul>
@@ -73,22 +72,31 @@ int User_ID = (int) request.getSession().getAttribute("uid");
                         List<Message> listMess = (List<Message>) request.getAttribute("listMess");
                         if (listMess != null) {
                             for(Message m : listMess){
-                                if(m.getUid() != User_ID){
+                                if(m.getUidEnvoyeur() != User_ID){
                         %>
                         <small class="text-muted align-self-start"><%= m.getDmessAsDate() %></small>
-                        <p class="bg-secondary p-2 rounded align-self-start"><%= m.getCorps() %></p>
-                        <%} else {
+                        <p class="bg-secondary p-2 rounded align-self-start"><%= m.getCorps() %>
+                        <% if (m.getImgMess() != null) { %>
+                        <br><img src="${pageContext.request.contextPath}/<%= m.getImgMess() %>" alt="Image" class="img-fluid mt-2 align-self-start">
+                        <% } %>
+                        </p>
+                        <% } else {
                         %>
                         <small class="text-muted align-self-end"><%= m.getDmessAsDate() %></small>
-                        <p class="bg-primary text-white p-2 rounded align-self-end"><%= m.getCorps() %></p>
-                        <%}}}%>
+                        <p class="bg-primary text-white p-2 rounded align-self-end"><%= m.getCorps() %>
+                        <% if (m.getImgMess() != null) { %>
+                        <br><img src="${pageContext.request.contextPath}/<%= m.getImgMess() %>" alt="Image" class="img-fluid mt-2 align-self-end">
+                        <% } %>
+                        </p>
+                        <% }}} %>
                     </div>
                 </div>
                 <div class="card-footer">
-                    <form class="d-flex" action="messages" method="post">
+                    <form class="d-flex" action="messages" method="post" enctype="multipart/form-data">
                         <input type="text" class="form-control me-2" name="corps" placeholder="Écrire un message...">
-                        <input type="hidden" name="uid" value="<%= User_ID %>">
-                        <input type="hidden" name="cid" value="<%= request.getAttribute("cid") %>">
+                        <input type="file" class="form-control bg-dark text-white mb-2" name="imgMess" accept="image/*">
+                        <input type="hidden" name="uidEnvoyeur" value="<%= User_ID %>">
+                        <input type="hidden" name="uidReceveur" value="<%= user.getUid() %>">
                         <button class="btn btn-primary">Envoyer</button>
                     </form>
                     <% 

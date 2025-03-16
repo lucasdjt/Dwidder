@@ -343,30 +343,75 @@ public class UsersDAO {
     }
 
     /**
-     * Récupère les conversations d'un utilisateur.
-     * @param uid Identifiant de l'utilisateur.
-     * @return Liste des conversations de l'utilisateur.
+     * Récupère les conversations entre deux utilisateurs.
+     * @param uid1 Identifiant du premier utilisateur.
+     * @param uid2 Identifiant du second utilisateur.
+     * @return Liste des messages échangés entre les deux utilisateurs.
      */
-    public List<Conversation> getUserConversations(int uid){
-        List<Conversation> conversations = new ArrayList<>();
+    public List<Message> getUserMessages(int uid1, int uid2) {
+        List<Message> mess = new ArrayList<>();
         try (Connection con = DS.getConnection()) {
-            String requetePrepare = "SELECT DISTINCT C.* FROM Conversations C WHERE C.uidEnvoyeur = ? OR C.uidReceveur = ? ORDER BY C.cid DESC";
+            String requetePrepare = "SELECT * FROM Messages WHERE (uidEnvoyeur = ? AND uidReceveur = ?) OR (uidEnvoyeur = ? AND uidReceveur = ?) ORDER BY dmess";
             try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
-                pstmt.setInt(1, uid);
-                pstmt.setInt(2, uid);
+                pstmt.setInt(1, uid1);
+                pstmt.setInt(2, uid2);
+                pstmt.setInt(3, uid2);
+                pstmt.setInt(4, uid1);
                 try (ResultSet rs = pstmt.executeQuery()) {
                     while (rs.next()) {
-                        int cid = rs.getInt("cid");
                         int uidEnvoyeur = rs.getInt("uidEnvoyeur");
                         int uidReceveur = rs.getInt("uidReceveur");
-                        conversations.add(new Conversation(cid, uidEnvoyeur, uidReceveur));
+                        String corps = rs.getString("corps");
+                        String imgMess = rs.getString("imgMess");
+                        LocalDateTime dmess = BAO.conversion(rs.getTimestamp("dmess"));
+                        mess.add(new Message(0, uidEnvoyeur, uidReceveur, corps, imgMess, dmess));
                     }
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return conversations;
+        return mess;
+    }
+
+    /**
+     * Récupère les utilisateurs avec lesquels un utilisateur a échangé des messages.
+     * @param uid Identifiant de l'utilisateur.
+     * @return Liste des utilisateurs avec lesquels des messages ont été échangés.
+     */
+    public List<User> getUsersWithMessages(int userID) {
+        List<User> users = new ArrayList<>();
+        try (Connection con = DS.getConnection()) {
+            String requetePrepare = "SELECT DISTINCT U.* FROM Users U " +
+                                    "JOIN Messages M ON (U.uid = M.uidEnvoyeur OR U.uid = M.uidReceveur) " +
+                                    "WHERE (M.uidEnvoyeur = ? OR M.uidReceveur = ?) AND U.uid != ?";
+            try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
+                pstmt.setInt(1, userID);
+                pstmt.setInt(2, userID);
+                pstmt.setInt(3, userID);
+                try (ResultSet rs = pstmt.executeQuery()) {
+                    while (rs.next()) {
+                        int uid = rs.getInt("uid");
+                        String idPseudo = rs.getString("idPseudo");
+                        String pseudo = rs.getString("pseudo");
+                        String prenom = rs.getString("prenom");
+                        String nomUser = rs.getString("nomUser");
+                        String email = rs.getString("email");
+                        String mdp = rs.getString("mdp");
+                        String bio = rs.getString("bio");
+                        String pdp = rs.getString("pdp");
+                        LocalDateTime dinsc = BAO.conversion(rs.getTimestamp("dinsc"));
+                        LocalDate dnaiss = BAO.conversion(rs.getDate("dnaiss"));
+                        String loca = rs.getString("loca");
+                        boolean admin = rs.getBoolean("admin");
+                        users.add(new User(uid, idPseudo, pseudo, prenom, nomUser, email, mdp, bio, pdp, dinsc, dnaiss, loca, admin));
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return users;
     }
 
     /**

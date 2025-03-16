@@ -7,16 +7,18 @@ import utils.BAO;
 
 public class Message {
     private int mid;
-    private int cid;
-    private int uid;
+    private int uidEnvoyeur;
+    private int uidReceveur;
     private String corps;
+    private String imgMess;
     private LocalDateTime dmess;
     
-    public Message(int mid, int cid, int uid, String corps, LocalDateTime dmess) {
+    public Message(int mid, int uidEnvoyeur, int uidReceveur, String corps, String imgMess, LocalDateTime dmess) {
         this.mid = mid;
-        this.cid = cid;
-        this.uid = uid;
+        this.uidEnvoyeur = uidEnvoyeur;
+        this.uidReceveur = uidReceveur;
         this.corps = corps;
+        this.imgMess = imgMess;
         this.dmess = dmess;
     }
 
@@ -27,7 +29,7 @@ public class Message {
 
     @Override
     public String toString() {
-        return "Message [mid=" + mid + ", cid=" + cid + ", uid=" + uid + ", corps=" + corps + ", dmess=" + dmess + "]";
+        return "Message [mid=" + mid + ", uidEnvoyeur=" + uidEnvoyeur + ", uidReceveur=" + uidReceveur + ", corps=" + corps + ", dmess=" + dmess + "]";
     }
 
     public int getMid() {
@@ -38,20 +40,20 @@ public class Message {
         this.mid = mid;
     }
 
-    public int getCid() {
-        return cid;
+    public int getUidEnvoyeur() {
+        return uidEnvoyeur;
     }
 
-    public void setCid(int cid) {
-        this.cid = cid;
+    public void setUidEnvoyeur(int uidEnvoyeur) {
+        this.uidEnvoyeur = uidEnvoyeur;
     }
 
-    public int getUid() {
-        return uid;
+    public int getUidReceveur() {
+        return uidReceveur;
     }
 
-    public void setUid(int uid) {
-        this.uid = uid;
+    public void setUidReceveur(int uidReceveur) {
+        this.uidReceveur = uidReceveur;
     }
 
     public String getCorps() {
@@ -64,6 +66,14 @@ public class Message {
 
     public void setCorps(String corps) {
         this.corps = corps;
+    }
+
+    public String getImgMess() {
+        return imgMess;
+    }
+
+    public void setImgMess(String imgMess) {
+        this.imgMess = imgMess;
     }
 
     public LocalDateTime getDmess() {

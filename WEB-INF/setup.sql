@@ -65,31 +65,20 @@ CREATE INDEX idx_posts_uid ON Posts(uid);
 CREATE INDEX idx_posts_gid ON Posts(gid);
 CREATE INDEX idx_posts_pidParent ON Posts(pidParent);
 
-\echo '4/ Création de la table Conversations'
-CREATE TABLE IF NOT EXISTS Conversations (
-    cid serial PRIMARY KEY,
-    uidEnvoyeur int NOT NULL,
-    uidReceveur int NOT NULL,
-    CONSTRAINT fk_user_envoyeur FOREIGN KEY (uidEnvoyeur) REFERENCES Users(uid) ON DELETE CASCADE,
-    CONSTRAINT fk_user_receveur FOREIGN KEY (uidReceveur) REFERENCES Users(uid) ON DELETE CASCADE,
-    CONSTRAINT no_self_conversation CHECK (uidEnvoyeur <> uidReceveur),
-    CONSTRAINT enforce_order CHECK (uidEnvoyeur < uidReceveur)
-);
-CREATE INDEX idx_conversations_env ON Conversations(uidEnvoyeur);
-CREATE INDEX idx_conversations_rec ON Conversations(uidReceveur);
-
 \echo '5/ Création de la table Messages'
 CREATE TABLE IF NOT EXISTS Messages (
     mid serial PRIMARY KEY,
-    cid int NOT NULL,
-    uid int NOT NULL,
+    uidEnvoyeur int NOT NULL,
+    uidReceveur int NOT NULL,
+    imgMess varchar(255),
     corps varchar(200) NOT NULL,
     dmess TIMESTAMP NOT NULL DEFAULT NOW(),
-    CONSTRAINT fk_user FOREIGN KEY (uid) REFERENCES Users(uid) ON DELETE CASCADE,
-    CONSTRAINT fk_conversation FOREIGN KEY (cid) REFERENCES Conversations(cid) ON DELETE CASCADE
+    CONSTRAINT fk_user_envoyeur FOREIGN KEY (uidEnvoyeur) REFERENCES Users(uid) ON DELETE CASCADE,
+    CONSTRAINT fk_user_receveur FOREIGN KEY (uidReceveur) REFERENCES Users(uid) ON DELETE CASCADE,
+    CONSTRAINT no_self_conversation CHECK (uidEnvoyeur <> uidReceveur)
 );
-CREATE INDEX idx_messages_cid ON Messages(cid);
-CREATE INDEX idx_messages_uid ON Messages(uid);
+CREATE INDEX idx_messages_env ON Messages(uidEnvoyeur);
+CREATE INDEX idx_messages_rec ON Messages(uidReceveur);
 
 \echo '6/ Création de la table Abonnements'
 CREATE TABLE IF NOT EXISTS Abonnements (
@@ -181,18 +170,12 @@ INSERT INTO Posts (uid, gid, pidParent, contenu, media, dpub, dfin) VALUES
 (3, NULL, 1, 'Post 6 réponse à Post 1', NULL, CURRENT_DATE, NULL), -- Post Test John sans grp, ni parent [dans le futur] 
 (2, NULL, 6, 'Post 7 réponse à Post 6, plus disponible dans 10j', 'img/post3.jpg', NOW(), NOW() + INTERVAL '10 day'); -- Post Test réponse Lucas à John [futur]
 
-\echo '4/ Création de Conversations'
-INSERT INTO Conversations (uidEnvoyeur, uidReceveur) VALUES
-(1, 2), -- Création de conversation entre Lucas DJT et Draggas
-(1, 3), -- Création de conversation entre Draggas et John Doe
-(1, 4); -- Création de conversation entre Draggas et Tom
-
 \echo '5/ Création de Messages'
-INSERT INTO Messages (cid, uid, corps, dmess) VALUES
+INSERT INTO Messages (uidEnvoyeur, uidReceveur, corps, dmess) VALUES
 (1, 2, 'Slt Draggas', NOW() - INTERVAL '1 hour'), -- Conv1 - Message1 (Lucas DJT -> Draggas)
-(1, 1, 'Slt Lucas ça va ?', NOW()), -- Conv1 - Message2 (Draggas -> Lucas DJT)
-(2, 1, 'Slt John dans le passé', '2000-01-01'), -- Conv2 - Message (Draggas -> John Doe) [le plus vieux]
-(3, 4, 'Slt Draggas dans le futur', '2030-01-01'); -- Conv3 - Message (Tom -> Draggas) [dans le futur]
+(2, 1, 'Slt Lucas ça va ?', NOW()), -- Conv1 - Message2 (Draggas -> Lucas DJT)
+(1, 3, 'Slt John dans le passé', '2000-01-01'), -- Conv2 - Message (Draggas -> John Doe) [le plus vieux]
+(4, 1, 'Slt Draggas dans le futur', '2030-01-01'); -- Conv3 - Message (Tom -> Draggas) [dans le futur]
 
 \echo '6/ Création d abonnements'
 INSERT INTO Abonnements (uidAbonne, uidAbonnement, dabonnement) VALUES
