@@ -77,20 +77,21 @@ killall java
 
 - LocalDateTime, Interval et Duration
 - sendRedirect qd c une servlet /element/*
+- Gestion des messages et conversations
 
 ## CONSIGNES (V2)
-- Mettre en parallèle un Service Web permettant en GET de récupérer en JSON les fils du membre identifié, les messages postés sur ces fils. (/api/...)
+
+- Permettre l'invitation dans ses groupes
+- Gestion des posts (à durée limité et non)
+- Permettre le delete de ses posts / delete de ses posts expirés
 
 ## AJOUT BONUS (V3)
 
 Gestion de son propre compte :
-- Gestion des posts à durée limité
+- Permettre l'ajout de nouvelles conversations
 - Permettre la gestion de ses abonnements (+ Affichage "Ajouter/Supprimer")
 - Permettre la gestion de ses likes (+ Affichage Like)
 - Permettre la gestion de ses favoris (+ Affiche "Retirer Favori")
-- Permettre l'invitation dans ses groupes
-- Permettre l'ajout de nouvelles conversations
-- Permettre le delete de ses posts / delete de ses posts expirés
 - Vérifier tous les pages pour le user
 
 DAO/DTO :
@@ -103,6 +104,13 @@ Rectifier les classes :
 - Simplifier les requêtes
 - Optimiser la base de données
 
+Base de données :
+- Créer un utilisateur bidon avant l'admin
+- Configurer 2 scripts : Un script pour remplir au minimum / un script pour remplir au maximum
+
+API :
+- Mettre en parallèle un Service Web permettant en GET de récupérer en JSON les fils du membre identifié, les messages postés sur ces fils. (/api/...)
+
 Amélioration de l'interface avec BootStrap
 
 Réalisez en Markdown une documentation de votre application contenant au minimum :
@@ -112,8 +120,3 @@ Réalisez en Markdown une documentation de votre application contenant au minimu
 - L’arborescence globale de l’application
 - La liste des entrées du/des controleurs avec leur fonctionalité
 - Les points techniques difficiles et comment ils ont été réglés.
-
-Base de données :
-- Créer un utilisateur bidon avant l'admin
-- Configurer 2 scripts : Un script pour remplir au minimum / un script pour remplir au maximum
-V3.0

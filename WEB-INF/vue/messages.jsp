@@ -35,7 +35,21 @@ int User_ID = (int) request.getSession().getAttribute("uid");
                     <img src="${pageContext.request.contextPath}/<%= u.getPdp() %>" alt="<%= u.getPdp() %>" class="rounded-circle me-2" width="40">
                     <a href="${pageContext.request.contextPath}/messages/<%= e.getKey() %>" class="stretched-link text-decoration-none text-white"><%= u.getPseudo() %></a>
                 </li>
-                <%}}%>
+                <% }} %>
+            </ul>
+
+            <h2 class="text-primary mt-4">Follows</h2>
+            <ul class="list-group">
+                <%
+                List<User> follows = (List<User>) request.getAttribute("follows");
+                if (follows != null) {
+                    for(User f : follows){
+                %>
+                <li class="border list-group-item d-flex align-items-center btn-outline-info">
+                    <img src="${pageContext.request.contextPath}/<%= f.getPdp() %>" alt="<%= f.getPdp() %>" class="rounded-circle me-2" width="40">
+                    <a href="${pageContext.request.contextPath}/messages/<%= f.getIdPseudo() %>" class="stretched-link text-decoration-none text-white"><%= f.getPseudo() %></a>
+                </li>
+                <% }} %>
             </ul>
         </aside>
 

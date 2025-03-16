@@ -63,7 +63,8 @@ CREATE TABLE IF NOT EXISTS Conversations (
     uidReceveur int NOT NULL,
     CONSTRAINT fk_user_envoyeur FOREIGN KEY (uidEnvoyeur) REFERENCES Users(uid) ON DELETE CASCADE,
     CONSTRAINT fk_user_receveur FOREIGN KEY (uidReceveur) REFERENCES Users(uid) ON DELETE CASCADE,
-    CONSTRAINT no_self_conversation CHECK (uidEnvoyeur <> uidReceveur)
+    CONSTRAINT no_self_conversation CHECK (uidEnvoyeur <> uidReceveur),
+    CONSTRAINT enforce_order CHECK (uidEnvoyeur < uidReceveur)
 );
 CREATE INDEX idx_conversations_env ON Conversations(uidEnvoyeur);
 CREATE INDEX idx_conversations_rec ON Conversations(uidReceveur);

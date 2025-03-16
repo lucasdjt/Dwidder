@@ -92,7 +92,7 @@
             <button type="submit" class="btn btn-primary w-100">S'inscrire</button>
         </form>
         <div class="text-center mt-3">
-            <a href="connexion.html" class="text-decoration-none text-light">Déjà un compte ? Connectez-vous</a>
+            <a href="${pageContext.request.contextPath}/connexion" class="text-decoration-none text-light">Déjà un compte ? Connectez-vous</a>
         </div>
     </div>
 </main>

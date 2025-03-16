@@ -52,6 +52,9 @@ public class MessageServlet extends HttpServlet {
                         listUser.put(c.getCid(), uDao.findByUid(c.getUidEnvoyeur()));
                     }
                 }
+                List<User> follows = uDao.getUserFollows(uid);
+                follows.removeAll(listUser.values());
+                req.setAttribute("follows", follows);
                 req.setAttribute("listUser", listUser);
                 req.getRequestDispatcher(REPERTORY + "messages.jsp").forward(req, res);
             } catch (NumberFormatException e) {
@@ -65,14 +68,42 @@ public class MessageServlet extends HttpServlet {
             res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid CID format");
             return;
         }
+        String cidStr = pathParts[1];
+        UsersDAO uDao = new UsersDAO();
+        ConversationsDAO dao = new ConversationsDAO();
         try {
-            String cidStr = pathParts[1];
+            Integer.parseInt(cidStr);
+        } catch (NumberFormatException e) {
+            try {
+                User user = uDao.findByIdPseudo(cidStr);
+                if (user == null) {
+                    res.sendError(HttpServletResponse.SC_NOT_FOUND, "User not found");
+                    return;
+                    
+                }
+                if(uid > user.getUid()){
+                    dao.insert(new Conversation(0, uid, user.getUid()));
+                } else {
+                    dao.insert(new Conversation(0, user.getUid(), uid));
+                }
+                List<Conversation> l = uDao.getUserConversations(uid);
+                int cid = 0;
+                for(Conversation c : l){
+                    if(c.getUidEnvoyeur() == uid && c.getUidReceveur() == user.getUid()){
+                        cid = c.getCid();
+                    }
+                }
+                res.sendRedirect(req.getContextPath() + "/messages/" + cid);
+            } catch (Exception ex) {
+                res.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error creating conversation");
+            }
+            return;
+        }
+        try {
             int cid = Integer.parseInt(cidStr);
-            ConversationsDAO dao = new ConversationsDAO();
-            UsersDAO uDao = new UsersDAO();
             Conversation conv = dao.findByCid(cid);
             if (conv == null) {
-            res.sendError(HttpServletResponse.SC_NOT_FOUND, "Post not found");
+            res.sendError(HttpServletResponse.SC_NOT_FOUND, "Conversation not found");
             return;
             }
             int idReceveur = conv.getUidReceveur();

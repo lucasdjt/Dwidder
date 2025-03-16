@@ -41,7 +41,7 @@ INSERT INTO Posts (uid, gid, pidParent, contenu, media, dpub, dfin) VALUES
 
 \echo '4/ Création de Conversations'
 INSERT INTO Conversations (uidEnvoyeur, uidReceveur) VALUES
-(2, 1), -- Création de conversation entre Lucas DJT et Draggas
+(1, 2), -- Création de conversation entre Lucas DJT et Draggas
 (1, 3), -- Création de conversation entre Draggas et John Doe
 (1, 4); -- Création de conversation entre Draggas et Tom
 
