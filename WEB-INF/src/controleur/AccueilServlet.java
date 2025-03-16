@@ -26,7 +26,7 @@ public class AccueilServlet extends HttpServlet {
         res.setCharacterEncoding("UTF-8");
         PostsDAO postsDAO = new PostsDAO();
         UsersDAO usersDAO = new UsersDAO();
-        req.setAttribute("posts", postsDAO.selectAllPublic(true));
+        req.setAttribute("listePosts", postsDAO.selectAllPublic(true));
         req.setAttribute("users", usersDAO.selectAll());
         req.getRequestDispatcher(REPERTORY + "accueil.jsp").forward(req, res);
     }

@@ -79,17 +79,20 @@ killall java
 - sendRedirect qd c une servlet /element/*
 - Gestion des messages et conversations
 
-## CONSIGNES (V2)
+## CONSIGNES
 
-- Permettre l'invitation dans ses groupes
-- Gestion des posts (à durée limité et non)
-- Permettre le delete de ses posts / delete de ses posts expirés
+Ajout d'un bouton de gestion d'un groupe avec : 
+- Ajouter/Supprimer un membre du groupe
+- Changer l'admin du groupe
+- Pouvoir changer les infos ou supprimer le groupe
+- Permettre la gestion des posts du groupe pour l'admin
 
-## AJOUT BONUS (V3)
-
-Gestion de son propre compte :
-- Permettre l'ajout de nouvelles conversations
+Ajout de la gestion des posts pour un user :
 - Permettre la gestion de ses abonnements (+ Affichage "Ajouter/Supprimer")
+- Gestion des posts (à durée limité et non)
+- Permettre le delete de ses posts
+
+Gestion des affichages :
 - Permettre la gestion de ses likes (+ Affichage Like)
 - Permettre la gestion de ses favoris (+ Affiche "Retirer Favori")
 - Vérifier tous les pages pour le user

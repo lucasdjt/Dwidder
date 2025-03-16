@@ -56,38 +56,7 @@ int User_ID = (int) request.getSession().getAttribute("uid");
 
         <section class="col-md-8">
             <h2 class="text-primary">Profil de <%= u.getPseudo() %></h2>
-            <%
-            List<PostDetails> list = (ArrayList<PostDetails>) request.getAttribute("posts");
-            if (list != null) {
-                for(PostDetails rep : list){
-            %>
-                <article class="card mb-3">
-                <header class="card-header d-flex align-items-center">
-                    <img src="${pageContext.request.contextPath}/<%= rep.getPdp() %>" alt="<%= rep.getPdp() %>" class="rounded-circle me-2" width="40">
-                    <div>
-                    <a href="${pageContext.request.contextPath}/user/<%= rep.getIdPseudo() %>" class="text-decoration-none text-white"><h6 class="mb-0"><%= rep.getPseudo() %></h6></a>
-                    <small class="text-muted">@<%= rep.getIdPseudo() %> - <%= rep.getDpubAsDate() %></small>
-                    </div>
-                </header>
-                <main class="card-body">
-                    <p><%= rep.getContenu() %></p>
-                    <% if(rep.getMedia() != null) { %>
-                    <img src="${pageContext.request.contextPath}/<%= rep.getMedia() %>" alt="<%= rep.getMedia() %>" class="rounded w-100">
-                    <% } %>
-                    <% if(rep.getDuree() < 700) { %>
-                    <blockquote class="text-muted small">Il reste <%= rep.getDuree() %>h à ce post avant d'être supprimé</blockquote>
-                    <% } %>
-                </main>
-                <footer class="card-footer d-flex justify-content-around">
-                    <a href="${pageContext.request.contextPath}/addLike?pid=<%= rep.getPid() %>&uid=<%= rep.getUid() %>" class="btn btn-outline-primary btn-sm">👍 <%= rep.getNbLikes() %></a>
-                    <a href="${pageContext.request.contextPath}/posts/<%= rep.getPid() %>" class="btn btn-outline-secondary btn-sm">💬 <%= rep.getNbComm() %></a>
-                    <a href="${pageContext.request.contextPath}/addFavori?pid=<%= rep.getPid() %>&uid=<%= User_ID %>" class="btn btn-outline-warning btn-sm">⭐ Favoris</a>
-                </footer>
-                </article>
-            <%
-                }
-            }
-            %>
+            <jsp:include page="post.jsp" />
         </section>
     </div>
 </main>

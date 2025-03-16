@@ -57,7 +57,7 @@ public class UsersServlet extends HttpServlet {
             List<User> follow = dao.getUserFollows(user.getUid());
             List<User> followers = dao.getUserFollowers(user.getUid());
             req.setAttribute("user", user);
-            req.setAttribute("posts", dao.getUsersPosts(user.getUid(), false));
+            req.setAttribute("listePosts", dao.getUsersPosts(user.getUid(), false));
             req.setAttribute("follows", follow.size());
             req.setAttribute("followers", followers.size());
             req.getRequestDispatcher(REPERTORY + "user.jsp").forward(req, res);

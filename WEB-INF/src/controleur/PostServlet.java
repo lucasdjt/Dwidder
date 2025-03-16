@@ -60,7 +60,7 @@ public class PostServlet extends HttpServlet {
             return;
             }
             req.setAttribute("post", post);
-            req.setAttribute("responses", dao.selectFromPostParent(pid));
+            req.setAttribute("listePosts", dao.selectFromPostParent(pid));
             req.getRequestDispatcher(REPERTORY + "posts.jsp").forward(req, res);
         } catch (NumberFormatException e) {
             res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid");

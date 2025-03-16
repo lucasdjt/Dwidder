@@ -55,39 +55,7 @@ int User_ID = (int) request.getSession().getAttribute("uid");
                 <input type="hidden" name="uid" value="<%= User_ID %>">
                 <button type="submit" class="btn btn-primary w-100">Publier</button>
             </form>
-        <%
-        List<PostDetails> posts = (ArrayList<PostDetails>) request.getAttribute("posts");
-        if (posts != null) {
-            for(PostDetails p : posts){
-        %>
-            <article class="card mb-3">
-            <header class="card-header d-flex align-items-center">
-                <img src="${pageContext.request.contextPath}/<%= p.getPdp() %>" alt="<%= p.getPdp() %>" class="rounded-circle me-2" width="40">
-                <div>
-                <a href="${pageContext.request.contextPath}/user/<%= p.getIdPseudo() %>" class="text-decoration-none text-white"><h6 class="mb-0"><%= p.getPseudo() %></h6></a>
-                <small class="text-muted">@<%= p.getIdPseudo() %> - <%= p.getDpubAsDate() %></small>
-                </div>
-            </header>
-            <main class="card-body">
-                <p><%= p.getContenu() %></p>
-                <% if(p.getMedia() != null) { %>
-                <img src="${pageContext.request.contextPath}/<%= p.getMedia() %>" alt="<%= p.getMedia() %>" class="rounded w-100">
-                <% } %>
-                <% if(p.getDuree() < 700) { %>
-                <blockquote class="text-muted small">Il reste <%= p.getDuree() %>h à ce post avant d'être supprimé</blockquote>
-                <% } %>
-            </main>
-            <footer class="card-footer d-flex justify-content-around">
-                <a href="${pageContext.request.contextPath}/addLike?pid=<%= p.getPid() %>&uid=<%= p.getUid() %>" class="btn btn-outline-primary btn-sm">👍 <%= p.getNbLikes() %></a>
-                <a href="${pageContext.request.contextPath}/posts/<%= p.getPid() %>" class="btn btn-outline-secondary btn-sm">💬 <%= p.getNbComm() %></a>
-                <a href="${pageContext.request.contextPath}/addFavori?pid=<%= p.getPid() %>&uid=<%= User_ID %>" class="btn btn-outline-warning btn-sm">⭐ Favoris</a>
-            </footer>
-            </article>
-        <%
-            }
-        }
-        %>
-        </section>
+            <jsp:include page="post.jsp" />
         </section>
 
         <aside class="col-md-4">

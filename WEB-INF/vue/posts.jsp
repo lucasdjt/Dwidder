@@ -27,27 +27,32 @@ int User_ID = (int) request.getSession().getAttribute("uid");
             if (p != null) {
             %>
             <article class="card mb-3">
-            <header class="card-header d-flex align-items-center">
-                <img src="${pageContext.request.contextPath}/<%= p.getPdp() %>" alt="<%= p.getPdp() %>" class="rounded-circle me-2" width="40">
-                <div>
-                <a href="${pageContext.request.contextPath}/user/<%= p.getIdPseudo() %>" class="text-decoration-none text-white"><h6 class="mb-0"><%= p.getPseudo() %></h6></a>
-                <small class="text-muted">@<%= p.getIdPseudo() %> - <%= p.getDpubAsDate() %></small>
-                </div>
-            </header>
-            <main class="card-body">
-                <p><%= p.getContenu() %></p>
-                <% if(p.getMedia() != null) { %>
-                <img src="${pageContext.request.contextPath}/<%= p.getMedia() %>" alt="<%= p.getMedia() %>" class="rounded w-100">
-                <% } %>
-                <% if(p.getDuree() < 700) { %>
-                <blockquote class="text-muted small">Il reste <%= p.getDuree() %>h à ce post avant d'être supprimé</blockquote>
-                <% } %>
-            </main>
-            <footer class="card-footer d-flex justify-content-around">
-                <a href="${pageContext.request.contextPath}/addLike?pid=<%= p.getPid() %>&uid=<%= p.getUid() %>" class="btn btn-outline-primary btn-sm">👍 <%= p.getNbLikes() %></a>
-                <a href="${pageContext.request.contextPath}/posts/<%= p.getPid() %>" class="btn btn-outline-secondary btn-sm">💬 <%= p.getNbComm() %></a>
-                <a href="${pageContext.request.contextPath}/addFavori?pid=<%= p.getPid() %>&uid=<%= User_ID %>" class="btn btn-outline-warning btn-sm">⭐ Favoris</a>
-            </footer>
+                <header class="card-header d-flex align-items-center">
+                    <img src="${pageContext.request.contextPath}/<%= p.getPdp() %>" alt="Pdp de <%= p.getIdPseudo() %>" class="rounded-circle me-2" width="40">
+                        <div>
+                            <a href="${pageContext.request.contextPath}/user/<%= p.getIdPseudo() %>" class="text-decoration-none text-white"><h6 class="mb-0"><%= p.getPseudo() %></h6></a>
+                            <small class="text-muted">@<%= p.getIdPseudo() %> - <%= p.getDpubAsDate() %></small>
+                            <% if(p.getPidParent() != null && p.getPidParent() != 0){ %>
+                                <blockquote class="text-muted small">Ce post répond à ce <a href="${pageContext.request.contextPath}/posts/<%= p.getPidParent() %>">post</a></blockquote>
+                            <% } else if(p.getNomGrp() != null){ %>
+                                <blockquote class="text-muted small">Ce post vient du groupe <em><%= p.getNomGrp() %></em></blockquote>
+                            <% } %>
+                        </div>
+                </header>
+                <main class="card-body">
+                        <p><%= p.getContenu() %></p>
+                    <% if(p.getMedia() != null) { %>
+                        <img src="${pageContext.request.contextPath}/<%= p.getMedia() %>" alt="Image accompagnant le post" class="rounded w-100">
+                    <% } %>
+                    <% if(p.getDuree() < 336) { %>
+                        <blockquote class="text-muted small">Il reste <%= p.getDuree() %>h à ce post avant d'être retiré de l'affichage</blockquote>
+                    <% } %>
+                </main>
+                <footer class="card-footer d-flex justify-content-around">
+                    <a href="${pageContext.request.contextPath}/addLike?pid=<%= p.getPid() %>&uid=<%= User_ID %>" class="btn btn-outline-primary btn-sm">👍 <%= p.getNbLikes() %></a>
+                    <a href="${pageContext.request.contextPath}/posts/<%= p.getPid() %>" class="btn btn-outline-secondary btn-sm">💬 <%= p.getNbComm() %></a>
+                    <a href="${pageContext.request.contextPath}/addFavori?pid=<%= p.getPid() %>&uid=<%= User_ID %>" class="btn btn-outline-warning btn-sm">⭐ Favoris</a>
+                </footer>
             </article>
             <%
             }
@@ -80,42 +85,12 @@ int User_ID = (int) request.getSession().getAttribute("uid");
                     </select>
                 </div>
                 <input type="hidden" name="uid" value="<%= User_ID %>">
+                <input type="hidden" name="gid" value="<%= p.getGid() %>">
                 <input type="hidden" name="pidParent" value="<%= p.getPid() %>">
                 <button type="submit" class="btn btn-primary w-100">Publier</button>
             </form>
             <h3 class="title">Réponses au post</h3>
-            <%
-            List<PostDetails> list = (ArrayList<PostDetails>) request.getAttribute("responses");
-            if (list != null) {
-                for(PostDetails rep : list){
-            %>
-                <article class="card mb-3">
-                <header class="card-header d-flex align-items-center">
-                    <img src="${pageContext.request.contextPath}/<%= rep.getPdp() %>" alt="<%= rep.getPdp() %>" class="rounded-circle me-2" width="40">
-                    <div>
-                    <a href="${pageContext.request.contextPath}/user/<%= rep.getIdPseudo() %>" class="text-decoration-none text-white"><h6 class="mb-0"><%= rep.getPseudo() %></h6></a>
-                    <small class="text-muted">@<%= rep.getIdPseudo() %> - <%= rep.getDpubAsDate() %></small>
-                    </div>
-                </header>
-                <main class="card-body">
-                    <p><%= rep.getContenu() %></p>
-                    <% if(rep.getMedia() != null) { %>
-                    <img src="${pageContext.request.contextPath}/<%= rep.getMedia() %>" alt="<%= rep.getMedia() %>" class="rounded w-100">
-                    <% } %>
-                    <% if(rep.getDuree() < 700) { %>
-                    <blockquote class="text-muted small">Il reste <%= rep.getDuree() %>h à ce post avant d'être supprimé</blockquote>
-                    <% } %>
-                </main>
-                <footer class="card-footer d-flex justify-content-around">
-                    <a href="${pageContext.request.contextPath}/addLike?pid=<%= rep.getPid() %>&uid=<%= rep.getUid() %>" class="btn btn-outline-primary btn-sm">👍 <%= rep.getNbLikes() %></a>
-                    <a href="${pageContext.request.contextPath}/posts/<%= rep.getPid() %>" class="btn btn-outline-secondary btn-sm">💬 <%= rep.getNbComm() %></a>
-                    <a href="${pageContext.request.contextPath}/addFavori?pid=<%= rep.getPid() %>&uid=<%= User_ID %>" class="btn btn-outline-warning btn-sm">⭐ Favoris</a>
-                </footer>
-                </article>
-            <%
-                }
-            }
-            %>
+            <jsp:include page="post.jsp" />
         </section>
 
     </div>
