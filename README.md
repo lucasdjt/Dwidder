@@ -81,39 +81,25 @@ killall java
 
 ## CONSIGNES
 
-Ajout d'un bouton de gestion d'un groupe avec : 
-- Ajouter/Supprimer un membre du groupe
-- Changer l'admin du groupe
-- Pouvoir changer les infos ou supprimer le groupe
-- Permettre la gestion des posts du groupe pour l'admin
-
-Ajout de la gestion des posts pour un user :
-- Permettre la gestion de ses abonnements (+ Affichage "Ajouter/Supprimer")
-- Gestion des posts (à durée limité et non)
-- Permettre le delete de ses posts
-- Vérifier tous les pages pour le user
-
-Gestion des affichages :
-- Permettre la gestion de ses likes (+ Affichage Like)
-
-DAO/DTO :
-Vérifier si les "SELECT *" sont obligatoires dans le DAO
-
-Gestion Admin :
-- Avoir une page extra nommé "ADMIN" permettant de modifier toute la base de données à sa guise.
-
-Rectifier les classes :
-- Simplifier les requêtes
-- Optimiser la base de données
-
-Base de données :
-- Créer un utilisateur bidon avant l'admin
-- Configurer 2 scripts : Un script pour remplir au minimum / un script pour remplir au maximum
-
-API :
+A REALISER :
+- Réaliser un bouton permettant de ajouter / supprimer les membres d'un groupe
+- Réaliser un bouton permettant de changer l'admin du groupe
+- Réaliser un bouton permettant de changer les infos d'un groupe
+- Permettre la possibilité de supprimer un post pour l'admin du groupe ou pour l'utilisateur owner du post
+- Permettre la suppression de visibilité des posts qui sont expirés
+- Permettre la gestion des abonnements d'un utilisateur 
+- Permettre la gestion de l'affichage des likes
+- Ajouter une Page ADMIN permettant de modifier toute la base de données (au minimum nécessaire) à sa guise.
 - Mettre en parallèle un Service Web permettant en GET de récupérer en JSON les fils du membre identifié, les messages postés sur ces fils. (/api/...)
 
-Amélioration de l'interface avec BootStrap
+Optimisation / Qualité / Simplification :
+- Simplifier les requêtes
+- Optimiser la base de données
+- Vérifier tous les DTO, DAO, Servlet, JSP
+- Vérifier si les "SELECT *" sont obligatoires dans le DAO
+- Créer un utilisateur bidon avant l'admin
+- Configurer 2 scripts : Un script pour remplir au minimum / un script pour remplir au maximum
+- Amélioration de l'interface avec BootStrap
 
 Réalisez en Markdown une documentation de votre application contenant au minimum :
 - La description générale de l’application
@@ -122,3 +108,6 @@ Réalisez en Markdown une documentation de votre application contenant au minimu
 - L’arborescence globale de l’application
 - La liste des entrées du/des controleurs avec leur fonctionalité
 - Les points techniques difficiles et comment ils ont été réglés.
+
+- Réaliser un Guide textuel permettant d'utiliser le réseau social
+- Réaliser un Guide vidéo permettant d'utiliser le réseau social
