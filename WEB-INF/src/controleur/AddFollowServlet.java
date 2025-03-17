@@ -2,9 +2,12 @@ package controleur;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import modele.dao.AbonnementsDAO;
 import modele.dto.Abonnement;
+import modele.dao.UsersDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -36,6 +39,13 @@ public class AddFollowServlet extends HttpServlet {
         if (referer != null && referer.contains("?")) {
             referer = referer.substring(0, referer.indexOf("?"));
         }
+        UsersDAO dao = new UsersDAO();
+        List<Integer> listFollowUser = new ArrayList<>();
+        dao.getUserFollows((int) req.getSession().getAttribute("uid")).forEach(follow -> listFollowUser.add(follow.getUid()));
+        List<Integer> listFollowersUser = new ArrayList<>();
+        dao.getUserFollowers((int) req.getSession().getAttribute("uid")).forEach(follower -> listFollowersUser.add(follower.getUid()));
+        req.getSession().setAttribute("listFollowUser", listFollowUser);
+        req.getSession().setAttribute("listFollowersUser", listFollowersUser);
         res.sendRedirect(referer);
     }
 }

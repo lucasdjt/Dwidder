@@ -15,6 +15,8 @@
 
 <% 
 int User_ID = (int) request.getSession().getAttribute("uid");
+List<Integer> listFollowUser = (List<Integer>) request.getSession().getAttribute("listFollowUser");
+List<Integer> listFollowersUser = (List<Integer>) request.getSession().getAttribute("listFollowersUser");
 %>
 
 <jsp:include page="header.jsp" />
@@ -47,10 +49,22 @@ int User_ID = (int) request.getSession().getAttribute("uid");
         %>
                 <li class="border list-group-item d-flex align-items-center">
                     <img src="${pageContext.request.contextPath}/<%= u.getPdp() %>" alt="<%= u.getPseudo() %>" class="rounded-circle me-2" width="40">
-                    <a href="${pageContext.request.contextPath}/user/<%= u.getIdPseudo() %>" class="text-decoration-none text-white"><%= u.getPseudo() %></a>
-                    <a href="${pageContext.request.contextPath}/addFollow?follow=<%= u.getUid() %>&follower=<%= User_ID %>" class="btn btn-sm btn-outline-success ms-auto">+ Suivre</a>
+                    <div>
+                        <a href="${pageContext.request.contextPath}/user/<%= u.getIdPseudo() %>" class="text-decoration-none text-white"><%= u.getPseudo() %></a>
+                        <br>
+                        <% if (listFollowersUser.contains(u.getUid())) { %>
+                            <small class="text-muted"><span class="text-success">Cette personne vous suit</span></small>
+                        <% } %>
+                    </div>
+                    <div class="ms-auto">
+                        <% if (!listFollowUser.contains(u.getUid())) { %>
+                            <a href="${pageContext.request.contextPath}/addFollow?follow=<%= u.getUid() %>&follower=<%= User_ID %>" class="btn btn-sm btn-outline-success">+ Suivre</a>
+                        <% } else { %>
+                            <a href="${pageContext.request.contextPath}/addFollow?follow=<%= u.getUid() %>&follower=<%= User_ID %>" class="btn btn-sm btn-outline-danger">Ne plus suivre</a>
+                        <% } %>
+                    </div>
                 </li>
-        <%}}%>
+        <% }} %>
             </ul>
             <a href="user" class="btn btn-outline-primary mt-2 w-100">Afficher Plus</a>
         </aside>

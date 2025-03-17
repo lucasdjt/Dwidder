@@ -15,6 +15,8 @@
 
 <% 
 int User_ID = (int) request.getSession().getAttribute("uid");
+List<Integer> listFollowUser = (List<Integer>) request.getSession().getAttribute("listFollowUser");
+List<Integer> listFollowersUser = (List<Integer>) request.getSession().getAttribute("listFollowersUser");
 %>
 
 <jsp:include page="header.jsp" />
@@ -31,15 +33,24 @@ int User_ID = (int) request.getSession().getAttribute("uid");
                 <img src="${pageContext.request.contextPath}/<%= u.getPdp() %>" alt="<%= u.getPdp() %>" class="rounded-circle me-2" width="40">
                 <div>
                     <a href="${pageContext.request.contextPath}/user/<%= u.getIdPseudo() %>" class="text-decoration-none text-white"><h6 class="mb-0"><%= u.getPseudo() %></h6></a>
-                    <small class="text-muted">@<%= u.getIdPseudo() %></small>
+                    <small class="text-muted">@<%= u.getIdPseudo() %>
+                    <% if (listFollowersUser.contains(u.getUid())) { %>
+                            <span class="text-success"> - Cette personne vous suit</span>
+                    <% } %>
+                    </small>
                     <p class="mb-1"><%= u.getBio() %></p>
                 </div>
-                <%if(u.getUid() != User_ID){%>
-                <a href="${pageContext.request.contextPath}/addFollow?follow=<%= u.getUid() %>&follower=<%= User_ID %>" class="btn btn-sm btn-outline-success ms-auto me-2">+ Suivre</a>
-                <a href="${pageContext.request.contextPath}/user/<%= u.getIdPseudo() %>" class="btn btn-sm btn-outline-primary">Consulter le profil</a>
-                <%}%>
+                <% if(u.getUid() != User_ID){ %>
+                <div class="ms-auto">
+                        <% if (!listFollowUser.contains(u.getUid())) { %>
+                            <a href="${pageContext.request.contextPath}/addFollow?follow=<%= u.getUid() %>&follower=<%= User_ID %>" class="btn btn-sm btn-outline-success">+ Suivre</a>
+                        <% } else { %>
+                            <a href="${pageContext.request.contextPath}/addFollow?follow=<%= u.getUid() %>&follower=<%= User_ID %>" class="btn btn-sm btn-outline-danger">Ne plus suivre</a>
+                        <% } %>
+                </div>
+                <% } %>
             </li>
-            <%}}%>
+            <% }} %>
         </ul>
 </main>
 

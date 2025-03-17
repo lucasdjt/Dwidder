@@ -91,11 +91,10 @@ Ajout de la gestion des posts pour un user :
 - Permettre la gestion de ses abonnements (+ Affichage "Ajouter/Supprimer")
 - Gestion des posts (à durée limité et non)
 - Permettre le delete de ses posts
+- Vérifier tous les pages pour le user
 
 Gestion des affichages :
 - Permettre la gestion de ses likes (+ Affichage Like)
-- Permettre la gestion de ses favoris (+ Affiche "Retirer Favori")
-- Vérifier tous les pages pour le user
 
 DAO/DTO :
 Vérifier si les "SELECT *" sont obligatoires dans le DAO

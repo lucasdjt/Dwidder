@@ -1,6 +1,8 @@
 package controleur;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
@@ -49,6 +51,16 @@ public class ConnexionServlet extends HttpServlet {
         }
         if(user != null && user.getMdp().equals(req.getParameter("password"))) {
             req.getSession().setAttribute("uid", user.getUid());
+            req.getSession().setAttribute("pseudo", user.getIdPseudo());
+            List<Integer> listFavoriUser = new ArrayList<>();
+            dao.getUserFavoris(user.getUid()).forEach(favori -> listFavoriUser.add(favori.getPid()));
+            List<Integer> listFollowUser = new ArrayList<>();
+            dao.getUserFollows(user.getUid()).forEach(follow -> listFollowUser.add(follow.getUid()));
+            List<Integer> listFollowersUser = new ArrayList<>();
+            dao.getUserFollowers(user.getUid()).forEach(follower -> listFollowersUser.add(follower.getUid()));
+            req.getSession().setAttribute("listFavoriUser", listFavoriUser);
+            req.getSession().setAttribute("listFollowUser", listFollowUser);
+            req.getSession().setAttribute("listFollowersUser", listFollowersUser);
             req.getSession().setAttribute("pseudo", user.getIdPseudo());
             res.sendRedirect(req.getContextPath() + "/accueil");
         } else {

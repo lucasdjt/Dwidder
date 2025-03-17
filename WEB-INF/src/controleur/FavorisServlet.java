@@ -42,7 +42,7 @@ public class FavorisServlet extends HttpServlet {
         for(Favori f : fav){
             list.add(postsDAO.findByPid(f.getPid()));
         }
-        req.setAttribute("favoris", list);
+        req.setAttribute("listePosts", list);
         req.getRequestDispatcher(REPERTORY + "listeFavoris.jsp").forward(req, res);
     }
 }
