@@ -1,12 +1,12 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ page import="java.util.ArrayList, java.util.List, modele.dto.PostDetails" %>
+<%@ page import="java.util.ArrayList, java.util.List, modele.dto.PostDetails, modele.dto.Reaction, java.util.Map" %>
 
 <% 
     int User_ID = (int) request.getSession().getAttribute("uid");
     List<Integer> listFavoriUser = (List<Integer>) request.getSession().getAttribute("listFavoriUser");
     List<Integer> listFollowUser = (List<Integer>) request.getSession().getAttribute("listFollowUser");
     List<Integer> listFollowersUser = (List<Integer>) request.getSession().getAttribute("listFollowersUser");
-
+    Map<Integer, String> listReactionsUser = (Map<Integer, String>) request.getSession().getAttribute("listReactionsUser");
     List<PostDetails> list = (ArrayList<PostDetails>) request.getAttribute("listePosts");
     if (list != null) {
         for(PostDetails post : list){
@@ -50,7 +50,25 @@
                 <% } %>
             </main>
             <footer class="card-footer d-flex justify-content-around">
-                <a href="${pageContext.request.contextPath}/addLike?pid=<%= post.getPid() %>&uid=<%= User_ID %>" class="btn btn-outline-primary btn-sm">👍 <%= post.getNbLikes() %></a>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-outline-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        <% if(listReactionsUser.containsKey(post.getPid())) { %>
+                            <%= listReactionsUser.get(post.getPid()) %><%= post.getNbLikes() %> 
+                        <% } else { %>
+                            Ajouter une Réaction <%= post.getNbLikes() %>
+                        <% } %>
+                    </button>
+                    <ul class="dropdown-menu" style="min-width: auto;">
+                        <li><a class="dropdown-item d-flex align-items-center" href="${pageContext.request.contextPath}/addReaction?pid=<%= post.getPid() %>&uid=<%= User_ID %>&type=LIKES">👍</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="${pageContext.request.contextPath}/addReaction?pid=<%= post.getPid() %>&uid=<%= User_ID %>&type=LOVES">❤️</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="${pageContext.request.contextPath}/addReaction?pid=<%= post.getPid() %>&uid=<%= User_ID %>&type=FIRES">🔥</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="${pageContext.request.contextPath}/addReaction?pid=<%= post.getPid() %>&uid=<%= User_ID %>&type=JOYYY">😂</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="${pageContext.request.contextPath}/addReaction?pid=<%= post.getPid() %>&uid=<%= User_ID %>&type=SADDD">😢</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="${pageContext.request.contextPath}/addReaction?pid=<%= post.getPid() %>&uid=<%= User_ID %>&type=ANGER">😡</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="${pageContext.request.contextPath}/addReaction?pid=<%= post.getPid() %>&uid=<%= User_ID %>&type=THIFT">🤔</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="${pageContext.request.contextPath}/addReaction?pid=<%= post.getPid() %>&uid=<%= User_ID %>&supprimer=1">❌</a></li>
+                    </ul>
+                </div>
                 <a href="${pageContext.request.contextPath}/posts/<%= post.getPid() %>" class="btn btn-outline-secondary btn-sm">💬 <%= post.getNbComm() %></a>
                 <% if (!listFavoriUser.contains(post.getPid())) { %>
                     <a href="${pageContext.request.contextPath}/addFavori?pid=<%= post.getPid() %>&uid=<%= User_ID %>" class="btn btn-outline-warning btn-sm">⭐ Favoris</a>

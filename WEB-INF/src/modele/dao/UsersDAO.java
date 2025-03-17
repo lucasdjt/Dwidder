@@ -459,4 +459,25 @@ public class UsersDAO {
         }
         return posts;
     }
+
+    public List<Reaction> getUserReaction(int uid) {
+        List<Reaction> reaction = new ArrayList<>();
+        try (Connection con = DS.getConnection()) {
+            String requetePrepare = "SELECT * FROM Reactions WHERE uid = ?";
+            try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
+                pstmt.setInt(1, uid);
+                try (ResultSet rs = pstmt.executeQuery()) {
+                    while (rs.next()) {
+                        int pid = rs.getInt("pid");
+                        String type = rs.getString("type");
+                        LocalDateTime dreact = BAO.conversion(rs.getTimestamp("dreact"));
+                        reaction.add(new Reaction(uid, pid, type, dreact));
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return reaction;
+    }
 }

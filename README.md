@@ -82,7 +82,6 @@ killall java
 ## CONSIGNES
 
 A REALISER :
-1h30 - Permettre la gestion de l'affichage des likes (et différents types de likes)
 - Ajouter une Page ADMIN permettant de modifier toute la base de données (au minimum nécessaire) à sa guise.
 - Mettre en parallèle un Service Web permettant en GET de récupérer en JSON les fils du membre identifié, les messages postés sur ces fils. (/api/...)
 - Permettre de changer l'admin du groupe
@@ -94,6 +93,7 @@ Optimisation / Qualité / Simplification :
 - Vérifier si les "SELECT *" sont obligatoires dans le DAO
 - Créer un utilisateur bidon avant l'admin
 - Configurer 2 scripts : Un script pour remplir au minimum / un script pour remplir au maximum
+- Gestion des permissions pour chaque servlet
 - Amélioration de l'interface avec BootStrap
 
 Réalisez en Markdown une documentation de votre application contenant au minimum :

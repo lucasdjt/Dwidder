@@ -2,7 +2,11 @@ package controleur;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
+
 import modele.dao.ReactionsDAO;
+import modele.dao.UsersDAO;
 import modele.dto.Reaction;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -11,7 +15,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-@WebServlet("/addLike")
+@WebServlet("/addReaction")
 public class AddLikeServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
@@ -22,19 +26,30 @@ public class AddLikeServlet extends HttpServlet {
         }
         int uid = Integer.parseInt(req.getParameter("uid"));
         int pid = Integer.parseInt(req.getParameter("pid"));
+        String reaction = req.getParameter("type");
+        UsersDAO dao = new UsersDAO();
         ReactionsDAO reactionsDAO = new ReactionsDAO();
-
         Reaction existingReaction = reactionsDAO.findByUidAndPid(uid, pid);
-        if (existingReaction == null) {
-            Reaction newReaction = new Reaction(uid, pid, "LIKES", LocalDateTime.now());
-            reactionsDAO.insert(newReaction);
-        } else {
-            reactionsDAO.delete(existingReaction);
-        }
         String referer = req.getHeader("Referer");
         if (referer != null && referer.contains("?")) {
             referer = referer.substring(0, referer.indexOf("?"));
         }
+        if(req.getParameter("supprimer") != null) {
+            reactionsDAO.delete(existingReaction);
+        } else {
+            if (existingReaction == null) {
+                Reaction newReaction = new Reaction(uid, pid, reaction, LocalDateTime.now());
+                reactionsDAO.insert(newReaction);
+            } else {
+                existingReaction.setType(reaction);
+                reactionsDAO.update(existingReaction);
+            }
+        }
+        Map<Integer, String> listReactionsUser = new HashMap<>();
+        for (Reaction r : dao.getUserReaction(uid)) {
+            listReactionsUser.put(r.getPid(), r.getTypeEmoji());
+        }
+        req.getSession().setAttribute("listReactionsUser", listReactionsUser);
         res.sendRedirect(referer);
     }
 }

@@ -45,6 +45,27 @@ public class Reaction {
         return type;
     }
 
+    public String getTypeEmoji(){
+        switch (type) {
+            case "LIKES":
+                return "👍";
+            case "LOVES":
+                return "❤️";
+            case "FIRES":
+                return "🔥";
+            case "JOYYY":
+                return "😂";
+            case "SADDD":
+                return "😢";
+            case "ANGER":
+                return "😡";
+            case "THIFT":
+                return "🤔";
+            default:
+                return "❓";
+        }
+    }
+
     public void setType(String type) {
         this.type = type;
     }

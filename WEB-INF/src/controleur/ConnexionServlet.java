@@ -2,7 +2,9 @@ package controleur;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
@@ -13,6 +15,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import modele.dao.UsersDAO;
 import modele.dto.User;
+import modele.dto.Reaction;
 
 @WebServlet("/connexion")
 @MultipartConfig(
@@ -62,6 +65,11 @@ public class ConnexionServlet extends HttpServlet {
             req.getSession().setAttribute("listFollowUser", listFollowUser);
             req.getSession().setAttribute("listFollowersUser", listFollowersUser);
             req.getSession().setAttribute("pseudo", user.getIdPseudo());
+            Map<Integer, String> listReactionsUser = new HashMap<>();
+            for (Reaction r : dao.getUserReaction(user.getUid())) {
+                listReactionsUser.put(r.getPid(), r.getTypeEmoji());
+            }
+            req.getSession().setAttribute("listReactionsUser", listReactionsUser);
             res.sendRedirect(req.getContextPath() + "/accueil");
         } else {
             res.sendRedirect(referer + "?error=1");
