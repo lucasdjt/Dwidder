@@ -32,10 +32,11 @@ public class PostsDAO {
                     String pdp = rs.getString("pdp");
                     String pseudo = rs.getString("pseudo");
                     int uid = rs.getInt("uid");
+                    int uidAdmin = rs.getInt("uidAdmin");
                     int nbLikes = rs.getInt("nbLikes");
                     int nbComm = rs.getInt("nbComm");
                     String idPseudo = rs.getString("idPseudo");
-                    posts.add(new PostDetails(pid, gid, nomGrp, pidParent, contenu, media, dpub, dfin, duree, pdp, pseudo, uid, nbLikes, nbComm, idPseudo));
+                    posts.add(new PostDetails(pid, gid, nomGrp, pidParent, contenu, media, dpub, dfin, duree, pdp, pseudo, uid, uidAdmin, nbLikes, nbComm, idPseudo));
                 }
             }
         } catch (Exception e) {
@@ -91,10 +92,11 @@ public class PostsDAO {
                         String pdp = rs.getString("pdp");
                         String pseudo = rs.getString("pseudo");
                         int uid = rs.getInt("uid");
+                        int uidAdmin = rs.getInt("uidAdmin");
                         int nbLikes = rs.getInt("nbLikes");
                         int nbComm = rs.getInt("nbComm");
                         String idPseudo = rs.getString("idPseudo");
-                        post = new PostDetails(pid, gid, nomGrp, pidParent, contenu, media, dpub, dfin, duree, pdp, pseudo, uid, nbLikes, nbComm, idPseudo);
+                        post = new PostDetails(pid, gid, nomGrp, pidParent, contenu, media, dpub, dfin, duree, pdp, pseudo, uid, uidAdmin, nbLikes, nbComm, idPseudo);
                     }
                 }
             }
@@ -108,11 +110,11 @@ public class PostsDAO {
      * Supprime un post de la base de données.
      * @param post Le post à supprimer.
      */
-    public void delete(Post post) {
+    public void delete(int pid) {
         try (Connection con = DS.getConnection()) {
             String requetePrepare = "DELETE FROM Posts WHERE pid = ?";
             try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
-                pstmt.setInt(1, post.getPid());
+                pstmt.setInt(1, pid);
                 pstmt.executeUpdate();
             }
         } catch (Exception e) {
@@ -175,10 +177,11 @@ public class PostsDAO {
                     String pdp = rs.getString("pdp");
                     String pseudo = rs.getString("pseudo");
                     int uid = rs.getInt("uid");
+                    int uidAdmin = rs.getInt("uidAdmin");
                     int nbLikes = rs.getInt("nbLikes");
                     int nbComm = rs.getInt("nbComm");
                     String idPseudo = rs.getString("idPseudo");
-                    posts.add(new PostDetails(pid, gid, nomGrp, pidParent, contenu, media, dpub, dfin, duree, pdp, pseudo, uid, nbLikes, nbComm, idPseudo));
+                    posts.add(new PostDetails(pid, gid, nomGrp, pidParent, contenu, media, dpub, dfin, duree, pdp, pseudo, uid, uidAdmin, nbLikes, nbComm, idPseudo));
                 }
             }
         } catch (Exception e) {
@@ -217,10 +220,11 @@ public class PostsDAO {
                         String pdp = rs.getString("pdp");
                         String pseudo = rs.getString("pseudo");
                         int uid = rs.getInt("uid");
+                        int uidAdmin = rs.getInt("uidAdmin");
                         int nbLikes = rs.getInt("nbLikes");
                         int nbComm = rs.getInt("nbComm");
                         String idPseudo = rs.getString("idPseudo");
-                        posts.add(new PostDetails(pid, gid, nomGrp, pidParent, contenu, media, dpub, dfin, duree, pdp, pseudo, uid, nbLikes, nbComm, idPseudo));
+                        posts.add(new PostDetails(pid, gid, nomGrp, pidParent, contenu, media, dpub, dfin, duree, pdp, pseudo, uid, uidAdmin, nbLikes, nbComm, idPseudo));
                     }
                 }
             }
@@ -254,10 +258,11 @@ public class PostsDAO {
                         String pdp = rs.getString("pdp");
                         String pseudo = rs.getString("pseudo");
                         int uid = rs.getInt("uid");
+                        int uidAdmin = rs.getInt("uidAdmin");
                         int nbLikes = rs.getInt("nbLikes");
                         int nbComm = rs.getInt("nbComm");
                         String idPseudo = rs.getString("idPseudo");
-                        posts.add(new PostDetails(pid, gid, nomGrp, pidParent, contenu, media, dpub, dfin, duree, pdp, pseudo, uid, nbLikes, nbComm, idPseudo));
+                        posts.add(new PostDetails(pid, gid, nomGrp, pidParent, contenu, media, dpub, dfin, duree, pdp, pseudo, uid, uidAdmin, nbLikes, nbComm, idPseudo));
                     }
                 }
             }

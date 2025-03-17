@@ -444,10 +444,11 @@ public class UsersDAO {
                         long duree = (dfin != null) ? Duration.between(dpub, dfin).toHours() : 720;
                         String pdp = rs.getString("pdp");
                         String pseudo = rs.getString("pseudo");
+                        int uidAdmin = rs.getInt("uidAdmin");
                         int nbLikes = rs.getInt("nbLikes");
                         int nbComm = rs.getInt("nbComm");
                         String idPseudo = rs.getString("idPseudo");
-                        posts.add(new PostDetails(pid, gid, nomGrp, pidParent, contenu, media, dpub, dfin, duree, pdp, pseudo, uid, nbLikes, nbComm, idPseudo));
+                        posts.add(new PostDetails(pid, gid, nomGrp, pidParent, contenu, media, dpub, dfin, duree, pdp, pseudo, uid, uidAdmin, nbLikes, nbComm, idPseudo));
                     }
                 }
             }

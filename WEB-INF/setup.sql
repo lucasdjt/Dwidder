@@ -220,6 +220,7 @@ SELECT
     p.pid,
     p.gid,
     g.nomGrp,
+    g.uid AS uidAdmin,
     p.pidParent,
     p.contenu,
     p.media,

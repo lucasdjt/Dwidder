@@ -28,11 +28,11 @@
             </select>
         </div>
     <input type="hidden" name="uid" value="<%= User_ID %>">
-    <% if(request.getAttribute("groupe") != null) { %>
-    <input type="hidden" name="gid" value="<%= ((Groupe)request.getAttribute("groupe")).getGid() %>">
-    <% } %>
     <% if(request.getAttribute("post") != null) { %>
     <input type="hidden" name="pidParent" value="<%= ((PostDetails)request.getAttribute("post")).getPid() %>">
+    <input type="hidden" name="gid" value="<%= ((PostDetails)request.getAttribute("post")).getGid() %>">
+    <% } else if(request.getAttribute("groupe") != null) { %>
+    <input type="hidden" name="gid" value="<%= ((Groupe)request.getAttribute("groupe")).getGid() %>">
     <% } %>
     <button type="submit" class="btn btn-primary w-100">Publier</button>
 </form>

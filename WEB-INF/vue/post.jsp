@@ -35,6 +35,9 @@
                         <a href="${pageContext.request.contextPath}/addFollow?follow=<%= post.getUid() %>&follower=<%= User_ID %>" class="btn btn-sm btn-outline-danger">Ne plus suivre</a>
                     <% } %>
                 <% } %>
+                <% if (post.getUid() == User_ID  || post.getUidAdmin() == User_ID) { %>
+                    <a href="${pageContext.request.contextPath}/delPost/<%= post.getPid() %>" class="btn btn-sm btn-outline-danger">Supprimer le post</a>
+                <% } %>
             </div>
         </header>
             <main class="card-body">

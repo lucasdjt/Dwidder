@@ -16,12 +16,13 @@ public class PostDetails {
     private String pdp;
     private String pseudo;
     private int uid;
+    private int uidAdmin;
     private int nbLikes;
     private int nbComm;
     private String idPseudo;
     
     public PostDetails(int pid, Integer gid, String nomGrp, Integer pidParent, String contenu, String media,
-            LocalDateTime dpub, LocalDateTime dfin, long duree, String pdp, String pseudo, int uid, int nbLikes,
+            LocalDateTime dpub, LocalDateTime dfin, long duree, String pdp, String pseudo, int uid, int uidAdmin, int nbLikes,
             int nbComm, String idPseudo) {
         this.pid = pid;
         this.gid = gid;
@@ -35,6 +36,7 @@ public class PostDetails {
         this.pdp = pdp;
         this.pseudo = pseudo;
         this.uid = uid;
+        this.uidAdmin = uidAdmin;
         this.nbLikes = nbLikes;
         this.nbComm = nbComm;
         this.idPseudo = idPseudo;
@@ -161,6 +163,14 @@ public class PostDetails {
         this.uid = uid;
     }
 
+    public int getUidAdmin() {
+        return uidAdmin;
+    }
+
+    public void setUidAdmin(int uidAdmin) {
+        this.uidAdmin = uidAdmin;
+    }
+    
     public int getNbLikes() {
         return nbLikes;
     }

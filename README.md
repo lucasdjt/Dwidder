@@ -82,15 +82,12 @@ killall java
 ## CONSIGNES
 
 A REALISER :
-- Réaliser un bouton permettant de ajouter / supprimer les membres d'un groupe
-- Réaliser un bouton permettant de changer l'admin du groupe
-- Réaliser un bouton permettant de changer les infos d'un groupe
 - Permettre la possibilité de supprimer un post pour l'admin du groupe ou pour l'utilisateur owner du post
 - Permettre la suppression de visibilité des posts qui sont expirés
-- Permettre la gestion des abonnements d'un utilisateur 
-- Permettre la gestion de l'affichage des likes
+- Permettre la gestion de l'affichage des likes (et différents types de likes)
 - Ajouter une Page ADMIN permettant de modifier toute la base de données (au minimum nécessaire) à sa guise.
 - Mettre en parallèle un Service Web permettant en GET de récupérer en JSON les fils du membre identifié, les messages postés sur ces fils. (/api/...)
+- Permettre de changer l'admin du groupe
 
 Optimisation / Qualité / Simplification :
 - Simplifier les requêtes
