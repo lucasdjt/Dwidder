@@ -181,7 +181,9 @@ public class PostsDAO {
                     int nbLikes = rs.getInt("nbLikes");
                     int nbComm = rs.getInt("nbComm");
                     String idPseudo = rs.getString("idPseudo");
-                    posts.add(new PostDetails(pid, gid, nomGrp, pidParent, contenu, media, dpub, dfin, duree, pdp, pseudo, uid, uidAdmin, nbLikes, nbComm, idPseudo));
+                    if(duree > 0){
+                        posts.add(new PostDetails(pid, gid, nomGrp, pidParent, contenu, media, dpub, dfin, duree, pdp, pseudo, uid, uidAdmin, nbLikes, nbComm, idPseudo));
+                    }       
                 }
             }
         } catch (Exception e) {
@@ -224,7 +226,9 @@ public class PostsDAO {
                         int nbLikes = rs.getInt("nbLikes");
                         int nbComm = rs.getInt("nbComm");
                         String idPseudo = rs.getString("idPseudo");
-                        posts.add(new PostDetails(pid, gid, nomGrp, pidParent, contenu, media, dpub, dfin, duree, pdp, pseudo, uid, uidAdmin, nbLikes, nbComm, idPseudo));
+                        if(duree > 0){
+                            posts.add(new PostDetails(pid, gid, nomGrp, pidParent, contenu, media, dpub, dfin, duree, pdp, pseudo, uid, uidAdmin, nbLikes, nbComm, idPseudo));
+                        }
                     }
                 }
             }
@@ -262,7 +266,9 @@ public class PostsDAO {
                         int nbLikes = rs.getInt("nbLikes");
                         int nbComm = rs.getInt("nbComm");
                         String idPseudo = rs.getString("idPseudo");
-                        posts.add(new PostDetails(pid, gid, nomGrp, pidParent, contenu, media, dpub, dfin, duree, pdp, pseudo, uid, uidAdmin, nbLikes, nbComm, idPseudo));
+                        if(duree > 0){
+                            posts.add(new PostDetails(pid, gid, nomGrp, pidParent, contenu, media, dpub, dfin, duree, pdp, pseudo, uid, uidAdmin, nbLikes, nbComm, idPseudo));
+                        }
                     }
                 }
             }
@@ -270,5 +276,19 @@ public class PostsDAO {
             e.printStackTrace();
         }
         return posts;
+    }
+
+    /**
+     * Supprime les posts expirés de la base de données.
+     */
+    public void deleteExpired() {
+        try (Connection con = DS.getConnection()) {
+            String requete = "DELETE FROM Posts WHERE dfin IS NOT NULL AND dfin < CURRENT_TIMESTAMP";
+            try (Statement stmt = con.createStatement()) {
+                stmt.executeUpdate(requete);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

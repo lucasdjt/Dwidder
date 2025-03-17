@@ -448,7 +448,9 @@ public class UsersDAO {
                         int nbLikes = rs.getInt("nbLikes");
                         int nbComm = rs.getInt("nbComm");
                         String idPseudo = rs.getString("idPseudo");
-                        posts.add(new PostDetails(pid, gid, nomGrp, pidParent, contenu, media, dpub, dfin, duree, pdp, pseudo, uid, uidAdmin, nbLikes, nbComm, idPseudo));
+                        if(duree > 0){
+                            posts.add(new PostDetails(pid, gid, nomGrp, pidParent, contenu, media, dpub, dfin, duree, pdp, pseudo, uid, uidAdmin, nbLikes, nbComm, idPseudo));
+                        }
                     }
                 }
             }

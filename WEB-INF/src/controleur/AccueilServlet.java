@@ -25,6 +25,7 @@ public class AccueilServlet extends HttpServlet {
         res.setContentType("text/html; charset=UTF-8");
         res.setCharacterEncoding("UTF-8");
         PostsDAO postsDAO = new PostsDAO();
+        postsDAO.deleteExpired();
         UsersDAO usersDAO = new UsersDAO();
         req.setAttribute("listePosts", postsDAO.selectAllPublic(true));
         req.setAttribute("users", usersDAO.selectAll());
