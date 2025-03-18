@@ -28,7 +28,7 @@ public class Servlet_Favoris extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse res)
         throws ServletException, IOException {
         HttpSession session = req.getSession(false);
-        if (session == null || session.getAttribute("uid") == null || session.getAttribute("pseudo") == null) {
+        if (session == null || session.getAttribute("me_uid") == null || session.getAttribute("me_pseudo") == null) {
             res.sendRedirect(req.getContextPath() + "/connexion");
             return;
         }
@@ -36,13 +36,13 @@ public class Servlet_Favoris extends HttpServlet {
         res.setCharacterEncoding("UTF-8");
         UsersDAO usersDAO = new UsersDAO();
         PostsDAO postsDAO = new PostsDAO();
-        int uid = (int) session.getAttribute("uid");
+        int uid = (int) session.getAttribute("me_uid");
         List<Favori> fav = usersDAO.getListFavorisOfUser(uid);
         List<PostDetails> list = new ArrayList<>();
         for(Favori f : fav){
             list.add(postsDAO.findPostDetails(f.getPid()));
         }
-        req.setAttribute("listePosts", list);
+        session.setAttribute("listeDesPosts", list);
         req.getRequestDispatcher(REPERTORY + "listeFavoris.jsp").forward(req, res);
     }
 }

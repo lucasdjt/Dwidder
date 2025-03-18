@@ -22,7 +22,7 @@ public class Servlet_Members extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse res)
         throws ServletException, IOException {
         HttpSession session = req.getSession(false);
-        if (session == null || session.getAttribute("uid") == null || session.getAttribute("pseudo") == null) {
+        if (session == null || session.getAttribute("me_uid") == null || session.getAttribute("me_pseudo") == null) {
             res.sendRedirect(req.getContextPath() + "/connexion");
             return;
         }
@@ -37,7 +37,7 @@ public class Servlet_Members extends HttpServlet {
         try {
             MembresDAO mDao = new MembresDAO();
             mDao.delete(new Membre(uid, gid, null));
-            LogsDAO.insert(req.getSession().getAttribute("pseudo").toString(), "Suppression du membre " + uid + " du groupe " + gid);
+            LogsDAO.insert(req.getSession().getAttribute("me_pseudo").toString(), "Suppression du membre " + uid + " du groupe " + gid);
             res.sendRedirect(referer);
         } catch (NumberFormatException e) {
             res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid");
@@ -62,7 +62,7 @@ public class Servlet_Members extends HttpServlet {
         MembresDAO mDao = new MembresDAO();
         try {
             mDao.insert(new Membre(user.getUid(), gid, LocalDateTime.now()));
-            LogsDAO.insert(req.getSession().getAttribute("pseudo").toString(), "Ajout du membre " + user.getUid() + " du groupe " + gid);
+            LogsDAO.insert(req.getSession().getAttribute("me_pseudo").toString(), "Ajout du membre " + user.getUid() + " du groupe " + gid);
             res.sendRedirect(req.getContextPath() + "/chgGroupe/" + gid);
         } catch (Exception e) {
             res.sendRedirect(referer + "?success=0");

@@ -14,7 +14,7 @@
 <body>
 
 <% 
-int User_ID = (int) request.getSession().getAttribute("uid");
+int User_ID = (int) session.getAttribute("me_uid");
 %>
 
 <jsp:include page="header.jsp" />
@@ -25,7 +25,7 @@ int User_ID = (int) request.getSession().getAttribute("uid");
         <aside class="col-md-4">
             <div class="card text-center">
                 <%
-                User u = (User) request.getAttribute("user");
+                User u = (User) session.getAttribute("userSearch");
                 if (u != null) {
                 %>
                 <img src="${pageContext.request.contextPath}/<%= u.getPdp() %>" alt="<%= u.getPdp() %>" class="card-img-top rounded-circle mx-auto mt-3" style="width: 100px; height: 100px;">
@@ -45,8 +45,8 @@ int User_ID = (int) request.getSession().getAttribute("uid");
                         <li class="list-group-item"><strong>Date d'inscription : </strong><%= u.getDinscAsDate() %></li>
                     </ul>
                     <div class="d-flex flex-column align-items-stretch mt-3">
-                        <a href="${pageContext.request.contextPath}/followers/<%= u.getIdPseudo() %>" class="btn btn-outline-primary mb-2">Abonnés : <%= request.getAttribute("followers") %></a>
-                        <a href="${pageContext.request.contextPath}/follows/<%=  u.getIdPseudo() %>" class="btn btn-outline-secondary mb-2">Abonnements : <%= request.getAttribute("follows") %></a>
+                        <a href="${pageContext.request.contextPath}/followers/<%= u.getIdPseudo() %>" class="btn btn-outline-primary mb-2">Abonnés : <%= session.getAttribute("nombreFollowers") %></a>
+                        <a href="${pageContext.request.contextPath}/follows/<%=  u.getIdPseudo() %>" class="btn btn-outline-secondary mb-2">Abonnements : <%= session.getAttribute("nombreFollows") %></a>
                         <% if (User_ID == u.getUid()) { %>
                         <a href="${pageContext.request.contextPath}/favoris" class="btn btn-outline-warning mb-2">Favoris</a>
                         <% } %>

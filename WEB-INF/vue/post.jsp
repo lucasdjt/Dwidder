@@ -4,14 +4,14 @@
 <meta http-equiv="refresh" content="15">
 
 <% 
-    int User_ID = (int) request.getSession().getAttribute("uid");
-    List<Integer> listFavoriUser = (List<Integer>) request.getSession().getAttribute("listFavoriUser");
-    List<Integer> listFollowUser = (List<Integer>) request.getSession().getAttribute("listFollowUser");
-    List<Integer> listFollowersUser = (List<Integer>) request.getSession().getAttribute("listFollowersUser");
-    Map<Integer, String> listReactionsUser = (Map<Integer, String>) request.getSession().getAttribute("listReactionsUser");
-    List<PostDetails> list = (ArrayList<PostDetails>) request.getAttribute("listePosts");
-    if (list != null) {
-        for(PostDetails post : list){
+    int User_ID = (int) session.getAttribute("me_uid");
+    List<Integer> listFavoriUser = (List<Integer>) session.getAttribute("me_listFavori");
+    List<Integer> listFollowUser = (List<Integer>) session.getAttribute("me_listFollow");
+    List<Integer> listFollowersUser = (List<Integer>) session.getAttribute("me_listFollowers");
+    Map<Integer, String> listReactionsUser = (Map<Integer, String>) session.getAttribute("me_listReactions");
+    List<PostDetails> listeDesPosts = (ArrayList<PostDetails>) session.getAttribute("listeDesPosts");
+    if (listeDesPosts != null) {
+        for(PostDetails post : listeDesPosts){
 %>
     <article class="card mb-3">
         <header class="card-header d-flex align-items-center">

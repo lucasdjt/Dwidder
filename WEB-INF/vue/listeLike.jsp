@@ -14,11 +14,11 @@
 <body>
 
 <% 
-Integer User_ID = (Integer) request.getSession().getAttribute("uid");
-List<Integer> listFollowUser = (List<Integer>) request.getSession().getAttribute("listFollowUser");
-List<Integer> listFollowersUser = (List<Integer>) request.getSession().getAttribute("listFollowersUser");
-Map<User, String> reactions = (Map<User, String>) request.getAttribute("listReactions");
-Integer pid = (Integer) request.getAttribute("pid");
+Integer User_ID = (Integer) session.getAttribute("me_uid");
+List<Integer> listFollowUser = (List<Integer>) session.getAttribute("me_listFollow");
+List<Integer> listFollowersUser = (List<Integer>) session.getAttribute("me_listFollowers");
+Map<User, String> reactions = (Map<User, String>) session.getAttribute("listeDesReactions");
+Integer pid = (Integer) session.getAttribute("pidReaction");
 %>
 
 <jsp:include page="header.jsp" />

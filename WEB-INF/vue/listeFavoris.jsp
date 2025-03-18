@@ -14,7 +14,7 @@
 <body>
 
 <% 
-int User_ID = (int) request.getSession().getAttribute("uid");
+int User_ID = (int) session.getAttribute("me_uid");
 %>
 
 <jsp:include page="header.jsp" />

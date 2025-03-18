@@ -17,10 +17,11 @@
 
 <main class="container mt-4">
     <h2 class="text-primary text-center">Paramètres du compte</h2>
+    <jsp:include page="popUp.jsp" />
 
-    <form class="card bg-dark text-white p-4" action="${pageContext.request.contextPath}/parametres" method="post" enctype="multipart/form-data">
+    <form class="card bg-dark text-white p-4" action="${pageContext.request.contextPath}/user" method="post" enctype="multipart/form-data">
         <%
-                User user = (User) request.getAttribute("user");
+                User user = (User) session.getAttribute("me_user");
                 if (user != null) {
         %>
         <div class="mb-3">
@@ -81,7 +82,7 @@
 
     <div class="mt-3 text-center">
         <a href="${pageContext.request.contextPath}/connexion" class="btn btn-warning w-100" id="logout">Se déconnecter</a>
-        <form action="${pageContext.request.contextPath}/delAccount" method="get" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer votre compte ?');">
+        <form action="${pageContext.request.contextPath}/user/delete" method="get" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer votre compte ?');">
             <button type="submit" class="btn btn-danger w-100 mt-2" id="deleteAccount">Supprimer mon compte</button>
         </form>
     </div>

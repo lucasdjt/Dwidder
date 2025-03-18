@@ -14,9 +14,9 @@
 <body>
 
 <% 
-int User_ID = (int) request.getSession().getAttribute("uid");
-List<Integer> listFollowUser = (List<Integer>) request.getSession().getAttribute("listFollowUser");
-List<Integer> listFollowersUser = (List<Integer>) request.getSession().getAttribute("listFollowersUser");
+int User_ID = (int) session.getAttribute("me_uid");
+List<Integer> listFollowUser = (List<Integer>) session.getAttribute("me_listFollow");
+List<Integer> listFollowersUser = (List<Integer>) session.getAttribute("me_listFollowers");
 %>
 
 <jsp:include page="header.jsp" />
@@ -31,7 +31,7 @@ List<Integer> listFollowersUser = (List<Integer>) request.getSession().getAttrib
         </form>
         <ul class="list-group">
             <%
-                List<User> list = (ArrayList<User>) request.getAttribute("listFollow");
+                List<User> list = (ArrayList<User>) session.getAttribute("listUsers");
                 if (list != null) {
                     for(User u : list){
             %>

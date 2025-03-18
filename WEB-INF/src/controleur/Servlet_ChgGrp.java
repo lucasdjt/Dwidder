@@ -32,7 +32,7 @@ public class Servlet_ChgGrp extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse res)
         throws ServletException, IOException {
         HttpSession session = req.getSession(false);
-        if (session == null || session.getAttribute("uid") == null || session.getAttribute("pseudo") == null) {
+        if (session == null || session.getAttribute("me_uid") == null || session.getAttribute("me_pseudo") == null) {
             res.sendRedirect(req.getContextPath() + "/connexion");
             return;
         }
@@ -57,8 +57,8 @@ public class Servlet_ChgGrp extends HttpServlet {
             res.sendError(HttpServletResponse.SC_NOT_FOUND, "Groupe not found");
             return;
             }
-            req.setAttribute("groupe", groupe);
-            req.setAttribute("listeMembres", gDao.getListUsersOfAGroup(gid));
+            session.setAttribute("groupeSelect", groupe);
+            session.setAttribute("membreGrp", gDao.getListUsersOfAGroup(gid));
             req.getRequestDispatcher(REPERTORY + "chgGroupe.jsp").forward(req, res);
         } catch (NumberFormatException e) {
             res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid");
@@ -105,7 +105,7 @@ public class Servlet_ChgGrp extends HttpServlet {
         groupe.setPdpGrp(pdpGrp);
         if(admin != null && !admin.isEmpty()){
             groupe.setUid(Integer.parseInt(admin));
-            LogsDAO.insert(session.getAttribute("pseudo").toString(), admin + " est le nouvel admin du groupe " + gid);
+            LogsDAO.insert(session.getAttribute("me_pseudo").toString(), admin + " est le nouvel admin du groupe " + gid);
         }
         String referer = req.getHeader("Referer");
         if (referer != null && referer.contains("?")) {
@@ -113,7 +113,7 @@ public class Servlet_ChgGrp extends HttpServlet {
         }
         try {
             gDao.update(groupe);
-            LogsDAO.insert(session.getAttribute("pseudo").toString(), "Changement des infos du groupe " + gid);
+            LogsDAO.insert(session.getAttribute("me_pseudo").toString(), "Changement des infos du groupe " + gid);
             res.sendRedirect(req.getContextPath() + "/groupes/" + gid);
         } catch (Exception e) {
             res.sendRedirect(referer + "?success=0");

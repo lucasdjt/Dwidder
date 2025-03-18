@@ -34,7 +34,7 @@ public class Servlet_Post extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse res)
         throws ServletException, IOException {
         HttpSession session = req.getSession(false);
-        if (session == null || session.getAttribute("uid") == null || session.getAttribute("pseudo") == null) {
+        if (session == null || session.getAttribute("me_uid") == null || session.getAttribute("me_pseudo") == null) {
             res.sendRedirect(req.getContextPath() + "/connexion");
             return;
         }
@@ -60,8 +60,8 @@ public class Servlet_Post extends HttpServlet {
             res.sendError(HttpServletResponse.SC_NOT_FOUND, "Post not found");
             return;
             }
-            req.setAttribute("post", post);
-            req.setAttribute("listePosts", dao.getListPostsOfPostParent(pid));
+            session.setAttribute("post", post);
+            session.setAttribute("listeDesPosts", dao.getListPostsOfPostParent(pid));
             req.getRequestDispatcher(REPERTORY + "posts.jsp").forward(req, res);
         } catch (NumberFormatException e) {
             res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid");
@@ -127,7 +127,7 @@ public class Servlet_Post extends HttpServlet {
         }
         try {
             dao.insert(new Post(0, uid, gid, pidParent, contenu, media, dpub, dfin));
-            LogsDAO.insert(req.getSession().getAttribute("pseudo").toString(), "Ajout d'un nouveau post");
+            LogsDAO.insert(req.getSession().getAttribute("me_pseudo").toString(), "Ajout d'un nouveau post");
             res.sendRedirect(referer + "?success=1");
         } catch (Exception e) {
             res.sendRedirect(referer + "?success=0");

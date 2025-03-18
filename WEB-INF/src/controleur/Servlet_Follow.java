@@ -25,7 +25,7 @@ public class Servlet_Follow extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse res)
         throws ServletException, IOException {
         HttpSession session = req.getSession(false);
-        if (session == null || session.getAttribute("uid") == null || session.getAttribute("pseudo") == null) {
+        if (session == null || session.getAttribute("me_uid") == null || session.getAttribute("me_pseudo") == null) {
             res.sendRedirect(req.getContextPath() + "/connexion");
             return;
         }
@@ -51,7 +51,7 @@ public class Servlet_Follow extends HttpServlet {
             return;
             }
             List<User> follow = dao.getListFollowsOfUser(user.getUid());
-            req.setAttribute("listFollow", follow);
+            session.setAttribute("listUsers", follow);
             req.getRequestDispatcher(REPERTORY + "listeUser.jsp").forward(req, res);
         } catch (NumberFormatException e) {
             res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid");

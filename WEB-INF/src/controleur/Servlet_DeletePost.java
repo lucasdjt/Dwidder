@@ -17,7 +17,7 @@ public class Servlet_DeletePost extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
         HttpSession session = req.getSession(false);
-        if (session == null || session.getAttribute("uid") == null || session.getAttribute("pseudo") == null) {
+        if (session == null || session.getAttribute("me_uid") == null || session.getAttribute("me_pseudo") == null) {
             res.sendRedirect(req.getContextPath() + "/connexion");
             return;
         }
@@ -38,7 +38,7 @@ public class Servlet_DeletePost extends HttpServlet {
             int pid = Integer.parseInt(pidStr);
             PostsDAO pDAO = new PostsDAO();
             pDAO.delete(pid);
-            LogsDAO.insert(req.getSession().getAttribute("pseudo").toString(), "Suppression du post " + pid);
+            LogsDAO.insert(req.getSession().getAttribute("me_pseudo").toString(), "Suppression du post " + pid);
             res.sendRedirect(req.getContextPath() + "/accueil");
         } catch (NumberFormatException e) {
             res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid");

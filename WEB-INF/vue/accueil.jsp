@@ -14,9 +14,9 @@
 <body>
 
 <% 
-int User_ID = (int) request.getSession().getAttribute("uid");
-List<Integer> listFollowUser = (List<Integer>) request.getSession().getAttribute("listFollowUser");
-List<Integer> listFollowersUser = (List<Integer>) request.getSession().getAttribute("listFollowersUser");
+int User_ID = (int) session.getAttribute("me_uid");
+List<Integer> listFollowUser = (List<Integer>) session.getAttribute("me_listFollow");
+List<Integer> listFollowersUser = (List<Integer>) session.getAttribute("me_listFollowers");
 %>
 
 <jsp:include page="header.jsp" />
@@ -33,11 +33,12 @@ List<Integer> listFollowersUser = (List<Integer>) request.getSession().getAttrib
             <h2 class="text-primary">Utilisateurs</h2>
             <ul class="list-group">
         <%
-        List<User> users = (ArrayList<User>) request.getAttribute("users");
-        if (users != null) {
+        List<User> listeDesUsers = (List<User>) session.getAttribute("listeDesUsers");
+        session.removeAttribute("listeDesUsers");
+        if (listeDesUsers != null) {
             int limite = 5;
-            for (int i = 0; i < users.size() && i < limite; i++) {
-                User u = users.get(i);
+            for (int i = 0; i < listeDesUsers.size() && i < limite; i++) {
+                User u = listeDesUsers.get(i);
                 if (u.getUid() == User_ID) {
                     limite++;
                     continue;

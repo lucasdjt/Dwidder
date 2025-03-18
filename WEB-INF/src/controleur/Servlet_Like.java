@@ -23,7 +23,7 @@ public class Servlet_Like extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse res)
         throws ServletException, IOException {
         HttpSession session = req.getSession(false);
-        if (session == null || session.getAttribute("uid") == null || session.getAttribute("pseudo") == null) {
+        if (session == null || session.getAttribute("me_uid") == null || session.getAttribute("me_pseudo") == null) {
             res.sendRedirect(req.getContextPath() + "/connexion");
             return;
         }
@@ -51,8 +51,8 @@ public class Servlet_Like extends HttpServlet {
                 User u = uDao.findUserByUid(r.getUid());
                 userReactions.put(u, r.getTypeEmoji());
             }
-            req.setAttribute("listReactions", userReactions);
-            req.setAttribute("pid", pid);
+            session.setAttribute("listeDesReactions", userReactions);
+            session.setAttribute("pidReaction", pid);
             req.getRequestDispatcher(REPERTORY + "listeLike.jsp").forward(req, res);
         } catch (NumberFormatException e) {
             res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid");

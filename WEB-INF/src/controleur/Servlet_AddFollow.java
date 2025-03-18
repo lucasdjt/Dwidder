@@ -21,7 +21,7 @@ public class Servlet_AddFollow extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
         HttpSession session = req.getSession(false);
-        if (session == null || session.getAttribute("uid") == null || session.getAttribute("pseudo") == null) {
+        if (session == null || session.getAttribute("me_uid") == null || session.getAttribute("me_pseudo") == null) {
             res.sendRedirect(req.getContextPath() + "/connexion");
             return;
         }
@@ -33,10 +33,10 @@ public class Servlet_AddFollow extends HttpServlet {
         if (existingAbonnement == null) {
             Abonnement newAbonnement = new Abonnement(uidFollowers, uidFollowed, LocalDateTime.now());
             abonnementsDAO.insert(newAbonnement);
-            LogsDAO.insert(session.getAttribute("pseudo").toString(), "Ajout d'un nouvelle abonnement : " + uidFollowers + "-->" + uidFollowed);
+            LogsDAO.insert(session.getAttribute("me_pseudo").toString(), "Ajout d'un nouvelle abonnement : " + uidFollowers + "-->" + uidFollowed);
         } else {
             abonnementsDAO.delete(existingAbonnement);
-            LogsDAO.insert(session.getAttribute("pseudo").toString(), "Suppression d'un abonnement : " + uidFollowers + "-->" + uidFollowed);
+            LogsDAO.insert(session.getAttribute("me_pseudo").toString(), "Suppression d'un abonnement : " + uidFollowers + "-->" + uidFollowed);
         }
         String referer = req.getHeader("Referer");
         if (referer != null && referer.contains("?")) {
@@ -44,11 +44,11 @@ public class Servlet_AddFollow extends HttpServlet {
         }
         UsersDAO dao = new UsersDAO();
         List<Integer> listFollowUser = new ArrayList<>();
-        dao.getListFollowsOfUser((int) req.getSession().getAttribute("uid")).forEach(follow -> listFollowUser.add(follow.getUid()));
+        dao.getListFollowsOfUser((int) req.getSession().getAttribute("me_uid")).forEach(follow -> listFollowUser.add(follow.getUid()));
         List<Integer> listFollowersUser = new ArrayList<>();
-        dao.getListFollowersOfUser((int) req.getSession().getAttribute("uid")).forEach(follower -> listFollowersUser.add(follower.getUid()));
-        req.getSession().setAttribute("listFollowUser", listFollowUser);
-        req.getSession().setAttribute("listFollowersUser", listFollowersUser);
+        dao.getListFollowersOfUser((int) req.getSession().getAttribute("me_uid")).forEach(follower -> listFollowersUser.add(follower.getUid()));
+        req.getSession().setAttribute("me_listFollow", listFollowUser);
+        req.getSession().setAttribute("me_listFollowers", listFollowersUser);
         res.sendRedirect(referer);
     }
 }

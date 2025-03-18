@@ -14,7 +14,7 @@
 <body>
 
 <% 
-int User_ID = (int) request.getSession().getAttribute("uid");
+int User_ID = (int) session.getAttribute("me_uid");
 %>
 
 <jsp:include page="header.jsp" />
@@ -26,7 +26,7 @@ int User_ID = (int) request.getSession().getAttribute("uid");
             <a href="${pageContext.request.contextPath}/addGroupe" class="btn btn-outline-success mt-2 w-100">Créer un Groupe</a>
             <ul class="list-group">
             <%
-            List<Groupe> listGrp = (ArrayList<Groupe>) request.getAttribute("listGrp");
+            List<Groupe> listGrp = (ArrayList<Groupe>) session.getAttribute("listeDesGroupes");
             if (listGrp != null) {
                 for(Groupe g : listGrp){
             %>
@@ -42,7 +42,7 @@ int User_ID = (int) request.getSession().getAttribute("uid");
         <section class="col-md-8">
             <div class="card text-center">
             <%
-            Groupe gSelect = (Groupe) request.getAttribute("groupe");
+            Groupe gSelect = (Groupe) session.getAttribute("groupe");
             if (gSelect != null) {
             %>
                 <img src="${pageContext.request.contextPath}/<%= gSelect.getPdpGrp() %>" alt="<%= gSelect.getPdpGrp() %>" class="card-img-top rounded-circle mx-auto mt-3" style="width: 100px; height: 100px;">

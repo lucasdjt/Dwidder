@@ -26,7 +26,7 @@ public class Servlet_Groupe extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse res)
         throws ServletException, IOException {
         HttpSession session = req.getSession(false);
-        if (session == null || session.getAttribute("uid") == null || session.getAttribute("pseudo") == null) {
+        if (session == null || session.getAttribute("me_uid") == null || session.getAttribute("me_pseudo") == null) {
             res.sendRedirect(req.getContextPath() + "/connexion");
             return;
         }
@@ -34,11 +34,11 @@ public class Servlet_Groupe extends HttpServlet {
         res.setCharacterEncoding("UTF-8");
 
         UsersDAO uDao = new UsersDAO();
-        int uid = (int) session.getAttribute("uid");
+        int uid = (int) session.getAttribute("me_uid");
         String pathInfo = req.getPathInfo();
         if (pathInfo == null || pathInfo.equals("/")) {
             try {
-                req.setAttribute("listGrp", uDao.getUserGroups(uid));
+                session.setAttribute("listeDesGroupes", uDao.getUserGroups(uid));
                 req.getRequestDispatcher(REPERTORY + "groupes.jsp").forward(req, res);
             } catch (NumberFormatException e) {
                 res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid");
@@ -61,9 +61,9 @@ public class Servlet_Groupe extends HttpServlet {
             res.sendError(HttpServletResponse.SC_NOT_FOUND, "Groupe not found");
             return;
             }
-            req.setAttribute("groupe", groupe);
-            req.setAttribute("listePosts", dao.getListPostsOfGroup(gid, (boolean) req.getSession().getAttribute("tri")));
-            req.setAttribute("listGrp", uDao.getUserGroups(uid));
+            session.setAttribute("groupe", groupe);
+            session.setAttribute("listeDesPosts", dao.getListPostsOfGroup(gid, (boolean) req.getSession().getAttribute("me_tri")));
+            session.setAttribute("listeDesGroupes", uDao.getUserGroups(uid));
             req.getRequestDispatcher(REPERTORY + "groupes.jsp").forward(req, res);
         } catch (NumberFormatException e) {
             res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid");

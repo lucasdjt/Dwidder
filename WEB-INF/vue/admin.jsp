@@ -12,11 +12,12 @@
 <body>
 
 <% 
-int User_ID = (int) request.getSession().getAttribute("uid");
+int User_ID = (int) session.getAttribute("me_uid");
 %>
 
 <main class="container mt-4">
     <h2 class="text-primary">Panneau d'Administration</h2>
+    <jsp:include page="popUp.jsp" />
 
     <section class="mb-4">
         <h3 class="text-secondary">Gérer les utilisateurs</h3>
@@ -25,12 +26,13 @@ int User_ID = (int) request.getSession().getAttribute("uid");
                 <label for="uid" class="form-label">Sélectionner un utilisateur :</label>
                 <select class="form-select" name="uid" id="uid" required>
                     <%
-                    List<User> users = (List<User>) request.getAttribute("users");
-                    if (users != null) {
-                        for (User user : users) {
+                    List<User> listeDesUsers = (List<User>) session.getAttribute("listeDesUsers");
+                    session.removeAttribute("listeDesUsers");
+                    if (listeDesUsers != null) {
+                        for (User user : listeDesUsers) {
                             if (user.getUid() != User_ID) {
                     %>
-                            <option value="<%= user.getIdPseudo() %>"><%= user.getPseudo() %></option>
+                            <option value="<%= user.getIdPseudo() %>"><%= user.getPseudo() %> (<%= user.getIdPseudo() %>)</option>
                     <%
                             }
                         }
@@ -55,9 +57,10 @@ int User_ID = (int) request.getSession().getAttribute("uid");
             </thead>
             <tbody>
                 <%
-                List<Logs> logs = (List<Logs>) request.getAttribute("logs");
-                if (logs != null) {
-                    for (Logs log : logs){
+                List<Logs> listeDesLogs = (List<Logs>) session.getAttribute("listeDesLogs");
+                session.removeAttribute("listeDesUsers");
+                if (listeDesLogs != null) {
+                    for (Logs log : listeDesLogs){
                 %>
                         <tr>
                             <td><%= log.getLid() %></td>

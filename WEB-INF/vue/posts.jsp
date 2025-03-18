@@ -14,12 +14,11 @@
 <body>
 
 <% 
-int User_ID = (int) request.getSession().getAttribute("uid");
-List<Integer> listFavoriUser = (List<Integer>) request.getSession().getAttribute("listFavoriUser");
-List<Integer> listFollowUser = (List<Integer>) request.getSession().getAttribute("listFollowUser");
-List<Integer> listFollowersUser = (List<Integer>) request.getSession().getAttribute("listFollowersUser");
-Map<Integer, String> listReactionsUser = (Map<Integer, String>) request.getSession().getAttribute("listReactionsUser");
-List<PostDetails> list = (ArrayList<PostDetails>) request.getAttribute("listePosts");
+int User_ID = (int) session.getAttribute("me_uid");
+List<Integer> listFavoriUser = (List<Integer>) session.getAttribute("me_listFavori");
+List<Integer> listFollowUser = (List<Integer>) session.getAttribute("me_listFollow");
+List<Integer> listFollowersUser = (List<Integer>) session.getAttribute("me_listFollowers");
+Map<Integer, String> listReactionsUser = (Map<Integer, String>) session.getAttribute("me_listReactions");
 %>
 
 <jsp:include page="header.jsp" />
@@ -28,7 +27,7 @@ List<PostDetails> list = (ArrayList<PostDetails>) request.getAttribute("listePos
     <div class="row">
         <aside class="col-md-4">
             <%
-            PostDetails post = (PostDetails) request.getAttribute("post");
+            PostDetails post = (PostDetails) session.getAttribute("post");
             if (post != null) {
             %>
             <article class="card mb-3">

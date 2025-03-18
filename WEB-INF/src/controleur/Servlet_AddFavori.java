@@ -21,11 +21,11 @@ public class Servlet_AddFavori extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
         HttpSession session = req.getSession(false);
-        if (session == null || session.getAttribute("uid") == null || session.getAttribute("pseudo") == null) {
+        if (session == null || session.getAttribute("me_uid") == null || session.getAttribute("me_pseudo") == null) {
             res.sendRedirect(req.getContextPath() + "/connexion");
             return;
         }
-        int uid = (int) req.getSession().getAttribute("uid");
+        int uid = (int) req.getSession().getAttribute("me_uid");
         int pid = Integer.parseInt(req.getParameter("pid"));
         FavorisDAO favorisDAO = new FavorisDAO();
 
@@ -33,9 +33,9 @@ public class Servlet_AddFavori extends HttpServlet {
         if (existingFavori == null) {
             Favori newFavori = new Favori(uid, pid, LocalDateTime.now());
             favorisDAO.insert(newFavori);
-            LogsDAO.insert(session.getAttribute("pseudo").toString(), "Ajout d'un nouveau favori : " + pid);
+            LogsDAO.insert(session.getAttribute("me_pseudo").toString(), "Ajout d'un nouveau favori : " + pid);
         } else {
-            LogsDAO.insert(session.getAttribute("pseudo").toString(), "Suppression d'un favori : " + pid);
+            LogsDAO.insert(session.getAttribute("me_pseudo").toString(), "Suppression d'un favori : " + pid);
             favorisDAO.delete(existingFavori);
         }
         String referer = req.getHeader("Referer");
@@ -44,8 +44,8 @@ public class Servlet_AddFavori extends HttpServlet {
         }
         UsersDAO dao = new UsersDAO();
         List<Integer> listFavoriUser = new ArrayList<>();
-        dao.getListFavorisOfUser((int) req.getSession().getAttribute("uid")).forEach(favori -> listFavoriUser.add(favori.getPid()));
-        req.getSession().setAttribute("listFavoriUser", listFavoriUser);
+        dao.getListFavorisOfUser((int) req.getSession().getAttribute("me_uid")).forEach(favori -> listFavoriUser.add(favori.getPid()));
+        req.getSession().setAttribute("me_listFavori", listFavoriUser);
         res.sendRedirect(referer);
     }
 }

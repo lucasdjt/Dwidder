@@ -20,7 +20,7 @@ public class Servlet_AddLike extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
         HttpSession session = req.getSession(false);
-        if (session == null || session.getAttribute("uid") == null || session.getAttribute("pseudo") == null) {
+        if (session == null || session.getAttribute("me_uid") == null || session.getAttribute("me_pseudo") == null) {
             res.sendRedirect(req.getContextPath() + "/connexion");
             return;
         }
@@ -40,18 +40,18 @@ public class Servlet_AddLike extends HttpServlet {
             if (existingReaction == null) {
                 Reaction newReaction = new Reaction(uid, pid, reaction);
                 reactionsDAO.insert(newReaction);
-                LogsDAO.insert(session.getAttribute("pseudo").toString(), "Ajout d'un réaction \"" + reaction + "\" au post " + pid);
+                LogsDAO.insert(session.getAttribute("me_pseudo").toString(), "Ajout d'un réaction \"" + reaction + "\" au post " + pid);
             } else {
                 existingReaction.setType(reaction);
                 reactionsDAO.update(existingReaction);
-                LogsDAO.insert(session.getAttribute("pseudo").toString(), "Modification de la réaction du post " + pid + "par " + reaction);
+                LogsDAO.insert(session.getAttribute("me_pseudo").toString(), "Modification de la réaction du post " + pid + "par " + reaction);
             }
         }
         Map<Integer, String> listReactionsUser = new HashMap<>();
         for (Reaction r : dao.getListReactionsOfUser(uid)) {
             listReactionsUser.put(r.getPid(), r.getTypeEmoji());
         }
-        req.getSession().setAttribute("listReactionsUser", listReactionsUser);
+        req.getSession().setAttribute("me_listReactions", listReactionsUser);
         res.sendRedirect(referer);
     }
 }

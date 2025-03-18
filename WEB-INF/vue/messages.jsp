@@ -15,7 +15,7 @@
 <body>
 
 <% 
-int User_ID = (int) request.getSession().getAttribute("uid");
+int User_ID = (int) session.getAttribute("me_uid");
 %>
 
 <jsp:include page="header.jsp" />
@@ -33,7 +33,7 @@ int User_ID = (int) request.getSession().getAttribute("uid");
             </form>
             <ul class="list-group">
                 <%
-                List<User> list = (List<User>) request.getAttribute("listUser");
+                List<User> list = (List<User>) session.getAttribute("listDesUtilisateurs");
                 if (list != null) {
                     for(User u : list){
                         if(u.getUid() == User_ID){
@@ -50,7 +50,7 @@ int User_ID = (int) request.getSession().getAttribute("uid");
 
         <section class="col-md-8 d-flex flex-column">
                 <%
-                User user = (User) request.getAttribute("user");
+                User user = (User) session.getAttribute("userMess");
                 if (user != null) {
                 %>
             <header class="card d-flex align-items-center p-3 border">
@@ -65,7 +65,7 @@ int User_ID = (int) request.getSession().getAttribute("uid");
                 <div class="card-body overflow-auto" id="conversation" style="height: 400px;">
                     <div class="d-flex flex-column">
                         <%
-                        List<Message> listMess = (List<Message>) request.getAttribute("listMess");
+                        List<Message> listMess = (List<Message>) session.getAttribute("listeDesMessages");
                         if (listMess != null) {
                             for(Message m : listMess){
                                 if(m.getUidEnvoyeur() != User_ID){
@@ -95,14 +95,6 @@ int User_ID = (int) request.getSession().getAttribute("uid");
                         <input type="hidden" name="uidReceveur" value="<%= user.getUid() %>">
                         <button class="btn btn-primary">Envoyer</button>
                     </form>
-                    <% 
-                    String success = request.getParameter("success");
-                    if ("0".equals(success)) {
-                    %>
-                        <p style="color:red;">Erreur lors de l'envoi du message.</p>
-                    <%
-                    }
-                    %>
                 </div>
             </div>
                 <% } %>

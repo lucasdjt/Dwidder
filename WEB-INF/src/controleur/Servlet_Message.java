@@ -36,24 +36,23 @@ public class Servlet_Message extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse res)
         throws ServletException, IOException {
             HttpSession session = req.getSession(false);
-            if (session == null || session.getAttribute("uid") == null || session.getAttribute("pseudo") == null) {
+            if (session == null || session.getAttribute("me_uid") == null || session.getAttribute("me_pseudo") == null) {
                 res.sendRedirect(req.getContextPath() + "/connexion");
                 return;
             }
-        int uid = (int) session.getAttribute("uid");
+        int uid = (int) session.getAttribute("me_uid");
         UsersDAO uDao = new UsersDAO();
         List<User> listUsers = uDao.getListConversationsOfUser(uid);
         List<User> listFollow = uDao.getListFollowsOfUser(uid);
         listFollow.removeAll(listUsers);
-        req.setAttribute("follows", listFollow);
-        req.setAttribute("listUser", listUsers);
+        session.setAttribute("listDesUtilisateurs", listUsers);
 
         res.setContentType("text/html; charset=UTF-8");
         res.setCharacterEncoding("UTF-8");
         String pathInfo = req.getPathInfo();
         if (pathInfo == null || pathInfo.equals("/")) {
             if(req.getParameter("query") != null){
-                req.setAttribute("listUser", uDao.getListUsersWithEquivalentKey(req.getParameter("query")));
+                session.setAttribute("listDesUtilisateurs", uDao.getListUsersWithEquivalentKey(req.getParameter("query")));
             }
             req.getRequestDispatcher(REPERTORY + "messages.jsp").forward(req, res);
             return;
@@ -71,8 +70,8 @@ public class Servlet_Message extends HttpServlet {
                 res.sendError(HttpServletResponse.SC_NOT_FOUND, "User not found");
                 return;
             }
-            req.setAttribute("user", user);
-            req.setAttribute("listMess", uDao.getListMessagesOf2Users(uid, user.getUid()));
+            session.setAttribute("userMess", user);
+            session.setAttribute("listeDesMessages", uDao.getListMessagesOf2Users(uid, user.getUid()));
             req.getRequestDispatcher(REPERTORY + "messages.jsp").forward(req, res);
         } catch (NumberFormatException e) {
             res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid");
@@ -119,7 +118,7 @@ public class Servlet_Message extends HttpServlet {
         }
         try {
             dao.insert(new Message(0, uidEnvoyeur, uidReceveur, corps, imgMess, dmess));
-            LogsDAO.insert(req.getSession().getAttribute("pseudo").toString(), "Envoi d'un message " + uidEnvoyeur + " --> " + uidReceveur);
+            LogsDAO.insert(req.getSession().getAttribute("me_pseudo").toString(), "Envoi d'un message " + uidEnvoyeur + " --> " + uidReceveur);
             res.sendRedirect(referer);
         } catch (Exception e) {
             res.sendRedirect(referer + "?success=0");

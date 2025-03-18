@@ -13,7 +13,7 @@
 <body>
 
 <% 
-int User_ID = (int) request.getSession().getAttribute("uid");
+int User_ID = (int) session.getAttribute("me_uid");
 %>
 
 <jsp:include page="header.jsp" />
@@ -22,20 +22,6 @@ int User_ID = (int) request.getSession().getAttribute("uid");
     <h2 class="text-primary text-center">Créer un Groupe</h2>
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <%
-            String success = request.getParameter("success");
-            String existant = request.getParameter("existant");
-            if ("0".equals(success)) {
-            %>
-                <p style="color:red;">Erreur lors de la création du groupe.</p>
-            <%
-            }
-            if ("0".equals(existant)) {
-            %>
-                <p style="color:red;">Nom déjà utilisé.</p>
-            <%
-            }
-            %>
             <form action="addGroupe" method="POST" enctype="multipart/form-data">
                 <div class="mb-3">
                     <label for="nomGrp" class="form-label">Nom du Groupe</label>

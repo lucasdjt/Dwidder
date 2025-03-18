@@ -35,7 +35,7 @@ public class Servlet_AddGroupe extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse res)
         throws ServletException, IOException {
         HttpSession session = req.getSession(false);
-        if (session == null || session.getAttribute("uid") == null || session.getAttribute("pseudo") == null) {
+        if (session == null || session.getAttribute("me_uid") == null || session.getAttribute("me_pseudo") == null) {
             res.sendRedirect(req.getContextPath() + "/connexion");
             return;
         }
@@ -87,7 +87,7 @@ public class Servlet_AddGroupe extends HttpServlet {
             }
             gDao.insert(new Groupe(0, uid, pdpGrp, nomGrp, description, dcreat));
             mDao.insert(new Membre(uid, gDao.findGroupByName(nomGrp).getGid(), dcreat));
-            LogsDAO.insert(session.getAttribute("pseudo").toString(), "Création d'un nouveau groupe : " + nomGrp);
+            LogsDAO.insert(session.getAttribute("me_pseudo").toString(), "Création d'un nouveau groupe : " + nomGrp);
             
             res.sendRedirect(req.getContextPath() + "/accueil?groupe=1");
         } catch (Exception e) {

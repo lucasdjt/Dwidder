@@ -20,7 +20,7 @@
     <div class="card bg-dark text-white p-4" style="max-width: 400px; width: 100%;">
         <h2 class="text-center text-white">Connexion</h2>
         <jsp:include page="popUp.jsp" />
-        <form action="${pageContext.request.contextPath}/connexion" method="post" enctype="multipart/form-data">
+        <form action="${pageContext.request.contextPath}/connexion" method="post">
             <div class="mb-3">
                 <label for="identifier" class="form-label">Email ou Pseudo</label>
                 <input type="text" class="form-control bg-dark text-white" name="identifier" required>

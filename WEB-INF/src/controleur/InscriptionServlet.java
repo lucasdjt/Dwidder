@@ -27,14 +27,18 @@ public class InscriptionServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         res.setContentType("text/html; charset=UTF-8");
         res.setCharacterEncoding("UTF-8");
+
         if (req.getSession(false) != null) req.getSession(false).invalidate();
+
         req.getRequestDispatcher(BAO.getRepertory() + "inscription.jsp").forward(req, res);
     }
 
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+        res.setContentType("text/html; charset=UTF-8");
+        res.setCharacterEncoding("UTF-8");
         req.setCharacterEncoding("UTF-8");
+
         UsersDAO uDao = new UsersDAO();
-        String error = "";
 
         String idPseudo = req.getParameter("idPseudo");
         String pseudo = req.getParameter("pseudo");
@@ -49,7 +53,8 @@ public class InscriptionServlet extends HttpServlet {
         LocalDate dnaiss = LocalDate.parse(req.getParameter("dnaiss"));
         String loca = req.getParameter("loca");
 
-        if (uDao.findUserByPseudo(idPseudo) != null) error += "Identifiant déjà utilisé. ";
+        String error = "";
+        if (uDao.findUserByPseudo(idPseudo) != null || idPseudo.equals("delete")) error += "Identifiant déjà utilisé. ";
         if (uDao.findUserByEmail(email) != null) error += "Mail déjà utilisé. ";
         if (!mdp.equals(req.getParameter("confirmPassword"))) error += "Validation de mot de passe incorect. ";
         if (!error.isEmpty()) {
@@ -59,13 +64,14 @@ public class InscriptionServlet extends HttpServlet {
         }
 
         try {
-            User newUser = new User(0, idPseudo, pseudo, prenom, nomUser, email, mdp, bio, pdp, dinsc, dnaiss, loca, false);
-            uDao.insert(newUser);
-            LogsDAO.insert(pseudo, "Création de son compte");
+            uDao.insert(new User(0, idPseudo, pseudo, prenom, nomUser, email, mdp, bio, pdp, dinsc, dnaiss, loca, false));
+
             req.getSession().setAttribute("success", "Compte créé avec succès !");
+
+            LogsDAO.insert(pseudo, "Création de son compte");
             res.sendRedirect(req.getContextPath() + "/connexion");
         } catch (Exception e) {
-            req.setAttribute("error", "Une erreur est survenue lors de la création du compte.");
+            req.getSession().setAttribute("error", "Une erreur est survenue lors de la création du compte.");
             req.getRequestDispatcher(BAO.getRepertory() + "inscription.jsp").forward(req, res);
         }
     }
