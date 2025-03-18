@@ -59,10 +59,7 @@ javac -cp ".;../../../../lib/servlet-api.jar;../../../../lib" ../src/controleur/
 ### LINUX
 - dans Annexe/SQL : 
 psql -h psqlserv -U lucasdejesusteixeiraetu but2
-\i create.sh
-\i error.sh
-\i select.sh
-\i delete.sh
+\i setup.sql
 
 - dans classes :
 ./remove.sh
