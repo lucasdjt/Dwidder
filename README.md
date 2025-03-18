@@ -78,3 +78,53 @@ killall java
 - LocalDateTime, Interval et Duration
 - sendRedirect qd c une servlet /element/*
 - Gestion des messages et conversations
+
+### OPTIMISATION
+
+APIServlet "/api/*" :
+APIServlet "/api/*" doGet ==> /api/*
+
+AccueilServlet "/accueil" :
+- AccueilServlet "/accueil" doGet ==> /accueil
+
+AdminServlet "/admin" :
+- AdminServlet "/admin" doGet doPost
+
+ConnexionServlet "/connexion" :
+- ConnexionServlet "/connexion" doGet doPost
+
+InscriptionServlet "inscription" :
+- CreerCompteServlet "/inscrire" doGet
+
+UserServlet "/user/*" :
+- AddAccountServlet "/addAccount" doPost ==> /user/add
+- DeleteAccountServlet "/delAccount" doGet ==> /user/delete
+- UsersServlet "/user/*" doGet ==> /user
+- ParametresServlet "/parametres" doGet doPost ==> /user/edit
+
+FavoriServlet "/favori/*" :
+- AddFavoriServlet "/addFavori" doGet ==> /favori/add
+- FavorisServlet "/favoris" doGet ==> /favori
+
+ReactionServlet "/reaction/*" :
+- AddLikeServlet "/addReaction" doGet ==> /reaction/add
+- LikeServlet "/reactions/*" doGet ==> /reaction
+
+AbonnementServlet "/follow/*" :
+- AddFollowServlet "/addFollow" doGet ==> /follow/add
+- FollowerServlet "/followers/*" doGet ==> /follow/followers
+- FollowServlet "/follows/*" doGet ==> /follow/follow
+
+GroupeServlet : "groupe/*" :
+- GroupeServlet "/groupes/*" doGet ==> /groupe
+- ChgGrpServlet "/chgGroupe/*" doGet doPost ==> /groupe/edit
+- DeleteGroupeServlet "/delGroupe" doGet ==> /groupe/delete
+- AddGroupeServlet "/addGroupe" doGet doPost ==> /groupe/add
+- Memberservlets "/member" doGet doPost ==> /groupe/members
+
+PostServlet : "post/*" :
+DeletePostServlet "/delPost/*" doGet ==> /post/delete
+PostServlet "/posts/*" doGet doPost ==> /post && /post/add
+
+MessageServlet : "messages/*"
+MessageServlet "/messages/*" doGet doPost ==> /message
