@@ -47,10 +47,12 @@ int User_ID = (int) request.getSession().getAttribute("uid");
                     <div class="d-flex flex-column align-items-stretch mt-3">
                         <a href="${pageContext.request.contextPath}/followers/<%= u.getIdPseudo() %>" class="btn btn-outline-primary mb-2">Abonnés : <%= request.getAttribute("followers") %></a>
                         <a href="${pageContext.request.contextPath}/follows/<%=  u.getIdPseudo() %>" class="btn btn-outline-secondary mb-2">Abonnements : <%= request.getAttribute("follows") %></a>
+                        <% if (User_ID == u.getUid()) { %>
                         <a href="${pageContext.request.contextPath}/favoris" class="btn btn-outline-warning mb-2">Favoris</a>
+                        <% } %>
                     </div>
                 </div>
-                <%}%>
+                <% } %>
             </div>
         </aside>
 

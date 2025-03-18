@@ -71,7 +71,24 @@ List<Integer> listFollowersUser = (List<Integer>) request.getSession().getAttrib
                         </div>
                         <div class="mb-3">
                             <label for="description" class="form-label">Description</label>
-                            <textarea name="description" id="description" class="form-control" rows="3" required><%= gSelect.getDescription() %></textarea>
+                            <textarea name="description" id="description" class="form-control" rows="3"><%= gSelect.getDescription() %></textarea>
+                        </div>
+                        <div class="mb-3 bg-danger p-3 rounded">
+                            <label for="newAdmin" class="form-label text-white">Changer d'administrateur du groupe</label>
+                            <select name="newAdmin" id="newAdmin" class="form-select" required>
+                                <option value="" disabled selected>Choisir un nouvel administrateur</option>
+                                <% 
+                                if (listUsers != null) {
+                                    for (User u : listUsers) {
+                                        if (u.getUid() != User_ID) { 
+                                %>
+                                <option value="<%= u.getUid() %>"><%= u.getPseudo() %></option>
+                                <% 
+                                        }
+                                    }
+                                } 
+                                %>
+                            </select>
                         </div>
                         <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
                     </div>

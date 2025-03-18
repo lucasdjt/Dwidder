@@ -1,8 +1,9 @@
 package controleur;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -45,11 +46,12 @@ public class LikeServlet extends HttpServlet {
             PostsDAO dao = new PostsDAO();
             UsersDAO uDao = new UsersDAO();
             List<Reaction> listR = dao.getPostReactions(pid);
-            List<User> user = new ArrayList<>();
-            for(Reaction r : listR){
-                user.add(uDao.findByUid(r.getUid()));
+            Map<User, String> userReactions = new HashMap<>();
+            for (Reaction r : listR) {
+                User u = uDao.findByUid(r.getUid());
+                userReactions.put(u, r.getTypeEmoji());
             }
-            req.setAttribute("reactions", user);
+            req.setAttribute("listReactions", userReactions);
             req.setAttribute("pid", pid);
             req.getRequestDispatcher(REPERTORY + "listeLike.jsp").forward(req, res);
         } catch (NumberFormatException e) {

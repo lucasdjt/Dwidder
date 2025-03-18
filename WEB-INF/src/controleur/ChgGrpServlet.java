@@ -94,19 +94,23 @@ public class ChgGrpServlet extends HttpServlet {
         }
         String nomGrp = req.getParameter("nomGrp");
         String description = req.getParameter("description");
+        String admin = req.getParameter("newAdmin");
         GroupesDAO gDao = new GroupesDAO();
         int gid = Integer.parseInt(req.getParameter("gid"));
         Groupe groupe = gDao.findByGid(gid);
         groupe.setNomGrp(nomGrp);
         groupe.setDescription(description);
         groupe.setPdpGrp(pdpGrp);
+        if(admin != null && !admin.isEmpty()){
+            groupe.setUid(Integer.parseInt(admin));
+        }
         String referer = req.getHeader("Referer");
         if (referer != null && referer.contains("?")) {
             referer = referer.substring(0, referer.indexOf("?"));
         }
         try {
             gDao.update(groupe);
-            res.sendRedirect(req.getContextPath() + "/chgGroupe/" + gid);
+            res.sendRedirect(req.getContextPath() + "/groupes/" + gid);
         } catch (Exception e) {
             res.sendRedirect(referer + "?success=0");
         }

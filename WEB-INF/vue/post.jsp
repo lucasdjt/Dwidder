@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ page import="java.util.ArrayList, java.util.List, modele.dto.PostDetails, modele.dto.Reaction, java.util.Map" %>
+<%@ page import="java.util.ArrayList, java.util.List, modele.dto.PostDetails, java.util.Map" %>
 
 <% 
     int User_ID = (int) request.getSession().getAttribute("uid");
@@ -34,6 +34,8 @@
                     <% } else { %>
                         <a href="${pageContext.request.contextPath}/addFollow?follow=<%= post.getUid() %>&follower=<%= User_ID %>" class="btn btn-sm btn-outline-danger">Ne plus suivre</a>
                     <% } %>
+                <% } else { %>
+                    <a href="${pageContext.request.contextPath}/reactions/<%= post.getPid() %>" class="btn btn-sm btn-outline-primary">Voir les réactions</a>
                 <% } %>
                 <% if (post.getUid() == User_ID  || post.getUidAdmin() == User_ID) { %>
                     <a href="${pageContext.request.contextPath}/delPost/<%= post.getPid() %>" class="btn btn-sm btn-outline-danger">Supprimer le post</a>

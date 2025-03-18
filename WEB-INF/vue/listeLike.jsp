@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ page import="java.util.ArrayList, java.util.List, modele.dto.User"%>
+<%@ page import="java.util.ArrayList, java.util.List, modele.dto.User, java.util.Map"%>
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -14,7 +14,11 @@
 <body>
 
 <% 
-int User_ID = (int) request.getSession().getAttribute("uid");
+Integer User_ID = (Integer) request.getSession().getAttribute("uid");
+List<Integer> listFollowUser = (List<Integer>) request.getSession().getAttribute("listFollowUser");
+List<Integer> listFollowersUser = (List<Integer>) request.getSession().getAttribute("listFollowersUser");
+Map<User, String> reactions = (Map<User, String>) request.getAttribute("listReactions");
+Integer pid = (Integer) request.getAttribute("pid");
 %>
 
 <jsp:include page="header.jsp" />
@@ -23,24 +27,35 @@ int User_ID = (int) request.getSession().getAttribute("uid");
         <h2 class="text-primary">Liste de compte</h2>
         <ul class="list-group">
             <%
-                List<User> list = (ArrayList<User>) request.getAttribute("reactions");
-                int pid = (int) request.getAttribute("pid");
-                if (list != null) {
-                    for(User u : list){
+                if (reactions != null) {
+                    for (Map.Entry<User, String> e : reactions.entrySet()) {
+                        User u = e.getKey();
             %>
             <li class="border list-group-item d-flex align-items-center">
                 <img src="${pageContext.request.contextPath}/<%= u.getPdp() %>" alt="<%= u.getPdp() %>" class="rounded-circle me-2" width="40">
                 <div>
                     <a href="${pageContext.request.contextPath}/user/<%= u.getIdPseudo() %>" class="text-decoration-none text-white"><h6 class="mb-0"><%= u.getPseudo() %></h6></a>
-                    <small class="text-muted">@<%= u.getIdPseudo() %></small>
+                    <small class="text-muted">@<%= u.getIdPseudo() %>
+                    <% if (listFollowersUser.contains(u.getUid())) { %>
+                            <span class="text-success"> - Cette personne vous suit</span>
+                    <% } %>
+                    </small>
                     <p class="mb-1"><%= u.getBio() %></p>
                 </div>
-                <button class="btn btn-sm btn-outline-light ms-auto me-2">👍</button>
-                <a href="${pageContext.request.contextPath}/addFollow?follow=<%= u.getUid() %>&follower=<%= User_ID %>" class="btn btn-sm btn-outline-success me-2">+ Suivre</a>
-                <a href="${pageContext.request.contextPath}/user/<%= u.getIdPseudo() %>" class="btn btn-sm btn-outline-primary me-2">Consulter le profil</a>
-                <a href="${pageContext.request.contextPath}/addLike?pid=<%= pid %>&uid=<%= u.getUid() %>" class="btn btn-sm btn-outline-danger">Supprimer le like</a>
+                <div class="ms-auto">
+                        <a href="${pageContext.request.contextPath}/addReaction?pid=<%= pid %>&uid=<%= u.getUid() %>&supprimer=1" class="btn btn-outline-danger btn-sm">
+                            <%= e.getValue() %>
+                        </a>
+                        <% if(u.getUid() != User_ID){ %>
+                        <% if (!listFollowUser.contains(u.getUid())) { %>
+                            <a href="${pageContext.request.contextPath}/addFollow?follow=<%= u.getUid() %>&follower=<%= User_ID %>" class="btn btn-sm btn-outline-success">+ Suivre</a>
+                        <% } else { %>
+                            <a href="${pageContext.request.contextPath}/addFollow?follow=<%= u.getUid() %>&follower=<%= User_ID %>" class="btn btn-sm btn-outline-danger">Ne plus suivre</a>
+                        <% } %>
+                        <% } %>
+                </div>
             </li>
-            <%}}%>
+            <% }} %>
         </ul>
 </main>
 

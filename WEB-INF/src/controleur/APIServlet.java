@@ -5,32 +5,36 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;/* 
+import jakarta.servlet.http.HttpServletResponse;
+import modele.dao.GroupesDAO;
 import modele.dao.PostsDAO;
 import modele.dao.UsersDAO;
-import modele.dto.Post;
 import modele.dto.PostDetails;
-
+import modele.dto.User;
+import utils.BAO;
 import java.io.PrintWriter;
-import java.util.Collection;
 import java.util.List;
-*/
+
 @WebServlet("/api/*")
 public class APIServlet extends HttpServlet {
     /*
      * API :
      * - /api/post : liste des posts publics
-     * - /api/post/{id} : liste des posts reponses au post avec id = {id}
-     * - /api/user/{pseudo} : liste des posts publics avec idpseudo = {idpseudo}
-     * - /api/group/{name} : liste des posts d'un groupe données
+     * > curl -i -X GET http://localhost:8080/ReseauSocial/api/post
+     * - /api/post/{uid} : liste des posts reponses au post avec id = {id}
+     * > curl -i -X GET http://localhost:8080/ReseauSocial/api/post/1
+     * - /api/user/{idPseudo} : liste des posts publics avec idpseudo = {idpseudo}
+     * > curl -i -X GET http://localhost:8080/ReseauSocial/api/user/draggas
+     * - /api/group/{gid} : liste des posts d'un groupe données
+     * > curl -i -X GET http://localhost:8080/ReseauSocial/api/group/1
      */
     protected void doGet(HttpServletRequest req, HttpServletResponse res)
         throws ServletException, IOException {
-            /*
+
         res.setContentType("application/json; charset=UTF-8");
         res.setCharacterEncoding("UTF-8");
         
-        ObjectMapper objectMapper = new ObjectMapper();
+        
 
         String pathInfo = req.getPathInfo();
         if (pathInfo == null || pathInfo.equals("/")) {
@@ -57,38 +61,42 @@ public class APIServlet extends HttpServlet {
                         int postId = Integer.parseInt(pathParts[2]);
                         PostsDAO postsDAO = new PostsDAO();
                         PostDetails p = postsDAO.findByPid(postId);
-                        String jsonstring = objectMapper.writeValueAsString(p);
-                        out.print(jsonstring);
+                        if (p == null) {
+                            res.sendError(HttpServletResponse.SC_NOT_FOUND, "Post does not exist");
+                            return;
+                        }
+                        out.print(BAO.toJson(p));
                     } else {
                         PostsDAO postsDAO = new PostsDAO();
                         List<PostDetails> posts = postsDAO.selectAllPublic(true);
-                        StringBuilder jsonBuilder = new StringBuilder("[");
-                        for (int i = 0; i < posts.size(); i++) {
-                            jsonBuilder.append(objectMapper.writeValueAsString(posts.get(i)));
-                            if (i < posts.size() - 1) {
-                                jsonBuilder.append(",");
-                            }
+                        String json = "[";
+                        for (PostDetails p : posts) {
+                            json += BAO.toJson(p) + ",\n";
                         }
-                        jsonBuilder.append("]");
-                        String jsonstring = jsonBuilder.toString();
-                        out.print(jsonstring);
+                        if (json.endsWith(",\n")) {
+                            json = json.substring(0, json.length() - 2);
+                        }
+                        out.print(json + "]");
                     }
                     break;
                 case "user":
                     if (pathParts.length == 3) {
-                        int userID = Integer.parseInt(pathParts[2]);
+                        String userID = pathParts[2];
                         UsersDAO usersDAO = new UsersDAO();
-                        List<PostDetails> posts = usersDAO.getUsersPosts(true);
-                        StringBuilder jsonBuilder = new StringBuilder("[");
-                        for (int i = 0; i < posts.size(); i++) {
-                            jsonBuilder.append(objectMapper.writeValueAsString(posts.get(i)));
-                            if (i < posts.size() - 1) {
-                                jsonBuilder.append(",");
-                            }
+                        User u = usersDAO.findByIdPseudo(userID);
+                        if(u == null){
+                            res.sendError(HttpServletResponse.SC_NOT_FOUND, "User does not exist");
+                            return;
                         }
-                        jsonBuilder.append("]");
-                        String jsonstring = jsonBuilder.toString();
-                        out.print(jsonstring);
+                        List<PostDetails> posts = usersDAO.getUsersPosts(u.getUid(), true);
+                        String json = "[";
+                        for (PostDetails p : posts) {
+                            json += BAO.toJson(p) + ",\n";
+                        }
+                        if (json.endsWith(",\n")) {
+                            json = json.substring(0, json.length() - 2);
+                        }
+                        out.print(json + "]");
                     } else {
                         res.sendError(HttpServletResponse.SC_BAD_REQUEST, "User id required");
                         return;
@@ -96,9 +104,22 @@ public class APIServlet extends HttpServlet {
                     break;
                 case "group":
                     if (pathParts.length == 3) {
-                        String groupName = pathParts[2];
-                        // Intégration du DAO pour récupérer le groupe avec nom = groupName (SI USER EST DANS LE GROUPE !)
-                        responseJson = "{\"message\": \"Détails du groupe " + groupName + "\"}";
+                        int gid = Integer.parseInt(pathParts[2]);
+                        GroupesDAO gDao = new GroupesDAO();
+                        PostsDAO dao = new PostsDAO();
+                        if(gDao.findByGid(gid) == null){
+                            res.sendError(HttpServletResponse.SC_NOT_FOUND, "Group does not exist");
+                            return;
+                        }
+                        List<PostDetails> posts = dao.selectFromGroup(gid, false);
+                        String json = "[";
+                        for (PostDetails p : posts) {
+                            json += BAO.toJson(p) + ",\n";
+                        }
+                        if (json.endsWith(",\n")) {
+                            json = json.substring(0, json.length() - 2);
+                        }
+                        out.print(json + "]");
                     } else {
                         res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Group name required");
                         return;
@@ -112,7 +133,8 @@ public class APIServlet extends HttpServlet {
             out.flush();
         } catch (NumberFormatException e) {
             res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid ID format");
+        } catch (IllegalAccessException e) {
+            res.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Server error occurred");
         }
-             */
     }
 }
