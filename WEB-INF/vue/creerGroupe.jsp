@@ -20,9 +20,10 @@ int User_ID = (int) session.getAttribute("me_uid");
 
 <main class="container mt-5 pt-4">
     <h2 class="text-primary text-center">Créer un Groupe</h2>
+    <jsp:include page="popUp.jsp" />
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <form action="addGroupe" method="POST" enctype="multipart/form-data">
+            <form action="${pageContext.request.contextPath}/groupe/add" method="POST" enctype="multipart/form-data">
                 <div class="mb-3">
                     <label for="nomGrp" class="form-label">Nom du Groupe</label>
                     <input type="text" class="form-control" id="nomGrp" name="nomGrp" placeholder="Nom unique du groupe" required>

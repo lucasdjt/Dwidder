@@ -25,6 +25,7 @@ int User_ID = (int) session.getAttribute("me_uid");
 
         <aside class="col-md-4">
             <h2 class="text-primary">Messages</h2>
+            <jsp:include page="popUp.jsp" />
             <form class="mb-4" method="get" action="${pageContext.request.contextPath}/messages">
                 <div class="input-group">
                     <input type="text" name="query" class="form-control" placeholder="Rechercher un utilisateur...">
@@ -109,3 +110,8 @@ int User_ID = (int) session.getAttribute("me_uid");
 <script src="script/main.js"></script>
 </body>
 </html>
+<%
+session.removeAttribute("listDesUtilisateurs");
+session.removeAttribute("userMess");
+session.removeAttribute("listeDesMessages");
+%>

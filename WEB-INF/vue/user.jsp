@@ -58,6 +58,7 @@ int User_ID = (int) session.getAttribute("me_uid");
 
         <section class="col-md-8">
             <h2 class="text-primary">Profil de <%= u.getPseudo() %></h2>
+            <jsp:include page="popUp.jsp" />
             <jsp:include page="post.jsp" />
         </section>
     </div>
@@ -68,3 +69,8 @@ int User_ID = (int) session.getAttribute("me_uid");
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+<%
+session.removeAttribute("userSearch");
+session.removeAttribute("nombreFollowers");
+session.removeAttribute("nombreFollows");
+%>

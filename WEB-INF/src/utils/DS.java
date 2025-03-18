@@ -12,12 +12,12 @@ public class DS {
             Properties p = new Properties();
             p.load(new FileInputStream("config.prop"));
             Class.forName(p.getProperty("driver"));
-            String url = p.getProperty("urlIUT");
-            String login = p.getProperty("loginIUT");
+            String url = p.getProperty("urlHOME");
+            String login = p.getProperty("loginHOME");
             String password = p.getProperty("password");
             return DriverManager.getConnection(url, login, password);
         } catch (Exception e) {
-            return testIUT();
+            return testHOME();
         }
     }
 

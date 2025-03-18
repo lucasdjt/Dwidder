@@ -15,8 +15,8 @@
 
 <% 
 int User_ID = (int) session.getAttribute("me_uid");
-Groupe gSelect = (Groupe) session.getAttribute("groupeSelect");
 List<Integer> listFollowersUser = (List<Integer>) session.getAttribute("me_listFollowers");
+Groupe gSelect = (Groupe) session.getAttribute("groupeSelect");
 %>
 
 <jsp:include page="header.jsp" />
@@ -25,7 +25,8 @@ List<Integer> listFollowersUser = (List<Integer>) session.getAttribute("me_listF
     <div class="row">
         <aside class="col-md-4">
             <h2 class="text-primary">Ajouter un utilisateur</h2>
-            <form action="${pageContext.request.contextPath}/member" method="post" class="mt-2">
+            <jsp:include page="popUp.jsp" />
+            <form action="${pageContext.request.contextPath}/groupe/member" method="post" class="mt-2">
                 <div class="input-group">
                     <input type="hidden" name="gid" value="<%= gSelect.getGid() %>">
                     <input type="text" name="idPseudo" class="form-control" placeholder="@ de l'utilisateur" required>
@@ -49,7 +50,7 @@ List<Integer> listFollowersUser = (List<Integer>) session.getAttribute("me_listF
                         <% } %>
                     </div>
                     <% if (u.getUid() != User_ID) { %>
-                    <a href="${pageContext.request.contextPath}/member?gid=<%= gSelect.getGid() %>&uid=<%= u.getUid() %>" class="btn btn-sm btn-outline-danger ms-auto">Supprimer</a>
+                    <a href="${pageContext.request.contextPath}/groupe/member?gid=<%= gSelect.getGid() %>&uid=<%= u.getUid() %>" class="btn btn-sm btn-outline-danger ms-auto">Supprimer</a>
                     <% } %>
                 </li>
             <% }} %>
@@ -58,7 +59,7 @@ List<Integer> listFollowersUser = (List<Integer>) session.getAttribute("me_listF
         
         <section class="col-md-8">
             <div class="card text-center">
-                <form action="${pageContext.request.contextPath}/chgGroupe" method="post" enctype="multipart/form-data">
+                <form action="${pageContext.request.contextPath}/groupe/edit" method="post" enctype="multipart/form-data">
                     <input type="hidden" name="gid" value="<%= gSelect.getGid() %>">
                     <div class="card-body">
                         <div class="mb-3">
@@ -75,7 +76,7 @@ List<Integer> listFollowersUser = (List<Integer>) session.getAttribute("me_listF
                         </div>
                         <div class="mb-3 bg-danger p-3 rounded">
                             <label for="newAdmin" class="form-label text-white">Changer d'administrateur du groupe</label>
-                            <select name="newAdmin" id="newAdmin" class="form-select" required>
+                            <select name="newAdmin" id="newAdmin" class="form-select">
                                 <option value="" disabled selected>Choisir un nouvel administrateur</option>
                                 <% 
                                 if (listUsers != null) {
@@ -93,7 +94,7 @@ List<Integer> listFollowersUser = (List<Integer>) session.getAttribute("me_listF
                         <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
                     </div>
                 </form>
-                <a href="${pageContext.request.contextPath}/delGroupe?gid=<%= gSelect.getGid() %>" class="btn btn-danger mt-3">Supprimer le groupe</a>
+                <a href="${pageContext.request.contextPath}/groupe/delete?gid=<%= gSelect.getGid() %>" class="btn btn-danger mt-3">Supprimer le groupe</a>
             </div>
         </section>
     </div>
@@ -104,3 +105,7 @@ List<Integer> listFollowersUser = (List<Integer>) session.getAttribute("me_listF
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+<%
+session.removeAttribute("groupeSelect");
+session.removeAttribute("membreGrp");
+%>

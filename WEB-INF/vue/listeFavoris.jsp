@@ -21,6 +21,7 @@ int User_ID = (int) session.getAttribute("me_uid");
 
 <main class="container mt-5 pt-4">
     <section class="col-md-8 offset-md-2">
+        <jsp:include page="popUp.jsp" />
         <jsp:include page="post.jsp" />
     </section>
 </main>

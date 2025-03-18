@@ -23,7 +23,8 @@ int User_ID = (int) session.getAttribute("me_uid");
     <div class="row">
         <aside class="col-md-4">
             <h2 class="text-primary">Groupes</h2>
-            <a href="${pageContext.request.contextPath}/addGroupe" class="btn btn-outline-success mt-2 w-100">Créer un Groupe</a>
+            <jsp:include page="popUp.jsp" />
+            <a href="${pageContext.request.contextPath}/groupe/add" class="btn btn-outline-success mt-2 w-100">Créer un Groupe</a>
             <ul class="list-group">
             <%
             List<Groupe> listGrp = (ArrayList<Groupe>) session.getAttribute("listeDesGroupes");
@@ -32,7 +33,7 @@ int User_ID = (int) session.getAttribute("me_uid");
             %>
                 <li class="border list-group-item d-flex align-items-center btn-outline-success">
                     <img src="${pageContext.request.contextPath}/<%= g.getPdpGrp() %>" alt="<%= g.getPdpGrp() %>" class="rounded-circle me-2" width="40">
-                    <a href="${pageContext.request.contextPath}/groupes/<%= g.getGid() %>" class="stretched-link text-decoration-none text-white"><%= g.getNomGrp() %></a>
+                    <a href="${pageContext.request.contextPath}/groupe/<%= g.getGid() %>" class="stretched-link text-decoration-none text-white"><%= g.getNomGrp() %></a>
                 </li>
             <% }}
             %>
@@ -55,10 +56,10 @@ int User_ID = (int) session.getAttribute("me_uid");
                     </div>
                 </div>
                 <% if (gSelect.getUid() == User_ID) { %>
-                    <a href="${pageContext.request.contextPath}/chgGroupe/<%= gSelect.getGid() %>" class="btn btn-primary">Modifier le groupe</a>
+                    <a href="${pageContext.request.contextPath}/groupe/edit/<%= gSelect.getGid() %>" class="btn btn-primary">Modifier le groupe</a>
                 <% } else { %>
 
-                    <a href="${pageContext.request.contextPath}/member?gid=<%= gSelect.getGid() %>&uid=<%= User_ID %>" class="btn btn-sm btn-outline-danger">Se retirer du groupe</a>
+                    <a href="${pageContext.request.contextPath}/groupe/member?gid=<%= gSelect.getGid() %>&uid=<%= User_ID %>" class="btn btn-sm btn-outline-danger">Se retirer du groupe</a>
                 <% } %>
             <% } %>
             </div>
@@ -77,3 +78,7 @@ int User_ID = (int) session.getAttribute("me_uid");
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+<%
+session.removeAttribute("listeDesGroupes");
+session.removeAttribute("groupe");
+%>

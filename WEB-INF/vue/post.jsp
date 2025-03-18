@@ -85,3 +85,6 @@
 }
 }
 %>
+<%
+session.removeAttribute("listeDesPosts");
+%>

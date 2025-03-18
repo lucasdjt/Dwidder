@@ -105,6 +105,7 @@ Map<Integer, String> listReactionsUser = (Map<Integer, String>) session.getAttri
         
         <section class="col-md-8">
             <h3>Ajouter un post réponse</h3>
+            <jsp:include page="popUp.jsp" />
             <jsp:include page="form.jsp" />
         </section>
 
@@ -116,3 +117,6 @@ Map<Integer, String> listReactionsUser = (Map<Integer, String>) session.getAttri
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+<%
+session.removeAttribute("post");
+%>

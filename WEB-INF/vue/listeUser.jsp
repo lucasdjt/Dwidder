@@ -23,6 +23,7 @@ List<Integer> listFollowersUser = (List<Integer>) session.getAttribute("me_listF
 
 <main class="container mt-4">
         <h2 class="text-primary">Liste de compte</h2>
+        <jsp:include page="popUp.jsp" />
         <form class="mb-4" method="get" action="${pageContext.request.contextPath}/user">
             <div class="input-group">
                 <input type="text" name="query" class="form-control" placeholder="Rechercher un utilisateur...">
@@ -65,3 +66,6 @@ List<Integer> listFollowersUser = (List<Integer>) session.getAttribute("me_listF
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+<%
+session.removeAttribute("listUsers");
+%>

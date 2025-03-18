@@ -27,7 +27,6 @@ int User_ID = (int) session.getAttribute("me_uid");
                 <select class="form-select" name="uid" id="uid" required>
                     <%
                     List<User> listeDesUsers = (List<User>) session.getAttribute("listeDesUsers");
-                    session.removeAttribute("listeDesUsers");
                     if (listeDesUsers != null) {
                         for (User user : listeDesUsers) {
                             if (user.getUid() != User_ID) {
@@ -58,7 +57,6 @@ int User_ID = (int) session.getAttribute("me_uid");
             <tbody>
                 <%
                 List<Logs> listeDesLogs = (List<Logs>) session.getAttribute("listeDesLogs");
-                session.removeAttribute("listeDesUsers");
                 if (listeDesLogs != null) {
                     for (Logs log : listeDesLogs){
                 %>
@@ -80,3 +78,7 @@ int User_ID = (int) session.getAttribute("me_uid");
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+<%
+session.removeAttribute("listeDesUsers");
+session.removeAttribute("listeDesLogs");
+%>

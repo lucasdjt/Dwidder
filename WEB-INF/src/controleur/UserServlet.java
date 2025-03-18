@@ -47,13 +47,14 @@ public class UserServlet extends HttpServlet {
             req.getRequestDispatcher(BAO.getRepertory() + "listeUser.jsp").forward(req, res);
         }
         if (pathInfo.equals("/")) {
-            res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid user IdPseudo");
+            session.setAttribute("error", "Vous avez entré un mauvais lien.");
+            res.sendRedirect(req.getContextPath() + "/accueil");
             return;
         }
         
         String[] pathParts = pathInfo.split("/");
         if (pathParts.length < 2) {
-            res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid IdPseudo format");
+            res.sendRedirect(req.getContextPath() + "/accueil");
             return;
         }
 
@@ -79,7 +80,8 @@ public class UserServlet extends HttpServlet {
             String idPseudo = pathParts[1];
             User user = uDao.findUserByPseudo(idPseudo);
             if (user == null) {
-            res.sendError(HttpServletResponse.SC_NOT_FOUND, "User not found");
+                session.setAttribute("error", "Cet utilisateur n'existe pas.");
+                res.sendRedirect(req.getContextPath() + "/accueil");
             return;
             }
 

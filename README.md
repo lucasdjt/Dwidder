@@ -47,14 +47,17 @@ Rien de plus simple, vous avez juste à accéder au lien qui est disponible sur 
 - dans Annexe/SQL : 
 pg_ctl -D "C:\Program Files\PostgreSQL\17\data" restart
 psql -U postgres -d reseau_social
+\i setup.sql
 
 - dans classes : 
+.\remove.bat
+.\compile.bat
 javac -cp ".;../../../../lib/servlet-api.jar;../../../../lib" ../src/utils/*.java -d .
 javac -cp ".;../../../../lib/servlet-api.jar;../../../../lib" ../src/modele/*/*.java -d .
 javac -cp ".;../../../../lib/servlet-api.jar;../../../../lib" ../src/controleur/*.java -d .
 
 - dans le répertoire BIN : 
-.\startup.bat
+.\catalina.bat run
 
 ### LINUX
 - dans Annexe/SQL : 
@@ -77,13 +80,6 @@ killall java
 - Gestion des messages et conversations
 
 ### OPTIMISATION
-
-GroupeServlet : "groupe/*" :
-- GroupeServlet "/groupes/*" doGet ==> /groupe
-- ChgGrpServlet "/chgGroupe/*" doGet doPost ==> /groupe/edit
-- DeleteGroupeServlet "/delGroupe" doGet ==> /groupe/delete
-- AddGroupeServlet "/addGroupe" doGet doPost ==> /groupe/add
-- Memberservlets "/member" doGet doPost ==> /groupe/members
 
 FavoriServlet "/favori/*" :
 - AddFavoriServlet "/addFavori" doGet ==> /favori/add

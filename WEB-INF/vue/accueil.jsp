@@ -34,7 +34,6 @@ List<Integer> listFollowersUser = (List<Integer>) session.getAttribute("me_listF
             <ul class="list-group">
         <%
         List<User> listeDesUsers = (List<User>) session.getAttribute("listeDesUsers");
-        session.removeAttribute("listeDesUsers");
         if (listeDesUsers != null) {
             int limite = 5;
             for (int i = 0; i < listeDesUsers.size() && i < limite; i++) {
@@ -73,3 +72,6 @@ List<Integer> listFollowersUser = (List<Integer>) session.getAttribute("me_listF
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+<%
+session.removeAttribute("listeDesUsers");
+%>
