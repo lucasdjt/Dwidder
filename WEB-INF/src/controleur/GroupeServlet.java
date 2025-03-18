@@ -62,7 +62,7 @@ public class GroupeServlet extends HttpServlet {
             return;
             }
             req.setAttribute("groupe", groupe);
-            req.setAttribute("listePosts", dao.getListPostsOfGroup(gid, false));
+            req.setAttribute("listePosts", dao.getListPostsOfGroup(gid, (boolean) req.getSession().getAttribute("tri")));
             req.setAttribute("listGrp", uDao.getUserGroups(uid));
             req.getRequestDispatcher(REPERTORY + "groupes.jsp").forward(req, res);
         } catch (NumberFormatException e) {

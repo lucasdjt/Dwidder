@@ -26,7 +26,7 @@ int User_ID = (int) request.getSession().getAttribute("uid");
             <h2 class="text-primary">Messages</h2>
             <form class="mb-4" method="get" action="${pageContext.request.contextPath}/messages">
                 <div class="input-group">
-                    <input type="text" name="query" class="form-control" placeholder="Rechercher un utilisateur..." required>
+                    <input type="text" name="query" class="form-control" placeholder="Rechercher un utilisateur...">
                     <button class="btn btn-primary" type="submit">Rechercher</button>
                 </div>
             </form>

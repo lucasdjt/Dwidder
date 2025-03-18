@@ -27,7 +27,7 @@ public class AccueilServlet extends HttpServlet {
         PostsDAO postsDAO = new PostsDAO();
         postsDAO.deleteAllExpiredPosts();
         UsersDAO usersDAO = new UsersDAO();
-        req.setAttribute("listePosts", postsDAO.getListPostsInPublic(true));
+        req.setAttribute("listePosts", postsDAO.getListPostsInPublic((boolean) req.getSession().getAttribute("tri")));
         req.setAttribute("users", usersDAO.listUsers());
         req.getRequestDispatcher(REPERTORY + "accueil.jsp").forward(req, res);
     }

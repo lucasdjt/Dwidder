@@ -18,6 +18,7 @@ import jakarta.servlet.http.Part;
 import modele.dao.PostsDAO;
 import modele.dto.Post;
 import modele.dto.PostDetails;
+import modele.dao.LogsDAO;
 
 @WebServlet("/posts/*")
 @MultipartConfig(
@@ -126,6 +127,7 @@ public class PostServlet extends HttpServlet {
         }
         try {
             dao.insert(new Post(0, uid, gid, pidParent, contenu, media, dpub, dfin));
+            LogsDAO.insert(req.getSession().getAttribute("pseudo").toString(), "Ajout d'un nouveau post");
             res.sendRedirect(referer + "?success=1");
         } catch (Exception e) {
             res.sendRedirect(referer + "?success=0");

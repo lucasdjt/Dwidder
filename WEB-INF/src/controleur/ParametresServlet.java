@@ -8,6 +8,7 @@ import java.nio.file.Paths;
 import java.time.LocalDate;
 import modele.dao.UsersDAO;
 import modele.dto.User;
+import modele.dao.LogsDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
@@ -92,6 +93,11 @@ public class ParametresServlet extends HttpServlet {
         String idPseudo = req.getParameter("idPseudo");
         String email = req.getParameter("email");
         String mdp = req.getParameter("mdp");
+        String tri = req.getParameter("tri");
+        boolean triParDate = false;
+        if(tri.equals("date")){
+            triParDate = true;
+        }
         if(mdp != null){
             user.setMdp(mdp);
         }
@@ -107,6 +113,8 @@ public class ParametresServlet extends HttpServlet {
         user.setEmail(email);
         try {
             uDao.update(user);
+            req.getSession().setAttribute("tri", triParDate);
+            LogsDAO.insert(req.getSession().getAttribute("pseudo").toString(), "Changement des informations de " + user.getIdPseudo());
             req.getSession().setAttribute("pseudo", user.getIdPseudo());
             req.setAttribute("user", user);
             res.sendRedirect(req.getContextPath() + "/parametres?success=1");

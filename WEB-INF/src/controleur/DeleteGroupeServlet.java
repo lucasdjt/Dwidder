@@ -3,6 +3,7 @@ package controleur;
 import java.io.IOException;
 
 import modele.dao.GroupesDAO;
+import modele.dao.LogsDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -18,6 +19,7 @@ public class DeleteGroupeServlet extends HttpServlet {
         GroupesDAO grpDAO = new GroupesDAO();
         try {
             grpDAO.delete(grpDAO.findGroupByGid(gid));
+            LogsDAO.insert(req.getSession().getAttribute("pseudo").toString(), "Suppression du groupe " + gid);
             res.sendRedirect(req.getContextPath() + "/accueil");
         } catch (Exception e) {
             res.getWriter().write("Groupe deletion failed");

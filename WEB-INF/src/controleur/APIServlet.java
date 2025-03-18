@@ -11,6 +11,7 @@ import modele.dao.PostsDAO;
 import modele.dao.UsersDAO;
 import modele.dto.PostDetails;
 import modele.dto.User;
+import modele.dao.LogsDAO;
 import utils.BAO;
 import java.io.PrintWriter;
 import java.util.List;
@@ -52,7 +53,6 @@ public class APIServlet extends HttpServlet {
         }
         
         String resource = pathParts[1];
-        String responseJson = "";
         
         try (PrintWriter out = res.getWriter()) {
             switch (resource) {
@@ -66,6 +66,7 @@ public class APIServlet extends HttpServlet {
                             return;
                         }
                         out.print(BAO.toJson(p));
+                        LogsDAO.insert("API", "API GET post particulier");
                     } else {
                         PostsDAO postsDAO = new PostsDAO();
                         List<PostDetails> posts = postsDAO.getListPostsInPublic(true);
@@ -77,6 +78,7 @@ public class APIServlet extends HttpServlet {
                             json = json.substring(0, json.length() - 2);
                         }
                         out.print(json + "]");
+                        LogsDAO.insert("API", "API GET post public");
                     }
                     break;
                 case "user":
@@ -97,6 +99,7 @@ public class APIServlet extends HttpServlet {
                             json = json.substring(0, json.length() - 2);
                         }
                         out.print(json + "]");
+                        LogsDAO.insert("API", "API GET post user");
                     } else {
                         res.sendError(HttpServletResponse.SC_BAD_REQUEST, "User id required");
                         return;
@@ -111,7 +114,7 @@ public class APIServlet extends HttpServlet {
                             res.sendError(HttpServletResponse.SC_NOT_FOUND, "Group does not exist");
                             return;
                         }
-                        List<PostDetails> posts = dao.getListPostsOfGroup(gid, false);
+                        List<PostDetails> posts = dao.getListPostsOfGroup(gid, true);
                         String json = "[";
                         for (PostDetails p : posts) {
                             json += BAO.toJson(p) + ",\n";
@@ -120,6 +123,7 @@ public class APIServlet extends HttpServlet {
                             json = json.substring(0, json.length() - 2);
                         }
                         out.print(json + "]");
+                        LogsDAO.insert("API", "API GET post group");
                     } else {
                         res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Group name required");
                         return;
@@ -129,7 +133,6 @@ public class APIServlet extends HttpServlet {
                     res.sendError(HttpServletResponse.SC_NOT_FOUND, "Resource not found");
                     return;
             }
-            out.print(responseJson);
             out.flush();
         } catch (NumberFormatException e) {
             res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid ID format");

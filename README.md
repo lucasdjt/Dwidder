@@ -81,15 +81,17 @@ killall java
 
 ## CONSIGNES
 
-Optimisation / Qualité / Simplification :
+Tâches :
+- Ajouter le tri des posts (Servlet/Vue)
+- Ajouter une Page ADMIN permettant de modifier toute la base de données (au minimum nécessaire) à sa guise (Servlet/Vue)
 - Clean-Up Servlet (Servlet)
 - Gestion les permissions d'y accéder (Servlet)
 - Ajout de la sécurité de l'API (Servlet)
-- Ajouter le tri des posts (Servlet/Vue)
-- Ajouter une Page ADMIN permettant de modifier toute la base de données (au minimum nécessaire) à sa guise (Servlet/Vue)
 - Clean-Up JSP + Amélioration de l'interface (Vue)
-- Vérifier que tous les consignes sont respectés
+Vérifier que tous les consignes sont respectés
 - Ajout de la documentation (DTO/DAO/Servlet/JSP)
+- Ajout du Markdown
+- Ajout de la Configuration
 
 
 Réalisez en Markdown une documentation de votre application contenant au minimum :

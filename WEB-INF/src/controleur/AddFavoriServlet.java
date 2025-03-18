@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import modele.dao.FavorisDAO;
+import modele.dao.LogsDAO;
 import modele.dao.UsersDAO;
 import modele.dto.Favori;
 import jakarta.servlet.ServletException;
@@ -31,10 +32,10 @@ public class AddFavoriServlet extends HttpServlet {
         Favori existingFavori = favorisDAO.findFavori(uid, pid);
         if (existingFavori == null) {
             Favori newFavori = new Favori(uid, pid, LocalDateTime.now());
-            System.out.println("insert");
             favorisDAO.insert(newFavori);
+            LogsDAO.insert(session.getAttribute("pseudo").toString(), "Ajout d'un nouveau favori : " + pid);
         } else {
-            System.out.println(existingFavori);
+            LogsDAO.insert(session.getAttribute("pseudo").toString(), "Suppression d'un favori : " + pid);
             favorisDAO.delete(existingFavori);
         }
         String referer = req.getHeader("Referer");

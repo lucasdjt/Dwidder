@@ -15,6 +15,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import modele.dao.UsersDAO;
 import modele.dto.User;
+import modele.dao.LogsDAO;
 import modele.dto.Reaction;
 
 @WebServlet("/connexion")
@@ -30,6 +31,7 @@ public class ConnexionServlet extends HttpServlet {
         throws ServletException, IOException {
         HttpSession session = req.getSession(false);
         if (session != null) {
+            LogsDAO.insert(req.getSession().getAttribute("pseudo").toString(), "Déconnexion");
             session.invalidate();
         }
         res.setContentType("text/html; charset=UTF-8");
@@ -65,11 +67,14 @@ public class ConnexionServlet extends HttpServlet {
             req.getSession().setAttribute("listFollowUser", listFollowUser);
             req.getSession().setAttribute("listFollowersUser", listFollowersUser);
             req.getSession().setAttribute("pseudo", user.getIdPseudo());
+            req.getSession().setAttribute("tri", false);
+            req.getSession().setAttribute("admin", user.isAdmin());
             Map<Integer, String> listReactionsUser = new HashMap<>();
             for (Reaction r : dao.getListReactionsOfUser(user.getUid())) {
                 listReactionsUser.put(r.getPid(), r.getTypeEmoji());
             }
             req.getSession().setAttribute("listReactionsUser", listReactionsUser);
+            LogsDAO.insert(req.getSession().getAttribute("pseudo").toString(), "Connexion de l'utilisateur");
             res.sendRedirect(req.getContextPath() + "/accueil");
         } else {
             res.sendRedirect(referer + "?error=1");

@@ -13,6 +13,7 @@ import modele.dao.MembresDAO;
 import modele.dao.UsersDAO;
 import modele.dto.Membre;
 import modele.dto.User;
+import modele.dao.LogsDAO;
 
 @WebServlet("/member")
 public class MembersServlet extends HttpServlet {
@@ -36,6 +37,7 @@ public class MembersServlet extends HttpServlet {
         try {
             MembresDAO mDao = new MembresDAO();
             mDao.delete(new Membre(uid, gid, null));
+            LogsDAO.insert(req.getSession().getAttribute("pseudo").toString(), "Suppression du membre " + uid + " du groupe " + gid);
             res.sendRedirect(referer);
         } catch (NumberFormatException e) {
             res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid");
@@ -60,6 +62,7 @@ public class MembersServlet extends HttpServlet {
         MembresDAO mDao = new MembresDAO();
         try {
             mDao.insert(new Membre(user.getUid(), gid, LocalDateTime.now()));
+            LogsDAO.insert(req.getSession().getAttribute("pseudo").toString(), "Ajout du membre " + user.getUid() + " du groupe " + gid);
             res.sendRedirect(req.getContextPath() + "/chgGroupe/" + gid);
         } catch (Exception e) {
             res.sendRedirect(referer + "?success=0");

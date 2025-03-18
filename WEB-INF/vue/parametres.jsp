@@ -66,6 +66,13 @@
             <label for="loca" class="form-label">Localisation</label>
             <input type="text" class="form-control bg-dark text-white" name="loca" maxlength="200" value="<%= user.getLoca() %>">
         </div>
+        <div class="mb-3">
+            <label for="tri" class="form-label">Trier les posts par :</label>
+            <select class="form-select bg-dark text-white" id="tri" name="tri">
+            <option value="reaction">Réaction</option>
+            <option value="date">Date</option>
+            </select>
+        </div>
         <button type="submit" class="btn btn-primary w-100">Enregistrer les modifications</button>
         <%
             }

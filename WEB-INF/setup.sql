@@ -11,6 +11,7 @@ DROP TABLE IF EXISTS Abonnements CASCADE;
 DROP TABLE IF EXISTS Favoris CASCADE;
 DROP TABLE IF EXISTS Reactions CASCADE;
 DROP TABLE IF EXISTS Membres CASCADE; 
+DROP TABLE IF EXISTS Logs CASCADE;
 
 \echo '------------------------------------------------------'
 \echo '-----------------------[CREATE]-----------------------'
@@ -127,6 +128,14 @@ CREATE TABLE IF NOT EXISTS Membres (
 );
 CREATE INDEX idx_membres_uid ON Membres(uid);
 CREATE INDEX idx_membres_gid ON Membres(gid);
+
+\echo '10/ Création de la table Logs'
+CREATE TABLE IF NOT EXISTS Logs (
+    lid serial PRIMARY KEY,
+    daction TIMESTAMP NOT NULL DEFAULT NOW(),
+    pseudoLog varchar(255) NOT NULL,
+    textLog varchar(255) NOT NULL
+);
 
 \echo '------------------------------------------------------'
 \echo '-----------------------[INSERT]-----------------------'

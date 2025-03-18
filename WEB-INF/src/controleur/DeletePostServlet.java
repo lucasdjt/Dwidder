@@ -3,6 +3,7 @@ package controleur;
 import java.io.IOException;
 
 import modele.dao.PostsDAO;
+import modele.dao.LogsDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -37,6 +38,7 @@ public class DeletePostServlet extends HttpServlet {
             int pid = Integer.parseInt(pidStr);
             PostsDAO pDAO = new PostsDAO();
             pDAO.delete(pid);
+            LogsDAO.insert(req.getSession().getAttribute("pseudo").toString(), "Suppression du post " + pid);
             res.sendRedirect(req.getContextPath() + "/accueil");
         } catch (NumberFormatException e) {
             res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid");

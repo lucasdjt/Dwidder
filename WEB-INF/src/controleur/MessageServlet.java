@@ -20,6 +20,7 @@ import modele.dao.MessagesDAO;
 import modele.dao.UsersDAO;
 import modele.dto.Message;
 import modele.dto.User;
+import modele.dao.LogsDAO;
 
 @WebServlet("/messages/*")
 @MultipartConfig(
@@ -118,6 +119,7 @@ public class MessageServlet extends HttpServlet {
         }
         try {
             dao.insert(new Message(0, uidEnvoyeur, uidReceveur, corps, imgMess, dmess));
+            LogsDAO.insert(req.getSession().getAttribute("pseudo").toString(), "Envoi d'un message " + uidEnvoyeur + " --> " + uidReceveur);
             res.sendRedirect(referer);
         } catch (Exception e) {
             res.sendRedirect(referer + "?success=0");

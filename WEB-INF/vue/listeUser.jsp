@@ -25,7 +25,7 @@ List<Integer> listFollowersUser = (List<Integer>) request.getSession().getAttrib
         <h2 class="text-primary">Liste de compte</h2>
         <form class="mb-4" method="get" action="${pageContext.request.contextPath}/user">
             <div class="input-group">
-                <input type="text" name="query" class="form-control" placeholder="Rechercher un utilisateur..." required>
+                <input type="text" name="query" class="form-control" placeholder="Rechercher un utilisateur...">
                 <button class="btn btn-primary" type="submit">Rechercher</button>
             </div>
         </form>

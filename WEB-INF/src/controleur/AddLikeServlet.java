@@ -7,6 +7,7 @@ import java.util.Map;
 import modele.dao.ReactionsDAO;
 import modele.dao.UsersDAO;
 import modele.dto.Reaction;
+import modele.dao.LogsDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -39,9 +40,11 @@ public class AddLikeServlet extends HttpServlet {
             if (existingReaction == null) {
                 Reaction newReaction = new Reaction(uid, pid, reaction);
                 reactionsDAO.insert(newReaction);
+                LogsDAO.insert(session.getAttribute("pseudo").toString(), "Ajout d'un réaction \"" + reaction + "\" au post " + pid);
             } else {
                 existingReaction.setType(reaction);
                 reactionsDAO.update(existingReaction);
+                LogsDAO.insert(session.getAttribute("pseudo").toString(), "Modification de la réaction du post " + pid + "par " + reaction);
             }
         }
         Map<Integer, String> listReactionsUser = new HashMap<>();

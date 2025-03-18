@@ -16,6 +16,7 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 import modele.dao.GroupesDAO;
 import modele.dto.Groupe;
+import modele.dao.LogsDAO;
 
 @WebServlet("/chgGroupe/*")
 @MultipartConfig(
@@ -66,6 +67,7 @@ public class ChgGrpServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
+        HttpSession session = req.getSession(false);
         req.setCharacterEncoding("UTF-8");
         Part filePart = req.getPart("pdpGrp");
         String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
@@ -103,6 +105,7 @@ public class ChgGrpServlet extends HttpServlet {
         groupe.setPdpGrp(pdpGrp);
         if(admin != null && !admin.isEmpty()){
             groupe.setUid(Integer.parseInt(admin));
+            LogsDAO.insert(session.getAttribute("pseudo").toString(), admin + " est le nouvel admin du groupe " + gid);
         }
         String referer = req.getHeader("Referer");
         if (referer != null && referer.contains("?")) {
@@ -110,6 +113,7 @@ public class ChgGrpServlet extends HttpServlet {
         }
         try {
             gDao.update(groupe);
+            LogsDAO.insert(session.getAttribute("pseudo").toString(), "Changement des infos du groupe " + gid);
             res.sendRedirect(req.getContextPath() + "/groupes/" + gid);
         } catch (Exception e) {
             res.sendRedirect(referer + "?success=0");

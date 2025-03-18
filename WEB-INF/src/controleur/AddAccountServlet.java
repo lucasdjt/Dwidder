@@ -15,6 +15,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
+import modele.dao.LogsDAO;
 import modele.dao.UsersDAO;
 import modele.dto.User;
 
@@ -78,6 +79,7 @@ public class AddAccountServlet extends HttpServlet {
         }
         try {
             uDao.insert(new User(0, idPseudo, pseudo, prenom, nomUser, email, mdp, bio, pdp, dinsc, dnaiss, loca, false));
+            LogsDAO.insert(pseudo, "Création de son compte");
             res.sendRedirect(req.getContextPath() + "/connexion?success=1");
         } catch (Exception e) {
             res.sendRedirect(referer + "?success=0");

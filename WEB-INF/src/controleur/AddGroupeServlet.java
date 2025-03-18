@@ -19,6 +19,7 @@ import modele.dao.GroupesDAO;
 import modele.dao.MembresDAO;
 import modele.dto.Groupe;
 import modele.dto.Membre;
+import modele.dao.LogsDAO;
 
 @WebServlet("/addGroupe")
 @MultipartConfig(
@@ -42,6 +43,7 @@ public class AddGroupeServlet extends HttpServlet {
     }
     protected void doPost(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
+        HttpSession session = req.getSession(false);
         req.setCharacterEncoding("UTF-8");
         int uid = Integer.parseInt(req.getParameter("uid"));
         Part filePart = req.getPart("pdpGrp");
@@ -85,6 +87,7 @@ public class AddGroupeServlet extends HttpServlet {
             }
             gDao.insert(new Groupe(0, uid, pdpGrp, nomGrp, description, dcreat));
             mDao.insert(new Membre(uid, gDao.findGroupByName(nomGrp).getGid(), dcreat));
+            LogsDAO.insert(session.getAttribute("pseudo").toString(), "Création d'un nouveau groupe : " + nomGrp);
             
             res.sendRedirect(req.getContextPath() + "/accueil?groupe=1");
         } catch (Exception e) {

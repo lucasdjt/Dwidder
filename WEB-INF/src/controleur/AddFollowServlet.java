@@ -7,6 +7,7 @@ import java.util.List;
 
 import modele.dao.AbonnementsDAO;
 import modele.dto.Abonnement;
+import modele.dao.LogsDAO;
 import modele.dao.UsersDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -32,8 +33,10 @@ public class AddFollowServlet extends HttpServlet {
         if (existingAbonnement == null) {
             Abonnement newAbonnement = new Abonnement(uidFollowers, uidFollowed, LocalDateTime.now());
             abonnementsDAO.insert(newAbonnement);
+            LogsDAO.insert(session.getAttribute("pseudo").toString(), "Ajout d'un nouvelle abonnement : " + uidFollowers + "-->" + uidFollowed);
         } else {
             abonnementsDAO.delete(existingAbonnement);
+            LogsDAO.insert(session.getAttribute("pseudo").toString(), "Suppression d'un abonnement : " + uidFollowers + "-->" + uidFollowed);
         }
         String referer = req.getHeader("Referer");
         if (referer != null && referer.contains("?")) {

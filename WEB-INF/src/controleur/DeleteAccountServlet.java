@@ -2,6 +2,7 @@ package controleur;
 
 import java.io.IOException;
 import modele.dao.UsersDAO;
+import modele.dao.LogsDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -17,6 +18,7 @@ public class DeleteAccountServlet extends HttpServlet {
         UsersDAO usersDAO = new UsersDAO();
         try {
             usersDAO.delete(pseudo);
+            LogsDAO.insert(req.getSession().getAttribute("pseudo").toString(), "Suppression de l'utilisateur");
             res.sendRedirect(req.getContextPath() + "/connexion");
         } catch (Exception e) {
             res.getWriter().write("Account deletion failed");
