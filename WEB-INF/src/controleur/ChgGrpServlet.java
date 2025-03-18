@@ -51,13 +51,13 @@ public class ChgGrpServlet extends HttpServlet {
             String gidStr = pathParts[1];
             int gid = Integer.parseInt(gidStr);
             GroupesDAO gDao = new GroupesDAO();
-            Groupe groupe = gDao.findByGid(gid);
+            Groupe groupe = gDao.findGroupByGid(gid);
             if (groupe == null) {
             res.sendError(HttpServletResponse.SC_NOT_FOUND, "Groupe not found");
             return;
             }
             req.setAttribute("groupe", groupe);
-            req.setAttribute("listeMembres", gDao.getGroupeMembers(gid));
+            req.setAttribute("listeMembres", gDao.getListUsersOfAGroup(gid));
             req.getRequestDispatcher(REPERTORY + "chgGroupe.jsp").forward(req, res);
         } catch (NumberFormatException e) {
             res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid");
@@ -97,7 +97,7 @@ public class ChgGrpServlet extends HttpServlet {
         String admin = req.getParameter("newAdmin");
         GroupesDAO gDao = new GroupesDAO();
         int gid = Integer.parseInt(req.getParameter("gid"));
-        Groupe groupe = gDao.findByGid(gid);
+        Groupe groupe = gDao.findGroupByGid(gid);
         groupe.setNomGrp(nomGrp);
         groupe.setDescription(description);
         groupe.setPdpGrp(pdpGrp);

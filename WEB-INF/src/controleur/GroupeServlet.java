@@ -56,13 +56,13 @@ public class GroupeServlet extends HttpServlet {
             int gid = Integer.parseInt(gidStr);
             PostsDAO dao = new PostsDAO();
             GroupesDAO gDao = new GroupesDAO();
-            Groupe groupe = gDao.findByGid(gid);
+            Groupe groupe = gDao.findGroupByGid(gid);
             if (groupe == null) {
             res.sendError(HttpServletResponse.SC_NOT_FOUND, "Groupe not found");
             return;
             }
             req.setAttribute("groupe", groupe);
-            req.setAttribute("listePosts", dao.selectFromGroup(gid, false));
+            req.setAttribute("listePosts", dao.getListPostsOfGroup(gid, false));
             req.setAttribute("listGrp", uDao.getUserGroups(uid));
             req.getRequestDispatcher(REPERTORY + "groupes.jsp").forward(req, res);
         } catch (NumberFormatException e) {

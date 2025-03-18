@@ -28,7 +28,7 @@ public class AddFavoriServlet extends HttpServlet {
         int pid = Integer.parseInt(req.getParameter("pid"));
         FavorisDAO favorisDAO = new FavorisDAO();
 
-        Favori existingFavori = favorisDAO.findByUidAndPid(uid, pid);
+        Favori existingFavori = favorisDAO.findFavori(uid, pid);
         if (existingFavori == null) {
             Favori newFavori = new Favori(uid, pid, LocalDateTime.now());
             System.out.println("insert");
@@ -43,7 +43,7 @@ public class AddFavoriServlet extends HttpServlet {
         }
         UsersDAO dao = new UsersDAO();
         List<Integer> listFavoriUser = new ArrayList<>();
-        dao.getUserFavoris((int) req.getSession().getAttribute("uid")).forEach(favori -> listFavoriUser.add(favori.getPid()));
+        dao.getListFavorisOfUser((int) req.getSession().getAttribute("uid")).forEach(favori -> listFavoriUser.add(favori.getPid()));
         req.getSession().setAttribute("listFavoriUser", listFavoriUser);
         res.sendRedirect(referer);
     }

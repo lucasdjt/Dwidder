@@ -79,12 +79,12 @@ public class AddGroupeServlet extends HttpServlet {
             referer = referer.substring(0, referer.indexOf("?"));
         }
         try {
-            if(gDao.findByName(nomGrp) != null){
+            if(gDao.findGroupByName(nomGrp) != null){
                 res.sendRedirect(referer + "?existant=0");
                 return;
             }
             gDao.insert(new Groupe(0, uid, pdpGrp, nomGrp, description, dcreat));
-            mDao.insert(new Membre(uid, gDao.findByName(nomGrp).getGid(), dcreat));
+            mDao.insert(new Membre(uid, gDao.findGroupByName(nomGrp).getGid(), dcreat));
             
             res.sendRedirect(req.getContextPath() + "/accueil?groupe=1");
         } catch (Exception e) {

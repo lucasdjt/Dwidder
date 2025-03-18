@@ -38,7 +38,7 @@ public class ParametresServlet extends HttpServlet {
         res.setContentType("text/html; charset=UTF-8");
         res.setCharacterEncoding("UTF-8");
         UsersDAO usersDAO = new UsersDAO();
-        req.setAttribute("user", usersDAO.findByUid((int) session.getAttribute("uid")));
+        req.setAttribute("user", usersDAO.findUserByUid((int) session.getAttribute("uid")));
         req.getRequestDispatcher(REPERTORY + "parametres.jsp").forward(req, res);
     }
 
@@ -46,7 +46,7 @@ public class ParametresServlet extends HttpServlet {
             throws ServletException, IOException {
         int uid = (int) req.getSession().getAttribute("uid");
         UsersDAO usersDAO = new UsersDAO();
-        User user = usersDAO.findByUid(uid);
+        User user = usersDAO.findUserByUid(uid);
         req.setCharacterEncoding("UTF-8");
         user.setPseudo(req.getParameter("pseudo"));
         user.setPrenom(req.getParameter("prenom"));
@@ -95,11 +95,11 @@ public class ParametresServlet extends HttpServlet {
         if(mdp != null){
             user.setMdp(mdp);
         }
-        if(!idPseudo.equals(user.getIdPseudo()) && uDao.findByIdPseudo(idPseudo) != null){
+        if(!idPseudo.equals(user.getIdPseudo()) && uDao.findUserByPseudo(idPseudo) != null){
             res.sendRedirect(referer + "?success=0");
             return;
         }
-        if(!email.equals(user.getHTMLEmail()) && uDao.findByEmail(email) != null && email.contains("@")){
+        if(!email.equals(user.getHTMLEmail()) && uDao.findUserByEmail(email) != null && email.contains("@")){
             res.sendRedirect(referer + "?success=0");
             return;
         }

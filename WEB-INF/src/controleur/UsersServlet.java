@@ -35,9 +35,9 @@ public class UsersServlet extends HttpServlet {
         UsersDAO dao = new UsersDAO();
         if (pathInfo == null){
             if(req.getParameter("query") != null){
-                req.setAttribute("listFollow", dao.searchUsers(req.getParameter("query")));
+                req.setAttribute("listFollow", dao.getListUsersWithEquivalentKey(req.getParameter("query")));
             } else {
-                req.setAttribute("listFollow", dao.selectAll());
+                req.setAttribute("listFollow", dao.listUsers());
             }
             req.getRequestDispatcher(REPERTORY + "listeUser.jsp").forward(req, res);
         }
@@ -53,15 +53,15 @@ public class UsersServlet extends HttpServlet {
         }
         try {
             String idPseudo = pathParts[1];
-            User user = dao.findByIdPseudo(idPseudo);
+            User user = dao.findUserByPseudo(idPseudo);
             if (user == null) {
             res.sendError(HttpServletResponse.SC_NOT_FOUND, "User not found");
             return;
             }
-            List<User> follow = dao.getUserFollows(user.getUid());
-            List<User> followers = dao.getUserFollowers(user.getUid());
+            List<User> follow = dao.getListFollowsOfUser(user.getUid());
+            List<User> followers = dao.getListFollowersOfUser(user.getUid());
             req.setAttribute("user", user);
-            req.setAttribute("listePosts", dao.getUsersPosts(user.getUid(), false));
+            req.setAttribute("listePosts", dao.getListPostsOfUser(user.getUid(), false));
             req.setAttribute("follows", follow.size());
             req.setAttribute("followers", followers.size());
             req.getRequestDispatcher(REPERTORY + "user.jsp").forward(req, res);

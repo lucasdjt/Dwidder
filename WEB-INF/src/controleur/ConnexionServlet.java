@@ -44,9 +44,9 @@ public class ConnexionServlet extends HttpServlet {
         User user = null;
         UsersDAO dao = new UsersDAO();
         if (emailOrMDP.contains("@")) {
-            user = dao.findByEmail(emailOrMDP);
+            user = dao.findUserByEmail(emailOrMDP);
         } else {
-            user = dao.findByIdPseudo(emailOrMDP);
+            user = dao.findUserByPseudo(emailOrMDP);
         }
         String referer = req.getHeader("Referer");
         if (referer != null && referer.contains("?")) {
@@ -56,17 +56,17 @@ public class ConnexionServlet extends HttpServlet {
             req.getSession().setAttribute("uid", user.getUid());
             req.getSession().setAttribute("pseudo", user.getIdPseudo());
             List<Integer> listFavoriUser = new ArrayList<>();
-            dao.getUserFavoris(user.getUid()).forEach(favori -> listFavoriUser.add(favori.getPid()));
+            dao.getListFavorisOfUser(user.getUid()).forEach(favori -> listFavoriUser.add(favori.getPid()));
             List<Integer> listFollowUser = new ArrayList<>();
-            dao.getUserFollows(user.getUid()).forEach(follow -> listFollowUser.add(follow.getUid()));
+            dao.getListFollowsOfUser(user.getUid()).forEach(follow -> listFollowUser.add(follow.getUid()));
             List<Integer> listFollowersUser = new ArrayList<>();
-            dao.getUserFollowers(user.getUid()).forEach(follower -> listFollowersUser.add(follower.getUid()));
+            dao.getListFollowersOfUser(user.getUid()).forEach(follower -> listFollowersUser.add(follower.getUid()));
             req.getSession().setAttribute("listFavoriUser", listFavoriUser);
             req.getSession().setAttribute("listFollowUser", listFollowUser);
             req.getSession().setAttribute("listFollowersUser", listFollowersUser);
             req.getSession().setAttribute("pseudo", user.getIdPseudo());
             Map<Integer, String> listReactionsUser = new HashMap<>();
-            for (Reaction r : dao.getUserReaction(user.getUid())) {
+            for (Reaction r : dao.getListReactionsOfUser(user.getUid())) {
                 listReactionsUser.put(r.getPid(), r.getTypeEmoji());
             }
             req.getSession().setAttribute("listReactionsUser", listReactionsUser);

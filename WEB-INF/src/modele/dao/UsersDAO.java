@@ -1,19 +1,26 @@
 package modele.dao;
 
-import java.time.*;
-import java.sql.*;
-import java.util.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
-import modele.dto.*;
-import utils.*;
+import modele.dto.Favori;
+import modele.dto.Groupe;
+import modele.dto.Message;
+import modele.dto.User;
+import modele.dto.PostDetails;
+import modele.dto.Reaction;
+import utils.BAO;
+import utils.DS;
 
 public class UsersDAO {
 
-    /**
-     * Récupère tous les utilisateurs de la base de données.
-     * @return Liste des utilisateurs.
-     */
-    public List<User> selectAll() {
+    public List<User> listUsers() {
         List<User> users = new ArrayList<>();
         try (Connection con = DS.getConnection()) {
             String requete = "SELECT * FROM Users";
@@ -37,17 +44,13 @@ public class UsersDAO {
                 }
             }
         } catch (Exception e) {
+            System.err.println("Erreur dans la sélection de tous les utilisateurs");
             e.printStackTrace();
         }
         return users;
     }
 
-    /**
-     * Recherche un utilisateur par son identifiant de pseudo.
-     * @param idPseudo Identifiant du pseudo à rechercher.
-     * @return L'utilisateur correspondant à l'idPseudo, ou null si non trouvé.
-     */
-    public User findByIdPseudo(String idPseudo) {
+    public User findUserByPseudo(String idPseudo) {
         User user = null;
         try (Connection con = DS.getConnection()) {
             String requetePrepare = "SELECT * FROM Users WHERE idPseudo = ?";
@@ -72,17 +75,13 @@ public class UsersDAO {
                 }
             }
         } catch (Exception e) {
+            System.err.println("Erreur dans la recherche d'un utilisateur par son idPseudo");
             e.printStackTrace();
         }
         return user;
     }
 
-        /**
-     * Recherche un utilisateur par son identifiant de pseudo.
-     * @param idPseudo Identifiant du pseudo à rechercher.
-     * @return L'utilisateur correspondant à l'idPseudo, ou null si non trouvé.
-     */
-    public User findByUid(int uid) {
+    public User findUserByUid(int uid) {
         User user = null;
         try (Connection con = DS.getConnection()) {
             String requetePrepare = "SELECT * FROM Users WHERE uid = ?";
@@ -107,17 +106,13 @@ public class UsersDAO {
                 }
             }
         } catch (Exception e) {
+            System.err.println("Erreur dans la recherche d'un utilisateur par son uid");
             e.printStackTrace();
         }
         return user;
     }
 
-    /**
-     * Recherche un utilisateur par son adresse email.
-     * @param email Adresse email de l'utilisateur.
-     * @return L'utilisateur correspondant à l'email, ou null si non trouvé.
-     */
-    public User findByEmail(String email) {
+    public User findUserByEmail(String email) {
         User user = null;
         try (Connection con = DS.getConnection()) {
             String requetePrepare = "SELECT * FROM Users WHERE email = ?";
@@ -142,15 +137,12 @@ public class UsersDAO {
                 }
             }
         } catch (Exception e) {
+            System.err.println("Erreur dans la recherche d'un utilisateur par son email");
             e.printStackTrace();
         }
         return user;
     }
 
-    /**
-     * Insère un nouvel utilisateur dans la base de données.
-     * @param user L'utilisateur à insérer.
-     */
     public void insert(User user) {
         try (Connection con = DS.getConnection()) {
             String requetePrepare = "INSERT INTO Users (idPseudo, pseudo, prenom, nomUser, email, mdp, bio, pdp, dinsc, dnaiss, loca, admin) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -170,14 +162,11 @@ public class UsersDAO {
                 pstmt.executeUpdate();
             }
         } catch (Exception e) {
+            System.err.println("Erreur dans l'insertion d'un utilisateur");
             e.printStackTrace();
         }
     }
 
-    /**
-     * Met à jour les informations d'un utilisateur dans la base de données.
-     * @param user L'utilisateur avec les informations mises à jour.
-     */
     public void update(User user) {
         try (Connection con = DS.getConnection()) {
             String requetePrepare = "UPDATE Users SET idPseudo = ?, pseudo = ?, prenom = ?, nomUser = ?, email = ?, mdp = ?, bio = ?, pdp = ?, dnaiss = ?, loca = ? WHERE uid = ?";
@@ -196,14 +185,11 @@ public class UsersDAO {
                 pstmt.executeUpdate();
             }
         } catch (Exception e) {
+            System.err.println("Erreur dans la modification d'un utilisateur");
             e.printStackTrace();
         }
     }
 
-    /**
-     * Supprime un utilisateur de la base de données par son identifiant de pseudo.
-     * @param idPseudo Identifiant du pseudo à supprimer.
-     */
     public void delete(String idPseudo) {
         try (Connection con = DS.getConnection()) {
             String requetePrepare = "DELETE FROM Users WHERE idPseudo = ?";
@@ -212,15 +198,11 @@ public class UsersDAO {
                 pstmt.executeUpdate();
             }
         } catch (Exception e) {
+            System.err.println("Erreur dans la suppression d'un utilisateur");
             e.printStackTrace();
         }
     }
 
-    /**
-     * Récupère les groupes d'un utilisateur à partir de son identifiant.
-     * @param uid Identifiant de l'utilisateur.
-     * @return Liste des groupes auxquels l'utilisateur appartient.
-     */
     public List<Groupe> getUserGroups(int uid) {
         List<Groupe> groupes = new ArrayList<>();
         try (Connection con = DS.getConnection()) {
@@ -240,17 +222,13 @@ public class UsersDAO {
                 }
             }
         } catch (Exception e) {
+            System.err.println("Erreur dans l'obtention de la liste des groupes d'un utilisateur");
             e.printStackTrace();
         }
         return groupes;
     }
 
-    /**
-     * Récupère les utilisateurs suivis par un utilisateur.
-     * @param uid Identifiant de l'utilisateur.
-     * @return Liste des utilisateurs suivis.
-     */
-    public List<User> getUserFollows(int uidChercher){
+    public List<User> getListFollowsOfUser(int uidChercher){
         List<User> followers = new ArrayList<>();
         try (Connection con = DS.getConnection()) {
             String requetePrepare = "SELECT U.* FROM Abonnements A JOIN Users U ON A.uidAbonnement = U.uid WHERE A.uidAbonne = ? ORDER BY A.dabonnement DESC";
@@ -276,17 +254,13 @@ public class UsersDAO {
                 }
             }
         } catch (Exception e) {
+            System.err.println("Erreur dans l'obtention de la liste des abonnements d'un utilisateur");
             e.printStackTrace();
         }
         return followers;
     }
 
-    /**
-     * Récupère les utilisateurs qui suivent un utilisateur.
-     * @param uid Identifiant de l'utilisateur.
-     * @return Liste des utilisateurs qui suivent l'utilisateur.
-     */
-    public List<User> getUserFollowers(int uidChercher){
+    public List<User> getListFollowersOfUser(int uidChercher){
         List<User> followers = new ArrayList<>();
         try (Connection con = DS.getConnection()) {
             String requetePrepare = "SELECT U.* FROM Abonnements A JOIN Users U ON A.uidAbonne = U.uid WHERE A.uidAbonnement = ? ORDER BY A.dabonnement DESC";
@@ -312,17 +286,13 @@ public class UsersDAO {
                 }
             }
         } catch (Exception e) {
+            System.err.println("Erreur dans l'obtention de la liste des abonnés d'un utilisateur");
             e.printStackTrace();
         }
         return followers;
     }
     
-    /**
-     * Récupère les favoris d'un utilisateur.
-     * @param uid Identifiant de l'utilisateur.
-     * @return Liste des favoris de l'utilisateur.
-     */
-    public List<Favori> getUserFavoris(int uid){
+    public List<Favori> getListFavorisOfUser(int uid){
         List<Favori> favoris = new ArrayList<>();
         try (Connection con = DS.getConnection()) {
             String requetePrepare = "SELECT * FROM Favoris WHERE uid = ? ORDER BY dfavori DESC";
@@ -337,18 +307,13 @@ public class UsersDAO {
                 }
             }
         } catch (Exception e) {
+            System.err.println("Erreur dans l'obtention de la liste des favoris d'un utilisateur");
             e.printStackTrace();
         }
         return favoris;
     }
 
-    /**
-     * Récupère les conversations entre deux utilisateurs.
-     * @param uid1 Identifiant du premier utilisateur.
-     * @param uid2 Identifiant du second utilisateur.
-     * @return Liste des messages échangés entre les deux utilisateurs.
-     */
-    public List<Message> getUserMessages(int uid1, int uid2) {
+    public List<Message> getListMessagesOf2Users(int uid1, int uid2) {
         List<Message> mess = new ArrayList<>();
         try (Connection con = DS.getConnection()) {
             String requetePrepare = "SELECT * FROM Messages WHERE (uidEnvoyeur = ? AND uidReceveur = ?) OR (uidEnvoyeur = ? AND uidReceveur = ?) ORDER BY dmess";
@@ -369,17 +334,13 @@ public class UsersDAO {
                 }
             }
         } catch (Exception e) {
+            System.err.println("Erreur dans l'obtention de la liste des messages entre 2 utilisateurs");
             e.printStackTrace();
         }
         return mess;
     }
 
-    /**
-     * Récupère les utilisateurs avec lesquels un utilisateur a échangé des messages.
-     * @param uid Identifiant de l'utilisateur.
-     * @return Liste des utilisateurs avec lesquels des messages ont été échangés.
-     */
-    public List<User> getUsersWithMessages(int userID) {
+    public List<User> getListConversationsOfUser(int userID) {
         List<User> users = new ArrayList<>();
         try (Connection con = DS.getConnection()) {
             String requetePrepare = "SELECT DISTINCT U.* FROM Users U " +
@@ -409,18 +370,13 @@ public class UsersDAO {
                 }
             }
         } catch (Exception e) {
+            System.err.println("Erreur dans l'obtention de la liste des utilisateurs avec qui l'utilisateur a conversé");
             e.printStackTrace();
         }
         return users;
     }
 
-    /**
-     * Récupère les posts d'un utilisateur avec un tri spécifique.
-     * @param uid Identifiant de l'utilisateur.
-     * @param tri Indicateur de tri (true pour tri par date de publication, false pour tri par nombre de réactions).
-     * @return Liste des posts de l'utilisateur.
-     */
-    public List<PostDetails> getUsersPosts(int uid, boolean tri) {
+    public List<PostDetails> getListPostsOfUser(int uid, boolean tri) {
         List<PostDetails> posts = new ArrayList<>();
         try (Connection con = DS.getConnection()) {
             String requetePrepare = "";
@@ -452,12 +408,13 @@ public class UsersDAO {
                 }
             }
         } catch (Exception e) {
+            System.err.println("Erreur dans l'obtention de la liste des posts d'un utilisateur");
             e.printStackTrace();
         }
         return posts;
     }
 
-    public List<Reaction> getUserReaction(int uid) {
+    public List<Reaction> getListReactionsOfUser(int uid) {
         List<Reaction> reaction = new ArrayList<>();
         try (Connection con = DS.getConnection()) {
             String requetePrepare = "SELECT * FROM Reactions WHERE uid = ?";
@@ -472,12 +429,13 @@ public class UsersDAO {
                 }
             }
         } catch (Exception e) {
+            System.err.println("Erreur dans l'obtention de la liste des réactions d'un utilisateur");
             e.printStackTrace();
         }
         return reaction;
     }
 
-    public List<User> searchUsers(String keyword) {
+    public List<User> getListUsersWithEquivalentKey(String keyword) {
         List<User> users = new ArrayList<>();
         try (Connection con = DS.getConnection()) {
             String requetePrepare = "SELECT * FROM Users WHERE LOWER(idPseudo) LIKE LOWER(?) OR LOWER(pseudo) LIKE LOWER(?) OR LOWER(bio) LIKE LOWER(?)";
@@ -506,6 +464,7 @@ public class UsersDAO {
                 }
             }
         } catch (Exception e) {
+            System.err.println("Erreur dans la recherche d'utilisateurs avec un mot équivalent");
             e.printStackTrace();
         }
         return users;

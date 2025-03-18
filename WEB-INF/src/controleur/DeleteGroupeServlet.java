@@ -17,7 +17,7 @@ public class DeleteGroupeServlet extends HttpServlet {
         int gid = Integer.parseInt(req.getParameter("gid"));
         GroupesDAO grpDAO = new GroupesDAO();
         try {
-            grpDAO.delete(grpDAO.findByGid(gid));
+            grpDAO.delete(grpDAO.findGroupByGid(gid));
             res.sendRedirect(req.getContextPath() + "/accueil");
         } catch (Exception e) {
             res.getWriter().write("Groupe deletion failed");

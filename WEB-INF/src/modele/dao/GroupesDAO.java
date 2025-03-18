@@ -1,46 +1,20 @@
 package modele.dao;
 
-import java.time.*;
-import java.sql.*;
-import java.util.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
-import modele.dto.*;
-import utils.*;
+import modele.dto.Groupe;
+import modele.dto.User;
+import utils.BAO;
+import utils.DS;
 
 public class GroupesDAO {
 
-    /**
-     * Récupère tous les groupes de la base de données.
-     *
-     * @return Une liste d'objets {@code Groupe}.
-     */
-    public List<Groupe> selectAll() {
-        List<Groupe> groupes = new ArrayList<>();
-        try (Connection con = DS.getConnection()) {
-            String requete = "SELECT * FROM Groupes";
-            try (Statement stmt = con.createStatement();
-                 ResultSet rs = stmt.executeQuery(requete)) {
-                while (rs.next()) {
-                    int gid = rs.getInt("gid");
-                    int uid = rs.getInt("uid");
-                    String pdpGrp = rs.getString("pdpGrp");
-                    String nomGrp = rs.getString("nomGrp");
-                    String description = rs.getString("description");
-                    LocalDateTime dcreat = BAO.conversion(rs.getTimestamp("dcreat"));
-                    groupes.add(new Groupe(gid, uid, pdpGrp, nomGrp, description, dcreat));
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return groupes;
-    }
-
-    /**
-     * Insère un nouveau groupe dans la base de données.
-     *
-     * @param groupe L'objet {@code Groupe} à insérer.
-     */
     public void insert(Groupe groupe) {
         try (Connection con = DS.getConnection()) {
             String requetePrepare = "INSERT INTO Groupes (uid, nomGrp, pdpGrp, description, dcreat) VALUES (?, ?, ?, ?, ?)";
@@ -53,15 +27,11 @@ public class GroupesDAO {
                 pstmt.executeUpdate();
             }
         } catch (Exception e) {
+            System.err.println("Erreur dans l'insertion d'un groupe");
             e.printStackTrace();
         }
     }
 
-    /**
-     * Met à jour les informations d'un groupe.
-     *
-     * @param groupe L'objet {@code Groupe} à mettre à jour.
-     */
     public void update(Groupe groupe) {
         try (Connection con = DS.getConnection()) {
             String requetePrepare = "UPDATE Groupes SET uid = ?, pdpGrp = ?, nomGrp = ?, description = ? WHERE gid = ?";
@@ -74,15 +44,11 @@ public class GroupesDAO {
                 pstmt.executeUpdate();
             }
         } catch (Exception e) {
+            System.err.println("Erreur dans la modification d'un groupe");
             e.printStackTrace();
         }
     }
 
-    /**
-     * Supprime un groupe de la base de données.
-     *
-     * @param groupe L'objet {@code Groupe} à supprimer.
-     */
     public void delete(Groupe groupe) {
         try (Connection con = DS.getConnection()) {
             String requetePrepare = "DELETE FROM Groupes WHERE gid = ?";
@@ -91,17 +57,12 @@ public class GroupesDAO {
                 pstmt.executeUpdate();
             }
         } catch (Exception e) {
+            System.err.println("Erreur dans la suppression d'un groupe");
             e.printStackTrace();
         }
     }
     
-    /**
-     * Récupère les membres d'un groupe donné.
-     *
-     * @param gid L'identifiant du groupe.
-     * @return Une liste d'objets {@code User} membres du groupe.
-     */
-    public List<User> getGroupeMembers(int gid){
+    public List<User> getListUsersOfAGroup(int gid){
         List<User> membres = new ArrayList<>();
         try (Connection con = DS.getConnection()) {
             String requetePrepare = "SELECT U.*  FROM Membres M JOIN Users U ON M.uid = U.uid WHERE M.gid = ? ORDER BY M.djoin DESC;";
@@ -127,17 +88,13 @@ public class GroupesDAO {
                 }
             }
         } catch (Exception e) {
+            System.err.println("Erreur dans l'obtention de la liste des utilisateurs d'un groupe");
             e.printStackTrace();
         }
         return membres;
     }
     
-    /**
-     * Trouve un groupe spécifique à partir de son gid.
-     * @param gid L'identifiant du groupe.
-     * @return Le groupe trouvé ou null si aucun groupe n'est trouvé.
-     */
-    public Groupe findByGid(int gid) {
+    public Groupe findGroupByGid(int gid) {
         Groupe groupe = null;
         try (Connection con = DS.getConnection()) {
             String requetePrepare = "SELECT * FROM Groupes WHERE gid = ?";
@@ -155,12 +112,13 @@ public class GroupesDAO {
                 }
             }
         } catch (Exception e) {
+            System.err.println("Erreur dans la recherche d'un groupe grâce à son gid");
             e.printStackTrace();
         }
         return groupe;
     }
 
-    public Groupe findByName(String nomGrp){
+    public Groupe findGroupByName(String nomGrp){
         Groupe groupe = null;
         try (Connection con = DS.getConnection()) {
             String requetePrepare = "SELECT * FROM Groupes WHERE nomGrp = ?";
@@ -178,6 +136,7 @@ public class GroupesDAO {
                 }
             }
         } catch (Exception e) {
+            System.err.println("Erreur dans la recherche d'un groupe grâce à son nomGrp");
             e.printStackTrace();
         }
         return groupe;

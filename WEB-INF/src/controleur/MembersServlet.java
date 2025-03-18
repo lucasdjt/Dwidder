@@ -48,7 +48,7 @@ public class MembersServlet extends HttpServlet {
         int gid = Integer.parseInt(req.getParameter("gid"));
         String idPseudo = req.getParameter("idPseudo");
         UsersDAO uDao = new UsersDAO();
-        User user = uDao.findByIdPseudo(idPseudo);
+        User user = uDao.findUserByPseudo(idPseudo);
         if(user == null) {
             res.sendRedirect(req.getContextPath() + "/chgGroupe/" + gid + "?success=0");
             return;

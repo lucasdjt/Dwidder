@@ -1,55 +1,22 @@
 package modele.dao;
 
-import java.time.*;
-import java.sql.*;
-import java.util.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
-import modele.dto.*;
-import utils.*;
+import modele.dto.Post;
+import modele.dto.PostDetails;
+import modele.dto.Reaction;
+import utils.BAO;
+import utils.DS;
 
 public class PostsDAO {
 
-    /**
-     * Récupère tous les posts de la base de données.
-     * @return Liste des posts.
-     */
-    public List<PostDetails> selectAll() {
-        List<PostDetails> posts = new ArrayList<>();
-        try (Connection con = DS.getConnection()) {
-            String requete = "SELECT * FROM PostDetails";
-            try (Statement stmt = con.createStatement();
-                 ResultSet rs = stmt.executeQuery(requete)) {
-                while (rs.next()) {
-                    int pid = rs.getInt("pid");
-                    Integer gid = rs.getInt("gid");
-                    String nomGrp = rs.getString("nomGrp");
-                    Integer pidParent = rs.getInt("pidParent");
-                    String contenu = rs.getString("contenu");
-                    String media = rs.getString("media");
-                    LocalDateTime dpub = BAO.conversion(rs.getTimestamp("dpub"));
-                    LocalDateTime dfin = BAO.conversion(rs.getTimestamp("dfin"));
-                    String pdp = rs.getString("pdp");
-                    String pseudo = rs.getString("pseudo");
-                    int uid = rs.getInt("uid");
-                    int uidAdmin = rs.getInt("uidAdmin");
-                    int nbLikes = rs.getInt("nbLikes");
-                    int nbComm = rs.getInt("nbComm");
-                    String idPseudo = rs.getString("idPseudo");
-                    posts.add(new PostDetails(pid, gid, nomGrp, pidParent, contenu, media, dpub, dfin, pdp, pseudo, uid, uidAdmin, nbLikes, nbComm, idPseudo));
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return posts;
-    }
-
-    /**
-     * Insère un nouveau post dans la base de données.
-     * @param post Le post à insérer.
-     * @throws Exception Si une erreur survient lors de l'insertion. 
-     */
-    public void insert(Post post) throws Exception { 
+    public void insert(Post post) { 
         try (Connection con = DS.getConnection()) {
             String requetePrepare = "INSERT INTO Posts (uid, gid, pidParent, contenu, media, dpub, dfin) VALUES (?, ?, ?, ?, ?, ?, ?)";
             try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
@@ -64,15 +31,13 @@ public class PostsDAO {
                 pstmt.setTimestamp(7, BAO.conversion(post.getDfin()));
                 pstmt.executeUpdate();
             }
+        } catch (Exception e) {
+            System.err.println("Erreur dans l'insertion d'un post");
+            e.printStackTrace();
         }
     }
 
-     /**
-     * Recherche un post par son identifiant.
-     * @param pid L'ID du post.
-     * @return Le post trouvé ou null si inexistant.
-     */
-    public PostDetails findByPid(int pid) {
+    public PostDetails findPostDetails(int pid) {
         PostDetails post = null;
         try (Connection con = DS.getConnection()) {
             String requetePrepare = "SELECT * FROM PostDetails WHERE pid = ?";
@@ -99,15 +64,12 @@ public class PostsDAO {
                 }
             }
         } catch (Exception e) {
+            System.err.println("Erreur dans la recherche des détails d'un post");
             e.printStackTrace();
         }
         return post;
     }
 
-    /**
-     * Supprime un post de la base de données.
-     * @param post Le post à supprimer.
-     */
     public void delete(int pid) {
         try (Connection con = DS.getConnection()) {
             String requetePrepare = "DELETE FROM Posts WHERE pid = ?";
@@ -116,16 +78,12 @@ public class PostsDAO {
                 pstmt.executeUpdate();
             }
         } catch (Exception e) {
+            System.err.println("Erreur dans la suppression d'un post");
             e.printStackTrace();
         }
     }
 
-    /**
-     * Récupère les réactions associées à un post.
-     * @param pid L'ID du post.
-     * @return Liste des réactions.
-     */
-    public List<Reaction> getPostReactions(int pid) {
+    public List<Reaction> getListReactionsOfPost(int pid) {
         List<Reaction> reactions = new ArrayList<>();
         try (Connection con = DS.getConnection()) {
             String requetePrepare = "SELECT * FROM Reactions WHERE pid = ?";
@@ -140,17 +98,13 @@ public class PostsDAO {
                 }
             }
         } catch (Exception e) {
+            System.err.println("Erreur dans l'obtention de la liste des réactions d'un post");
             e.printStackTrace();
         }
         return reactions;
     }
 
-    /**
-     * Récupère tous les posts publics, triés par popularité ou par date.
-     * @param triParDate Indique si le tri doit être fait par date ou par nombre de réactions.
-     * @return Liste des posts publics.
-     */
-    public List<PostDetails> selectAllPublic(boolean triParDate) {
+    public List<PostDetails> getListPostsInPublic(boolean triParDate) {
         List<PostDetails> posts = new ArrayList<>();
         try (Connection con = DS.getConnection()) {
             String requete = "";
@@ -181,18 +135,13 @@ public class PostsDAO {
                 }
             }
         } catch (Exception e) {
+            System.err.println("Erreur dans l'obtention de la liste des posts dans le fil public");
             e.printStackTrace();
         }
         return posts;
     }
 
-    /**
-     * Récupère les posts d'un groupe spécifique, triés par popularité ou par date.
-     * @param gid L'ID du groupe.
-     * @param triParReactions Indique si le tri doit être fait par la date.
-     * @return Liste des posts du groupe.
-     */
-    public List<PostDetails> selectFromGroup(int gid, boolean triParDate) {
+    public List<PostDetails> getListPostsOfGroup(int gid, boolean triParDate) {
         List<PostDetails> posts = new ArrayList<>();
         try (Connection con = DS.getConnection()) {
             String requetePrepare = "";
@@ -224,17 +173,13 @@ public class PostsDAO {
                 }
             }
         } catch (Exception e) {
+            System.err.println("Erreur dans l'obtention de la liste des posts dans le fil de groupe");
             e.printStackTrace();
         }
         return posts;
     }
 
-    /**
-     * Récupère les réponses à un post parent, triées par popularité.
-     * @param pidParent L'ID du post parent.
-     * @return Liste des réponses associées.
-     */
-    public List<PostDetails> selectFromPostParent(int pidParent) {
+    public List<PostDetails> getListPostsOfPostParent(int pidParent) {
         List<PostDetails> posts = new ArrayList<>();
         try (Connection con = DS.getConnection()) {
             String requetePrepare = "SELECT * FROM PostDetails WHERE pidParent = ? ORDER BY nbLikes DESC";
@@ -261,6 +206,7 @@ public class PostsDAO {
                 }
             }
         } catch (Exception e) {
+            System.err.println("Erreur dans l'obtention de la liste des posts dans le fil des réponses à un post");
             e.printStackTrace();
         }
         return posts;
@@ -269,13 +215,14 @@ public class PostsDAO {
     /**
      * Supprime les posts expirés de la base de données.
      */
-    public void deleteExpired() {
+    public void deleteAllExpiredPosts() {
         try (Connection con = DS.getConnection()) {
             String requete = "DELETE FROM Posts WHERE dfin IS NOT NULL AND dfin < CURRENT_TIMESTAMP";
             try (Statement stmt = con.createStatement()) {
                 stmt.executeUpdate(requete);
             }
         } catch (Exception e) {
+            System.err.println("Erreur dans la suppression des posts expirés");
             e.printStackTrace();
         }
     }

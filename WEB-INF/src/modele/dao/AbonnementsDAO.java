@@ -1,43 +1,16 @@
 package modele.dao;
 
-import java.time.*;
-import java.sql.*;
-import java.util.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.time.LocalDateTime;
 
-import modele.dto.*;
-import utils.*;
+import modele.dto.Abonnement;
+import utils.BAO;
+import utils.DS;
 
 public class AbonnementsDAO {
 
-    /**
-     * Récupère toutes les abonnements de la base de données.
-     *
-     * @return Une liste d'objets {@code Abonnement}.
-     */
-    public List<Abonnement> selectAll() {
-        List<Abonnement> abonnements = new ArrayList<>();
-        try (Connection con = DS.getConnection()) {
-            String requete = "SELECT * FROM Abonnements";
-            try (Statement stmt = con.createStatement();
-                 ResultSet rs = stmt.executeQuery(requete)) {
-                while (rs.next()) {
-                    int uidAbonne = rs.getInt("uidAbonne");
-                    int uidAbonnement = rs.getInt("uidAbonnement");
-                    LocalDateTime dabonnement = BAO.conversion(rs.getTimestamp("dabonnement"));
-                    abonnements.add(new Abonnement(uidAbonne, uidAbonnement, dabonnement));
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return abonnements;
-    }
-
-    /**
-     * Insère un nouvel abonnement dans la base de données.
-     *
-     * @param abonnement L'objet {@code Abonnement} à insérer.
-     */
     public void insert(Abonnement abonnement) {
         try (Connection con = DS.getConnection()) {
             String requetePrepare = "INSERT INTO Abonnements (uidAbonne, uidAbonnement, dabonnement) VALUES (?, ?, ?)";
@@ -48,15 +21,11 @@ public class AbonnementsDAO {
                 pstmt.executeUpdate();
             }
         } catch (Exception e) {
+            System.err.println("Erreur dans l'insertion d'un abonnement");
             e.printStackTrace();
         }
     }
 
-    /**
-     * Supprime un abonnement de la base de données.
-     *
-     * @param abonnement L'objet {@code Abonnement} à supprimer.
-     */
     public void delete(Abonnement abonnement) {
         try (Connection con = DS.getConnection()) {
             String requetePrepare = "DELETE FROM Abonnements WHERE uidAbonne = ? AND uidAbonnement = ?";
@@ -66,21 +35,15 @@ public class AbonnementsDAO {
                 pstmt.executeUpdate();
             }
         } catch (Exception e) {
+            System.err.println("Erreur dans la suppression d'un abonnement");
             e.printStackTrace();
         }
     }
     
-    /**
-     * Récupère un abonnement de la base de données en fonction de son {@code uidAbonne} et de son {@code uidAbonnement}.
-     *
-     * @param uidAbonne L'identifiant {@code uidAbonne} à chercher.
-     * @param uidAbonnement L'identifiant {@code uidAbonnement} à chercher.
-     * @return L'objet {@code Abonnement} correspondant.
-     */
-    public Abonnement findByFollowAndFollowed(int uidAbonne, int uidAbonnement) {
+    public Abonnement findAbonnement(int uidAbonne, int uidAbonnement) {
         Abonnement abonnement = null;
         try (Connection con = DS.getConnection()) {
-            String requetePrepare = "SELECT * FROM Abonnements WHERE uidAbonne = ? AND uidAbonnement = ?";
+            String requetePrepare = "SELECT dabonnement FROM Abonnements WHERE uidAbonne = ? AND uidAbonnement = ?";
             try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
                 pstmt.setInt(1, uidAbonne);
                 pstmt.setInt(2, uidAbonnement);
@@ -92,6 +55,7 @@ public class AbonnementsDAO {
                 }
             }
         } catch (Exception e) {
+            System.err.println("Erreur dans la recherche d'un abonnement");
             e.printStackTrace();
         }
         return abonnement;

@@ -72,7 +72,7 @@ public class AddAccountServlet extends HttpServlet {
         if (referer != null && referer.contains("?")) {
             referer = referer.substring(0, referer.indexOf("?"));
         }
-        if (uDao.findByIdPseudo(idPseudo) != null || uDao.findByEmail(email) != null) {
+        if (uDao.findUserByPseudo(idPseudo) != null || uDao.findUserByEmail(email) != null) {
             res.sendRedirect(referer + "?success=0");
             return;
         }

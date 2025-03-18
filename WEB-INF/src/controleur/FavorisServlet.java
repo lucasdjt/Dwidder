@@ -37,10 +37,10 @@ public class FavorisServlet extends HttpServlet {
         UsersDAO usersDAO = new UsersDAO();
         PostsDAO postsDAO = new PostsDAO();
         int uid = (int) session.getAttribute("uid");
-        List<Favori> fav = usersDAO.getUserFavoris(uid);
+        List<Favori> fav = usersDAO.getListFavorisOfUser(uid);
         List<PostDetails> list = new ArrayList<>();
         for(Favori f : fav){
-            list.add(postsDAO.findByPid(f.getPid()));
+            list.add(postsDAO.findPostDetails(f.getPid()));
         }
         req.setAttribute("listePosts", list);
         req.getRequestDispatcher(REPERTORY + "listeFavoris.jsp").forward(req, res);

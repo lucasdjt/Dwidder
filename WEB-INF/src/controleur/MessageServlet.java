@@ -41,8 +41,8 @@ public class MessageServlet extends HttpServlet {
             }
         int uid = (int) session.getAttribute("uid");
         UsersDAO uDao = new UsersDAO();
-        List<User> listUsers = uDao.getUsersWithMessages(uid);
-        List<User> listFollow = uDao.getUserFollows(uid);
+        List<User> listUsers = uDao.getListConversationsOfUser(uid);
+        List<User> listFollow = uDao.getListFollowsOfUser(uid);
         listFollow.removeAll(listUsers);
         req.setAttribute("follows", listFollow);
         req.setAttribute("listUser", listUsers);
@@ -52,7 +52,7 @@ public class MessageServlet extends HttpServlet {
         String pathInfo = req.getPathInfo();
         if (pathInfo == null || pathInfo.equals("/")) {
             if(req.getParameter("query") != null){
-                req.setAttribute("listUser", uDao.searchUsers(req.getParameter("query")));
+                req.setAttribute("listUser", uDao.getListUsersWithEquivalentKey(req.getParameter("query")));
             }
             req.getRequestDispatcher(REPERTORY + "messages.jsp").forward(req, res);
             return;
@@ -65,13 +65,13 @@ public class MessageServlet extends HttpServlet {
         }
         String cidStr = pathParts[1];
         try {
-            User user = uDao.findByIdPseudo(cidStr);
+            User user = uDao.findUserByPseudo(cidStr);
             if (user == null) {
                 res.sendError(HttpServletResponse.SC_NOT_FOUND, "User not found");
                 return;
             }
             req.setAttribute("user", user);
-            req.setAttribute("listMess", uDao.getUserMessages(uid, user.getUid()));
+            req.setAttribute("listMess", uDao.getListMessagesOf2Users(uid, user.getUid()));
             req.getRequestDispatcher(REPERTORY + "messages.jsp").forward(req, res);
         } catch (NumberFormatException e) {
             res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid");

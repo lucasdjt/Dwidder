@@ -45,12 +45,12 @@ public class FollowServlet extends HttpServlet {
         try {
             String idPseudo = pathParts[1];
             UsersDAO dao = new UsersDAO();
-            User user = dao.findByIdPseudo(idPseudo);
+            User user = dao.findUserByPseudo(idPseudo);
             if (user == null) {
             res.sendError(HttpServletResponse.SC_NOT_FOUND, "User not found");
             return;
             }
-            List<User> follow = dao.getUserFollows(user.getUid());
+            List<User> follow = dao.getListFollowsOfUser(user.getUid());
             req.setAttribute("listFollow", follow);
             req.getRequestDispatcher(REPERTORY + "listeUser.jsp").forward(req, res);
         } catch (NumberFormatException e) {

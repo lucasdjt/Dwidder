@@ -60,7 +60,7 @@ public class APIServlet extends HttpServlet {
                     if (pathParts.length == 3) {
                         int postId = Integer.parseInt(pathParts[2]);
                         PostsDAO postsDAO = new PostsDAO();
-                        PostDetails p = postsDAO.findByPid(postId);
+                        PostDetails p = postsDAO.findPostDetails(postId);
                         if (p == null) {
                             res.sendError(HttpServletResponse.SC_NOT_FOUND, "Post does not exist");
                             return;
@@ -68,7 +68,7 @@ public class APIServlet extends HttpServlet {
                         out.print(BAO.toJson(p));
                     } else {
                         PostsDAO postsDAO = new PostsDAO();
-                        List<PostDetails> posts = postsDAO.selectAllPublic(true);
+                        List<PostDetails> posts = postsDAO.getListPostsInPublic(true);
                         String json = "[";
                         for (PostDetails p : posts) {
                             json += BAO.toJson(p) + ",\n";
@@ -83,12 +83,12 @@ public class APIServlet extends HttpServlet {
                     if (pathParts.length == 3) {
                         String userID = pathParts[2];
                         UsersDAO usersDAO = new UsersDAO();
-                        User u = usersDAO.findByIdPseudo(userID);
+                        User u = usersDAO.findUserByPseudo(userID);
                         if(u == null){
                             res.sendError(HttpServletResponse.SC_NOT_FOUND, "User does not exist");
                             return;
                         }
-                        List<PostDetails> posts = usersDAO.getUsersPosts(u.getUid(), true);
+                        List<PostDetails> posts = usersDAO.getListPostsOfUser(u.getUid(), true);
                         String json = "[";
                         for (PostDetails p : posts) {
                             json += BAO.toJson(p) + ",\n";
@@ -107,11 +107,11 @@ public class APIServlet extends HttpServlet {
                         int gid = Integer.parseInt(pathParts[2]);
                         GroupesDAO gDao = new GroupesDAO();
                         PostsDAO dao = new PostsDAO();
-                        if(gDao.findByGid(gid) == null){
+                        if(gDao.findGroupByGid(gid) == null){
                             res.sendError(HttpServletResponse.SC_NOT_FOUND, "Group does not exist");
                             return;
                         }
-                        List<PostDetails> posts = dao.selectFromGroup(gid, false);
+                        List<PostDetails> posts = dao.getListPostsOfGroup(gid, false);
                         String json = "[";
                         for (PostDetails p : posts) {
                             json += BAO.toJson(p) + ",\n";

@@ -54,13 +54,13 @@ public class PostServlet extends HttpServlet {
             String pidStr = pathParts[1];
             int pid = Integer.parseInt(pidStr);
             PostsDAO dao = new PostsDAO();
-            PostDetails post = dao.findByPid(pid);
+            PostDetails post = dao.findPostDetails(pid);
             if (post == null) {
             res.sendError(HttpServletResponse.SC_NOT_FOUND, "Post not found");
             return;
             }
             req.setAttribute("post", post);
-            req.setAttribute("listePosts", dao.selectFromPostParent(pid));
+            req.setAttribute("listePosts", dao.getListPostsOfPostParent(pid));
             req.getRequestDispatcher(REPERTORY + "posts.jsp").forward(req, res);
         } catch (NumberFormatException e) {
             res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid");
@@ -72,7 +72,7 @@ public class PostServlet extends HttpServlet {
         req.setCharacterEncoding("UTF-8");
         int uid = Integer.parseInt(req.getParameter("uid"));
         Integer gid = null;
-        if(req.getParameter("gid") != null){
+        if(req.getParameter("gid") != null && Integer.parseInt(req.getParameter("gid")) != 0){
             gid = Integer.parseInt(req.getParameter("gid"));
         }
         Integer pidParent = null;

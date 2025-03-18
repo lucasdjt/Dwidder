@@ -1,6 +1,7 @@
 package modele.dto;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import utils.BAO;
 
@@ -74,7 +75,7 @@ public class Groupe {
     }
 
     public String getDcreatAsDate() {
-        return dcreat.format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        return dcreat.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }
 
     public void setDcreat(LocalDateTime dcreat) {

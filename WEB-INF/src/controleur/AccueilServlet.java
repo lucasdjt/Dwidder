@@ -25,10 +25,10 @@ public class AccueilServlet extends HttpServlet {
         res.setContentType("text/html; charset=UTF-8");
         res.setCharacterEncoding("UTF-8");
         PostsDAO postsDAO = new PostsDAO();
-        postsDAO.deleteExpired();
+        postsDAO.deleteAllExpiredPosts();
         UsersDAO usersDAO = new UsersDAO();
-        req.setAttribute("listePosts", postsDAO.selectAllPublic(true));
-        req.setAttribute("users", usersDAO.selectAll());
+        req.setAttribute("listePosts", postsDAO.getListPostsInPublic(true));
+        req.setAttribute("users", usersDAO.listUsers());
         req.getRequestDispatcher(REPERTORY + "accueil.jsp").forward(req, res);
     }
 }

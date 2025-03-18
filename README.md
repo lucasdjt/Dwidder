@@ -82,17 +82,15 @@ killall java
 ## CONSIGNES
 
 Optimisation / Qualité / Simplification :
-- Vérifier si les "SELECT *" sont obligatoires (DAO)
-- Simplifier les requêtes (DAO)
-- Clean-Up DAO
-- Clean-Up Servlet
+- Clean-Up Servlet (Servlet)
 - Gestion les permissions d'y accéder (Servlet)
-- Clean-Up JSP
-
-++
 - Ajout de la sécurité de l'API (Servlet)
-- Ajouter une Page ADMIN permettant de modifier toute la base de données (au minimum nécessaire) à sa guise (Servlet/JSP)
-- Amélioration de l'interface avec BootStrap
+- Ajouter le tri des posts (Servlet/Vue)
+- Ajouter une Page ADMIN permettant de modifier toute la base de données (au minimum nécessaire) à sa guise (Servlet/Vue)
+- Clean-Up JSP + Amélioration de l'interface (Vue)
+- Vérifier que tous les consignes sont respectés
+- Ajout de la documentation (DTO/DAO/Servlet/JSP)
+
 
 Réalisez en Markdown une documentation de votre application contenant au minimum :
 - La description générale de l’application

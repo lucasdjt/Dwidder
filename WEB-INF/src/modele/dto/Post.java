@@ -1,7 +1,6 @@
 package modele.dto;
 
 import java.time.LocalDateTime;
-
 import utils.BAO;
 
 public class Post {

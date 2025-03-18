@@ -28,7 +28,7 @@ public class AddLikeServlet extends HttpServlet {
         String reaction = req.getParameter("type");
         UsersDAO dao = new UsersDAO();
         ReactionsDAO reactionsDAO = new ReactionsDAO();
-        Reaction existingReaction = reactionsDAO.findByUidAndPid(uid, pid);
+        Reaction existingReaction = reactionsDAO.findReaction(uid, pid);
         String referer = req.getHeader("Referer");
         if (referer != null && referer.contains("?")) {
             referer = referer.substring(0, referer.indexOf("?"));
@@ -45,7 +45,7 @@ public class AddLikeServlet extends HttpServlet {
             }
         }
         Map<Integer, String> listReactionsUser = new HashMap<>();
-        for (Reaction r : dao.getUserReaction(uid)) {
+        for (Reaction r : dao.getListReactionsOfUser(uid)) {
             listReactionsUser.put(r.getPid(), r.getTypeEmoji());
         }
         req.getSession().setAttribute("listReactionsUser", listReactionsUser);

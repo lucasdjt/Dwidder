@@ -28,7 +28,7 @@ public class AddFollowServlet extends HttpServlet {
         int uidFollowers = Integer.parseInt(req.getParameter("follower"));
         AbonnementsDAO abonnementsDAO = new AbonnementsDAO();
 
-        Abonnement existingAbonnement = abonnementsDAO.findByFollowAndFollowed(uidFollowers, uidFollowed);
+        Abonnement existingAbonnement = abonnementsDAO.findAbonnement(uidFollowers, uidFollowed);
         if (existingAbonnement == null) {
             Abonnement newAbonnement = new Abonnement(uidFollowers, uidFollowed, LocalDateTime.now());
             abonnementsDAO.insert(newAbonnement);
@@ -41,9 +41,9 @@ public class AddFollowServlet extends HttpServlet {
         }
         UsersDAO dao = new UsersDAO();
         List<Integer> listFollowUser = new ArrayList<>();
-        dao.getUserFollows((int) req.getSession().getAttribute("uid")).forEach(follow -> listFollowUser.add(follow.getUid()));
+        dao.getListFollowsOfUser((int) req.getSession().getAttribute("uid")).forEach(follow -> listFollowUser.add(follow.getUid()));
         List<Integer> listFollowersUser = new ArrayList<>();
-        dao.getUserFollowers((int) req.getSession().getAttribute("uid")).forEach(follower -> listFollowersUser.add(follower.getUid()));
+        dao.getListFollowersOfUser((int) req.getSession().getAttribute("uid")).forEach(follower -> listFollowersUser.add(follower.getUid()));
         req.getSession().setAttribute("listFollowUser", listFollowUser);
         req.getSession().setAttribute("listFollowersUser", listFollowersUser);
         res.sendRedirect(referer);

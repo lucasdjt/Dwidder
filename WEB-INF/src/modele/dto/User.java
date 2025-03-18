@@ -1,6 +1,8 @@
 package modele.dto;
 
-import java.time.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import utils.BAO;
 
 public class User {
@@ -136,7 +138,7 @@ public class User {
     }
 
     public String getDinscAsDate() {
-        return dinsc.format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        return dinsc.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }
 
     public void setDinsc(LocalDateTime dinsc) {

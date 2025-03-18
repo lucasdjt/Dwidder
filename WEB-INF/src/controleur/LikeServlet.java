@@ -45,10 +45,10 @@ public class LikeServlet extends HttpServlet {
             int pid = Integer.parseInt(pidStr);
             PostsDAO dao = new PostsDAO();
             UsersDAO uDao = new UsersDAO();
-            List<Reaction> listR = dao.getPostReactions(pid);
+            List<Reaction> listR = dao.getListReactionsOfPost(pid);
             Map<User, String> userReactions = new HashMap<>();
             for (Reaction r : listR) {
-                User u = uDao.findByUid(r.getUid());
+                User u = uDao.findUserByUid(r.getUid());
                 userReactions.put(u, r.getTypeEmoji());
             }
             req.setAttribute("listReactions", userReactions);

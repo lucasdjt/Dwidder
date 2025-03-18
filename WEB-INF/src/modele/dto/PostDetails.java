@@ -1,6 +1,7 @@
 package modele.dto;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import utils.BAO;
 
 public class PostDetails {
@@ -101,7 +102,7 @@ public class PostDetails {
     }
 
     public String getDpubAsDate() {
-        return dpub.format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        return dpub.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }
 
     public void setDpub(LocalDateTime dpub) {
