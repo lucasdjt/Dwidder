@@ -12,7 +12,7 @@ import modele.dao.LogsDAO;
 import modele.dao.UsersDAO;
 
 @WebServlet("/admin")
-public class AdminServlet extends HttpServlet {
+public class Servlet_Admin extends HttpServlet {
     final String REPERTORY = "/WEB-INF/vue/";
 
     protected void doGet(HttpServletRequest req, HttpServletResponse res)

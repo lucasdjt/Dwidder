@@ -19,6 +19,7 @@
 <main class="container d-flex justify-content-center align-items-center vh-100">
     <div class="card bg-dark text-white p-4" style="max-width: 400px; width: 100%;">
         <h2 class="text-center text-white">Connexion</h2>
+        <jsp:include page="popUp.jsp" />
         <form action="${pageContext.request.contextPath}/connexion" method="post" enctype="multipart/form-data">
             <div class="mb-3">
                 <label for="identifier" class="form-label">Email ou Pseudo</label>
@@ -34,7 +35,7 @@
             <button type="submit" class="btn btn-primary w-100">Se connecter</button>
         </form>
         <div class="text-center mt-3">
-            <a href="${pageContext.request.contextPath}/inscrire" class="text-decoration-none text-light">Créer un compte</a>
+            <a href="${pageContext.request.contextPath}/inscription" class="text-decoration-none text-light">Créer un compte</a>
         </div>
     </div>
 </main>

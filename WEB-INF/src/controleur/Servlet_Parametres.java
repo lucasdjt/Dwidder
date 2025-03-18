@@ -5,7 +5,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-
+import java.time.LocalDate;
+import modele.dao.UsersDAO;
+import modele.dto.User;
+import modele.dao.LogsDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
@@ -14,23 +17,20 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
-import modele.dao.GroupesDAO;
-import modele.dto.Groupe;
-import modele.dao.LogsDAO;
 
-@WebServlet("/chgGroupe/*")
+@WebServlet("/parametres")
 @MultipartConfig(
     fileSizeThreshold = 1024 * 1024 * 2,
     maxFileSize = 1024 * 1024 * 10,
     maxRequestSize = 1024 * 1024 * 50
 )
-public class ChgGrpServlet extends HttpServlet {
-    final String REPERTORY = "/WEB-INF/vue/";
+public class Servlet_Parametres extends HttpServlet {
+    private static final String REPERTORY = "/WEB-INF/vue/";
     private static final String UPLOAD_DIR = "img";
     private static final String SEP = File.separator;
 
     protected void doGet(HttpServletRequest req, HttpServletResponse res)
-        throws ServletException, IOException {
+            throws ServletException, IOException {
         HttpSession session = req.getSession(false);
         if (session == null || session.getAttribute("uid") == null || session.getAttribute("pseudo") == null) {
             res.sendRedirect(req.getContextPath() + "/connexion");
@@ -38,40 +38,24 @@ public class ChgGrpServlet extends HttpServlet {
         }
         res.setContentType("text/html; charset=UTF-8");
         res.setCharacterEncoding("UTF-8");
-        String pathInfo = req.getPathInfo();
-        if (pathInfo == null || pathInfo.equals("/")) {
-            res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid");
-            return;
-        }
-        String[] pathParts = pathInfo.split("/");
-        if (pathParts.length < 2) {
-            res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid GID format");
-            return;
-        }
-        try {
-            String gidStr = pathParts[1];
-            int gid = Integer.parseInt(gidStr);
-            GroupesDAO gDao = new GroupesDAO();
-            Groupe groupe = gDao.findGroupByGid(gid);
-            if (groupe == null) {
-            res.sendError(HttpServletResponse.SC_NOT_FOUND, "Groupe not found");
-            return;
-            }
-            req.setAttribute("groupe", groupe);
-            req.setAttribute("listeMembres", gDao.getListUsersOfAGroup(gid));
-            req.getRequestDispatcher(REPERTORY + "chgGroupe.jsp").forward(req, res);
-        } catch (NumberFormatException e) {
-            res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid");
-        }
+        UsersDAO usersDAO = new UsersDAO();
+        req.setAttribute("user", usersDAO.findUserByUid((int) session.getAttribute("uid")));
+        req.getRequestDispatcher(REPERTORY + "parametres.jsp").forward(req, res);
     }
 
     protected void doPost(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
-        HttpSession session = req.getSession(false);
+        int uid = (int) req.getSession().getAttribute("uid");
+        UsersDAO usersDAO = new UsersDAO();
+        User user = usersDAO.findUserByUid(uid);
         req.setCharacterEncoding("UTF-8");
-        Part filePart = req.getPart("pdpGrp");
+        user.setPseudo(req.getParameter("pseudo"));
+        user.setPrenom(req.getParameter("prenom"));
+        user.setNomUser(req.getParameter("nomUser"));
+        user.setBio(req.getParameter("bio"));
+        Part filePart = req.getPart("pdp");
         String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
-        String pdpGrp = null;
+        String pdp = null;
         if (fileName != null && !fileName.isEmpty()) {
             String uploadPath = getServletContext().getRealPath("") + SEP + UPLOAD_DIR;
             File uploadDir = new File(uploadPath);
@@ -86,35 +70,54 @@ public class ChgGrpServlet extends HttpServlet {
             file = new File(uploadPath + SEP + fileName);
             counter++;
             }
-            pdpGrp = UPLOAD_DIR + SEP + fileName;
+            pdp = UPLOAD_DIR + SEP + fileName;
             try (InputStream fileContent = filePart.getInputStream()) {
             Files.copy(fileContent, file.toPath());
             }
         }
-        if(pdpGrp == null){
-            pdpGrp = "img" + SEP + "pdp.png";
+        if(pdp != null){
+            user.setPdp(pdp);
         }
-        String nomGrp = req.getParameter("nomGrp");
-        String description = req.getParameter("description");
-        String admin = req.getParameter("newAdmin");
-        GroupesDAO gDao = new GroupesDAO();
-        int gid = Integer.parseInt(req.getParameter("gid"));
-        Groupe groupe = gDao.findGroupByGid(gid);
-        groupe.setNomGrp(nomGrp);
-        groupe.setDescription(description);
-        groupe.setPdpGrp(pdpGrp);
-        if(admin != null && !admin.isEmpty()){
-            groupe.setUid(Integer.parseInt(admin));
-            LogsDAO.insert(session.getAttribute("pseudo").toString(), admin + " est le nouvel admin du groupe " + gid);
+        String dnaiss = req.getParameter("dnaiss");
+        if (dnaiss != null && !dnaiss.isEmpty()) {
+            user.setDnaiss(LocalDate.parse(dnaiss));
+        } else {
+            user.setDnaiss(null);
         }
+        user.setLoca(req.getParameter("loca"));
         String referer = req.getHeader("Referer");
+        UsersDAO uDao = new UsersDAO();
         if (referer != null && referer.contains("?")) {
             referer = referer.substring(0, referer.indexOf("?"));
         }
+        String idPseudo = req.getParameter("idPseudo");
+        String email = req.getParameter("email");
+        String mdp = req.getParameter("mdp");
+        String tri = req.getParameter("tri");
+        boolean triParDate = false;
+        if(tri.equals("date")){
+            triParDate = true;
+        }
+        if(mdp != null){
+            user.setMdp(mdp);
+        }
+        if(!idPseudo.equals(user.getIdPseudo()) && uDao.findUserByPseudo(idPseudo) != null){
+            res.sendRedirect(referer + "?success=0");
+            return;
+        }
+        if(!email.equals(user.getHTMLEmail()) && uDao.findUserByEmail(email) != null && email.contains("@")){
+            res.sendRedirect(referer + "?success=0");
+            return;
+        }
+        user.setIdPseudo(idPseudo);
+        user.setEmail(email);
         try {
-            gDao.update(groupe);
-            LogsDAO.insert(session.getAttribute("pseudo").toString(), "Changement des infos du groupe " + gid);
-            res.sendRedirect(req.getContextPath() + "/groupes/" + gid);
+            uDao.update(user);
+            req.getSession().setAttribute("tri", triParDate);
+            LogsDAO.insert(req.getSession().getAttribute("pseudo").toString(), "Changement des informations de " + user.getIdPseudo());
+            req.getSession().setAttribute("pseudo", user.getIdPseudo());
+            req.setAttribute("user", user);
+            res.sendRedirect(req.getContextPath() + "/parametres?success=1");
         } catch (Exception e) {
             res.sendRedirect(referer + "?success=0");
         }

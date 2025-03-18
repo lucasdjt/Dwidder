@@ -25,14 +25,7 @@ List<Integer> listFollowersUser = (List<Integer>) request.getSession().getAttrib
     <div class="row">
         <section class="col-md-8">
             <h2 class="text-primary">Accueil</h2>
-            <% 
-            String groupeSuccess = request.getParameter("groupe");
-            if ("1".equals(groupeSuccess)) {
-            %>
-                <p style="color:green;">Vous avez créer un groupe.</p>
-            <% 
-            }
-            %>
+            <jsp:include page="popUp.jsp" />
             <jsp:include page="form.jsp" />
         </section>
 

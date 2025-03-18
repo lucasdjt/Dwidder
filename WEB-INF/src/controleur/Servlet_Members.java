@@ -16,7 +16,7 @@ import modele.dto.User;
 import modele.dao.LogsDAO;
 
 @WebServlet("/member")
-public class MembersServlet extends HttpServlet {
+public class Servlet_Members extends HttpServlet {
     final String REPERTORY = "/WEB-INF/vue/";
 
     protected void doGet(HttpServletRequest req, HttpServletResponse res)

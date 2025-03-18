@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ page import="java.util.ArrayList, java.util.List, modele.dto.PostDetails" %>
+<%@ page import="java.util.ArrayList, java.util.List, modele.dto.PostDetails, java.util.Map" %>
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -15,6 +15,11 @@
 
 <% 
 int User_ID = (int) request.getSession().getAttribute("uid");
+List<Integer> listFavoriUser = (List<Integer>) request.getSession().getAttribute("listFavoriUser");
+List<Integer> listFollowUser = (List<Integer>) request.getSession().getAttribute("listFollowUser");
+List<Integer> listFollowersUser = (List<Integer>) request.getSession().getAttribute("listFollowersUser");
+Map<Integer, String> listReactionsUser = (Map<Integer, String>) request.getSession().getAttribute("listReactionsUser");
+List<PostDetails> list = (ArrayList<PostDetails>) request.getAttribute("listePosts");
 %>
 
 <jsp:include page="header.jsp" />
@@ -23,36 +28,76 @@ int User_ID = (int) request.getSession().getAttribute("uid");
     <div class="row">
         <aside class="col-md-4">
             <%
-            PostDetails p = (PostDetails) request.getAttribute("post");
-            if (p != null) {
+            PostDetails post = (PostDetails) request.getAttribute("post");
+            if (post != null) {
             %>
             <article class="card mb-3">
                 <header class="card-header d-flex align-items-center">
-                    <img src="${pageContext.request.contextPath}/<%= p.getPdp() %>" alt="Pdp de <%= p.getIdPseudo() %>" class="rounded-circle me-2" width="40">
+                    <img src="${pageContext.request.contextPath}/<%= post.getPdp() %>" alt="Pdp de <%= post.getIdPseudo() %>" class="rounded-circle me-2" width="40">
                         <div>
-                            <a href="${pageContext.request.contextPath}/user/<%= p.getIdPseudo() %>" class="text-decoration-none text-white"><h6 class="mb-0"><%= p.getPseudo() %></h6></a>
-                            <small class="text-muted">@<%= p.getIdPseudo() %> - <%= p.getDpubAsDate() %></small>
-                            <% if(p.getPidParent() != null && p.getPidParent() != 0){ %>
-                                <blockquote class="text-muted small">Ce post répond à ce <a href="${pageContext.request.contextPath}/posts/<%= p.getPidParent() %>">post</a></blockquote>
-                            <% } else if(p.getNomGrp() != null){ %>
-                                <blockquote class="text-muted small">Ce post vient du groupe <em><%= p.getNomGrp() %></em></blockquote>
+                            <a href="${pageContext.request.contextPath}/user/<%= post.getIdPseudo() %>" class="text-decoration-none text-white"><h6 class="mb-0"><%= post.getPseudo() %></h6></a>
+                            <small class="text-muted">@<%= post.getIdPseudo() %> - <%= post.getDpubAsDate() %>
+                                <% if (listFollowersUser.contains(post.getUid())) { %>
+                                    <span class="text-success"> - Cette personne vous suit</span>
+                                <% } %>
+                            </small>
+                            <% if(post.getPidParent() != null && post.getPidParent() != 0){ %>
+                                <blockquote class="text-muted small">Ce post répond à ce <a href="${pageContext.request.contextPath}/posts/<%= post.getPidParent() %>">post</a></blockquote>
+                            <% } else if(post.getNomGrp() != null){ %>
+                                <blockquote class="text-muted small">Ce post vient du groupe <em><%= post.getNomGrp() %></em></blockquote>
                             <% } %>
                         </div>
+                    <div class="ms-auto">
+                        <% if (post.getUid() != User_ID) { %>
+                            <% if (!listFollowUser.contains(post.getUid())) { %>
+                                <a href="${pageContext.request.contextPath}/addFollow?follow=<%= post.getUid() %>&follower=<%= User_ID %>" class="btn btn-sm btn-outline-success">+ Suivre</a>
+                            <% } else { %>
+                                <a href="${pageContext.request.contextPath}/addFollow?follow=<%= post.getUid() %>&follower=<%= User_ID %>" class="btn btn-sm btn-outline-danger">Ne plus suivre</a>
+                            <% } %>
+                        <% } else { %>
+                            <a href="${pageContext.request.contextPath}/reactions/<%= post.getPid() %>" class="btn btn-sm btn-outline-primary">Voir les réactions</a>
+                        <% } %>
+                        <% if (post.getUid() == User_ID  || post.getUidAdmin() == User_ID) { %>
+                            <a href="${pageContext.request.contextPath}/delPost/<%= post.getPid() %>" class="btn btn-sm btn-outline-danger">Supprimer le post</a>
+                        <% } %>
+                    </div>
                 </header>
-                <main class="card-body">
-                        <p><%= p.getContenu() %></p>
-                    <% if(p.getMedia() != null) { %>
-                        <img src="${pageContext.request.contextPath}/<%= p.getMedia() %>" alt="Image accompagnant le post" class="rounded w-100">
-                    <% } %>
-                    <% if(p.getDuree() < 336) { %>
-                        <blockquote class="text-muted small">Il reste <%= p.getDuree() %>h à ce post avant d'être retiré de l'affichage</blockquote>
-                    <% } %>
-                </main>
-                <footer class="card-footer d-flex justify-content-around">
-                    <a href="${pageContext.request.contextPath}/addLike?pid=<%= p.getPid() %>&uid=<%= User_ID %>" class="btn btn-outline-primary btn-sm">👍 <%= p.getNbLikes() %></a>
-                    <a href="${pageContext.request.contextPath}/posts/<%= p.getPid() %>" class="btn btn-outline-secondary btn-sm">💬 <%= p.getNbComm() %></a>
-                    <a href="${pageContext.request.contextPath}/addFavori?pid=<%= p.getPid() %>&uid=<%= User_ID %>" class="btn btn-outline-warning btn-sm">⭐ Favoris</a>
-                </footer>
+                    <main class="card-body">
+                            <p><%= post.getContenu() %></p>
+                        <% if(post.getMedia() != null) { %>
+                            <img src="${pageContext.request.contextPath}/<%= post.getMedia() %>" alt="Image accompagnant le post" class="rounded w-100">
+                        <% } %>
+                        <% if(post.getDuree() < 336) { %>
+                            <blockquote class="text-muted small">Il reste <%= post.getDuree() %>h à ce post avant d'être retiré de l'affichage</blockquote>
+                        <% } %>
+                    </main>
+                    <footer class="card-footer d-flex justify-content-around">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-outline-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                <% if(listReactionsUser.containsKey(post.getPid())) { %>
+                                    <%= listReactionsUser.get(post.getPid()) %> <%= post.getNbLikes() %> 
+                                <% } else { %>
+                                    Ajouter une Réaction <%= post.getNbLikes() %>
+                                <% } %>
+                            </button>
+                            <ul class="dropdown-menu" style="min-width: auto;">
+                                <li><a class="dropdown-item d-flex align-items-center" href="${pageContext.request.contextPath}/addReaction?pid=<%= post.getPid() %>&uid=<%= User_ID %>&type=LIKES">👍</a></li>
+                                <li><a class="dropdown-item d-flex align-items-center" href="${pageContext.request.contextPath}/addReaction?pid=<%= post.getPid() %>&uid=<%= User_ID %>&type=LOVES">❤️</a></li>
+                                <li><a class="dropdown-item d-flex align-items-center" href="${pageContext.request.contextPath}/addReaction?pid=<%= post.getPid() %>&uid=<%= User_ID %>&type=FIRES">🔥</a></li>
+                                <li><a class="dropdown-item d-flex align-items-center" href="${pageContext.request.contextPath}/addReaction?pid=<%= post.getPid() %>&uid=<%= User_ID %>&type=JOYYY">😂</a></li>
+                                <li><a class="dropdown-item d-flex align-items-center" href="${pageContext.request.contextPath}/addReaction?pid=<%= post.getPid() %>&uid=<%= User_ID %>&type=SADDD">😢</a></li>
+                                <li><a class="dropdown-item d-flex align-items-center" href="${pageContext.request.contextPath}/addReaction?pid=<%= post.getPid() %>&uid=<%= User_ID %>&type=ANGER">😡</a></li>
+                                <li><a class="dropdown-item d-flex align-items-center" href="${pageContext.request.contextPath}/addReaction?pid=<%= post.getPid() %>&uid=<%= User_ID %>&type=THIFT">🤔</a></li>
+                                <li><a class="dropdown-item d-flex align-items-center" href="${pageContext.request.contextPath}/addReaction?pid=<%= post.getPid() %>&uid=<%= User_ID %>&supprimer=1">❌</a></li>
+                            </ul>
+                        </div>
+                        <a href="${pageContext.request.contextPath}/posts/<%= post.getPid() %>" class="btn btn-outline-secondary btn-sm">💬 <%= post.getNbComm() %></a>
+                        <% if (!listFavoriUser.contains(post.getPid())) { %>
+                            <a href="${pageContext.request.contextPath}/addFavori?pid=<%= post.getPid() %>&uid=<%= User_ID %>" class="btn btn-outline-warning btn-sm">⭐ Favoris</a>
+                        <% } else { %>
+                            <a href="${pageContext.request.contextPath}/addFavori?pid=<%= post.getPid() %>&uid=<%= User_ID %>" class="btn btn-outline-danger btn-sm">❌ Retirer des favoris</a>
+                        <% } %>
+                    </footer>
             </article>
             <%
             }

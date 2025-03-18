@@ -19,7 +19,7 @@ import modele.dto.User;
     maxFileSize = 1024 * 1024 * 10,
     maxRequestSize = 1024 * 1024 * 50
 )
-public class FollowServlet extends HttpServlet {
+public class Servlet_Follow extends HttpServlet {
     private static final String REPERTORY = "/WEB-INF/vue/";
 
     protected void doGet(HttpServletRequest req, HttpServletResponse res)

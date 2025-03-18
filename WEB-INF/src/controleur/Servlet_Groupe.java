@@ -20,7 +20,7 @@ import modele.dto.Groupe;
     maxFileSize = 1024 * 1024 * 10,
     maxRequestSize = 1024 * 1024 * 50
 )
-public class GroupeServlet extends HttpServlet {
+public class Servlet_Groupe extends HttpServlet {
     private static final String REPERTORY = "/WEB-INF/vue/";
 
     protected void doGet(HttpServletRequest req, HttpServletResponse res)

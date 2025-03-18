@@ -19,7 +19,8 @@
 <main class="container d-flex justify-content-center align-items-center py-5">
     <div class="card bg-dark text-white p-4" style="max-width: 500px; width: 100%; overflow-y: auto;">
         <h2 class="text-center text-white">Inscription</h2>
-        <form action="${pageContext.request.contextPath}/addAccount" method="post" enctype="multipart/form-data">
+        <jsp:include page="popUp.jsp" />
+        <form action="${pageContext.request.contextPath}/inscription" method="post" enctype="multipart/form-data">
             <div class="mb-3">
                 <label for="idPseudo" class="form-label">Identifiant (3-15 caractères) *</label>
                 <input type="text" class="form-control bg-dark text-white" name="idPseudo" minlength="3" maxlength="15" pattern="[a-z0-9]*" required>

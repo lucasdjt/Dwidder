@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
@@ -15,54 +16,64 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
-import modele.dao.PostsDAO;
-import modele.dto.Post;
-import modele.dto.PostDetails;
+import modele.dao.MessagesDAO;
+import modele.dao.UsersDAO;
+import modele.dto.Message;
+import modele.dto.User;
 import modele.dao.LogsDAO;
 
-@WebServlet("/posts/*")
+@WebServlet("/messages/*")
 @MultipartConfig(
     fileSizeThreshold = 1024 * 1024 * 2,
     maxFileSize = 1024 * 1024 * 10,
     maxRequestSize = 1024 * 1024 * 50
 )
-public class PostServlet extends HttpServlet {
-    private static final String UPLOAD_DIR = "img";
+public class Servlet_Message extends HttpServlet {
     private static final String REPERTORY = "/WEB-INF/vue/";
+    private static final String UPLOAD_DIR = "img";
     private static final String SEP = File.separator;
 
     protected void doGet(HttpServletRequest req, HttpServletResponse res)
         throws ServletException, IOException {
-        HttpSession session = req.getSession(false);
-        if (session == null || session.getAttribute("uid") == null || session.getAttribute("pseudo") == null) {
-            res.sendRedirect(req.getContextPath() + "/connexion");
-            return;
-        }
+            HttpSession session = req.getSession(false);
+            if (session == null || session.getAttribute("uid") == null || session.getAttribute("pseudo") == null) {
+                res.sendRedirect(req.getContextPath() + "/connexion");
+                return;
+            }
+        int uid = (int) session.getAttribute("uid");
+        UsersDAO uDao = new UsersDAO();
+        List<User> listUsers = uDao.getListConversationsOfUser(uid);
+        List<User> listFollow = uDao.getListFollowsOfUser(uid);
+        listFollow.removeAll(listUsers);
+        req.setAttribute("follows", listFollow);
+        req.setAttribute("listUser", listUsers);
+
         res.setContentType("text/html; charset=UTF-8");
         res.setCharacterEncoding("UTF-8");
         String pathInfo = req.getPathInfo();
         if (pathInfo == null || pathInfo.equals("/")) {
-            res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid post PID");
+            if(req.getParameter("query") != null){
+                req.setAttribute("listUser", uDao.getListUsersWithEquivalentKey(req.getParameter("query")));
+            }
+            req.getRequestDispatcher(REPERTORY + "messages.jsp").forward(req, res);
             return;
         }
-        
+
         String[] pathParts = pathInfo.split("/");
         if (pathParts.length < 2) {
-            res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid PID format");
+            res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid CID format");
             return;
         }
+        String cidStr = pathParts[1];
         try {
-            String pidStr = pathParts[1];
-            int pid = Integer.parseInt(pidStr);
-            PostsDAO dao = new PostsDAO();
-            PostDetails post = dao.findPostDetails(pid);
-            if (post == null) {
-            res.sendError(HttpServletResponse.SC_NOT_FOUND, "Post not found");
-            return;
+            User user = uDao.findUserByPseudo(cidStr);
+            if (user == null) {
+                res.sendError(HttpServletResponse.SC_NOT_FOUND, "User not found");
+                return;
             }
-            req.setAttribute("post", post);
-            req.setAttribute("listePosts", dao.getListPostsOfPostParent(pid));
-            req.getRequestDispatcher(REPERTORY + "posts.jsp").forward(req, res);
+            req.setAttribute("user", user);
+            req.setAttribute("listMess", uDao.getListMessagesOf2Users(uid, user.getUid()));
+            req.getRequestDispatcher(REPERTORY + "messages.jsp").forward(req, res);
         } catch (NumberFormatException e) {
             res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid");
         }
@@ -71,19 +82,12 @@ public class PostServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
-        int uid = Integer.parseInt(req.getParameter("uid"));
-        Integer gid = null;
-        if(req.getParameter("gid") != null && Integer.parseInt(req.getParameter("gid")) != 0){
-            gid = Integer.parseInt(req.getParameter("gid"));
-        }
-        Integer pidParent = null;
-        if(req.getParameter("pidParent") != null){
-            pidParent = Integer.parseInt(req.getParameter("pidParent"));
-        }
-        String contenu = req.getParameter("contenu");
-        Part filePart = req.getPart("image");
+        int uidEnvoyeur = Integer.parseInt(req.getParameter("uidEnvoyeur"));
+        int uidReceveur = Integer.parseInt(req.getParameter("uidReceveur"));
+        String corps = req.getParameter("corps");
+        Part filePart = req.getPart("imgMess");
         String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
-        String media = null;
+        String imgMess = null;
         if (fileName != null && !fileName.isEmpty()) {
             String uploadPath = getServletContext().getRealPath("") + SEP + UPLOAD_DIR;
             File uploadDir = new File(uploadPath);
@@ -98,37 +102,25 @@ public class PostServlet extends HttpServlet {
             file = new File(uploadPath + SEP + fileName);
             counter++;
             }
-            media = UPLOAD_DIR + SEP + fileName;
+            imgMess = UPLOAD_DIR + SEP + fileName;
             try (InputStream fileContent = filePart.getInputStream()) {
             Files.copy(fileContent, file.toPath());
             }
         }
-        if (media == null && (contenu == null || contenu.isEmpty())) {
-            res.sendRedirect(req.getContextPath() + "/accueil?error=1");
+        if (imgMess == null && (corps == null || corps.isEmpty())) {
+            res.sendRedirect(req.getContextPath() + "/messages?error=1");
             return;
         }
-        LocalDateTime dpub = LocalDateTime.now();
-        String dureeStr = req.getParameter("duree");
-        String dureeUnite = req.getParameter("dureeUnite");
-        Integer dureeDuration = null;
-        LocalDateTime dfin = null;
-        if(dureeStr != null && !dureeStr.isEmpty()){
-            if ("hours".equalsIgnoreCase(dureeUnite)) {
-                dureeDuration = Integer.parseInt(dureeStr);
-            } else if ("days".equalsIgnoreCase(dureeUnite)) {
-                dureeDuration = Integer.parseInt(dureeStr)*24;
-            }
-            dfin = dpub.plusHours(dureeDuration);
-        }
-        PostsDAO dao = new PostsDAO();
+        LocalDateTime dmess = LocalDateTime.now();
+        MessagesDAO dao = new MessagesDAO();
         String referer = req.getHeader("Referer");
         if (referer != null && referer.contains("?")) {
             referer = referer.substring(0, referer.indexOf("?"));
         }
         try {
-            dao.insert(new Post(0, uid, gid, pidParent, contenu, media, dpub, dfin));
-            LogsDAO.insert(req.getSession().getAttribute("pseudo").toString(), "Ajout d'un nouveau post");
-            res.sendRedirect(referer + "?success=1");
+            dao.insert(new Message(0, uidEnvoyeur, uidReceveur, corps, imgMess, dmess));
+            LogsDAO.insert(req.getSession().getAttribute("pseudo").toString(), "Envoi d'un message " + uidEnvoyeur + " --> " + uidReceveur);
+            res.sendRedirect(referer);
         } catch (Exception e) {
             res.sendRedirect(referer + "?success=0");
         }

@@ -2,7 +2,15 @@ package utils;
 
 import java.sql.*;
 import java.time.*;
+
+import jakarta.servlet.http.Part;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Field;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 // Boîte à outil permettant de convertisseur les SQL <--> TIME
 public class BAO {
@@ -49,5 +57,49 @@ public class BAO {
         }
         jsonBuilder.append("}");
         return jsonBuilder.toString();
-    }    
+    }
+    
+    public static String getRepertory(){
+        return "/WEB-INF/vue/";
+    }
+
+        
+    public static String uploadImage(Part filePart, String servPath) throws IOException {
+        String UPLOAD_DIR = "img";
+        String SEP = "/";
+        if (filePart == null || servPath == null || filePart.getSubmittedFileName() == null) {
+            throw new IllegalArgumentException("Invalid filePart or servPath");
+        }
+    
+        String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+        fileName = fileName.replaceAll("[^a-zA-Z0-9._-]", "_");
+        String pdp = null;
+        if (fileName != null && !fileName.isEmpty()) {
+            String uploadPath = servPath + SEP + UPLOAD_DIR;
+            File uploadDir = new File(uploadPath);
+            if (!uploadDir.exists()) uploadDir.mkdir();
+            
+            File file = new File(uploadPath + SEP + fileName);
+            String baseName = fileName.substring(0, fileName.lastIndexOf('.'));
+            String extension = fileName.substring(fileName.lastIndexOf('.'));
+            int counter = 1;
+            while (file.exists()) {
+            fileName = baseName + "_" + counter + extension;
+            file = new File(uploadPath + SEP + fileName);
+            counter++;
+            }
+            pdp = UPLOAD_DIR + SEP + fileName;
+            try (InputStream fileContent = filePart.getInputStream()) {
+            Files.copy(fileContent, file.toPath());
+            }
+        }
+        return pdp;
+    }
+
+    public static String cleanReferer(String referer) {
+        if (referer != null && referer.contains("?")) {
+            referer = referer.substring(0, referer.indexOf("?"));
+        }
+        return referer;
+    }
 }

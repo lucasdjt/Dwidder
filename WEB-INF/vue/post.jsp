@@ -1,6 +1,8 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.util.ArrayList, java.util.List, modele.dto.PostDetails, java.util.Map" %>
 
+<meta http-equiv="refresh" content="15">
+
 <% 
     int User_ID = (int) request.getSession().getAttribute("uid");
     List<Integer> listFavoriUser = (List<Integer>) request.getSession().getAttribute("listFavoriUser");

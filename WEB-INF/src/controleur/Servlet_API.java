@@ -18,7 +18,7 @@ import java.util.Base64;
 import java.util.List;
 
 @WebServlet("/api/*")
-public class APIServlet extends HttpServlet {
+public class Servlet_API extends HttpServlet {
     /*
      * API :
      * - /api/post : liste des posts publics

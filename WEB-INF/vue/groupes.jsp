@@ -56,6 +56,9 @@ int User_ID = (int) request.getSession().getAttribute("uid");
                 </div>
                 <% if (gSelect.getUid() == User_ID) { %>
                     <a href="${pageContext.request.contextPath}/chgGroupe/<%= gSelect.getGid() %>" class="btn btn-primary">Modifier le groupe</a>
+                <% } else { %>
+
+                    <a href="${pageContext.request.contextPath}/member?gid=<%= gSelect.getGid() %>&uid=<%= User_ID %>" class="btn btn-sm btn-outline-danger">Se retirer du groupe</a>
                 <% } %>
             <% } %>
             </div>

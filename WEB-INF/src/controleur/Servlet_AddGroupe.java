@@ -27,7 +27,7 @@ import modele.dao.LogsDAO;
     maxFileSize = 1024 * 1024 * 10,
     maxRequestSize = 1024 * 1024 * 50
 )
-public class AddGroupeServlet extends HttpServlet {
+public class Servlet_AddGroupe extends HttpServlet {
     final String REPERTORY = "/WEB-INF/vue/";
     private static final String UPLOAD_DIR = "img";
     private static final String SEP = File.separator;
