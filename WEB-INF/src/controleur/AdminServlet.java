@@ -43,6 +43,12 @@ public class AdminServlet extends HttpServlet {
         req.setCharacterEncoding("UTF-8");
 
         HttpSession session = req.getSession(false);
+        if (session == null || session.getAttribute("me_user") == null) {
+            session = req.getSession(true);
+            session.setAttribute("error", "Vous n'êtes pas connecté");
+            res.sendRedirect(req.getContextPath() + "/connexion");
+            return;
+        }
         
         String idPseudo = req.getParameter("uid");
 

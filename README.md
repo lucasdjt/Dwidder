@@ -78,9 +78,6 @@ killall java
 
 ### OPTIMISATION
 
-UserServlet "/user/*" :
-- ParametresServlet "/parametres" doGet doPost ==> /user/edit
-
 GroupeServlet : "groupe/*" :
 - GroupeServlet "/groupes/*" doGet ==> /groupe
 - ChgGrpServlet "/chgGroupe/*" doGet doPost ==> /groupe/edit

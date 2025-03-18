@@ -67,6 +67,7 @@ public class UserServlet extends HttpServlet {
                 session.setAttribute("error", "Une erreur est survenue lors de la suppression de votre compte.");
             }
             res.sendRedirect(req.getContextPath() + "/connexion");
+            return;
         }
 
         if ("edit".equals(pathParts[1])) {
@@ -99,7 +100,13 @@ public class UserServlet extends HttpServlet {
         res.setCharacterEncoding("UTF-8");
         req.setCharacterEncoding("UTF-8");
 
-        HttpSession session = req.getSession();
+        HttpSession session = req.getSession(false);
+        if (session == null || session.getAttribute("me_user") == null) {
+            session = req.getSession(true);
+            session.setAttribute("error", "Vous n'êtes pas connecté");
+            res.sendRedirect(req.getContextPath() + "/connexion");
+            return;
+        }
 
         int uid = (int) req.getSession().getAttribute("me_uid");
 
