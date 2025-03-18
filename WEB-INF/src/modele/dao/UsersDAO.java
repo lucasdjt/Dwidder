@@ -480,4 +480,38 @@ public class UsersDAO {
         }
         return reaction;
     }
+
+    public List<User> searchUsers(String keyword) {
+        List<User> users = new ArrayList<>();
+        try (Connection con = DS.getConnection()) {
+            String requetePrepare = "SELECT * FROM Users WHERE LOWER(idPseudo) LIKE LOWER(?) OR LOWER(pseudo) LIKE LOWER(?) OR LOWER(bio) LIKE LOWER(?)";
+            try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
+                String searchPattern = "%" + keyword + "%";
+                pstmt.setString(1, searchPattern);
+                pstmt.setString(2, searchPattern);
+                pstmt.setString(3, searchPattern);
+                try (ResultSet rs = pstmt.executeQuery()) {
+                    while (rs.next()) {
+                        int uid = rs.getInt("uid");
+                        String idPseudo = rs.getString("idPseudo");
+                        String pseudo = rs.getString("pseudo");
+                        String prenom = rs.getString("prenom");
+                        String nomUser = rs.getString("nomUser");
+                        String email = rs.getString("email");
+                        String mdp = rs.getString("mdp");
+                        String bio = rs.getString("bio");
+                        String pdp = rs.getString("pdp");
+                        LocalDateTime dinsc = BAO.conversion(rs.getTimestamp("dinsc"));
+                        LocalDate dnaiss = BAO.conversion(rs.getDate("dnaiss"));
+                        String loca = rs.getString("loca");
+                        boolean admin = rs.getBoolean("admin");
+                        users.add(new User(uid, idPseudo, pseudo, prenom, nomUser, email, mdp, bio, pdp, dinsc, dnaiss, loca, admin));
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return users;
+    }
 }

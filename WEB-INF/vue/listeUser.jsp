@@ -23,6 +23,12 @@ List<Integer> listFollowersUser = (List<Integer>) request.getSession().getAttrib
 
 <main class="container mt-4">
         <h2 class="text-primary">Liste de compte</h2>
+        <form class="mb-4" method="get" action="${pageContext.request.contextPath}/user">
+            <div class="input-group">
+                <input type="text" name="query" class="form-control" placeholder="Rechercher un utilisateur..." required>
+                <button class="btn btn-primary" type="submit">Rechercher</button>
+            </div>
+        </form>
         <ul class="list-group">
             <%
                 List<User> list = (ArrayList<User>) request.getAttribute("listFollow");

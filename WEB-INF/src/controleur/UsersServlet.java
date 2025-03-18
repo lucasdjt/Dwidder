@@ -34,7 +34,11 @@ public class UsersServlet extends HttpServlet {
         String pathInfo = req.getPathInfo();
         UsersDAO dao = new UsersDAO();
         if (pathInfo == null){
-            req.setAttribute("listFollow", dao.selectAll());
+            if(req.getParameter("query") != null){
+                req.setAttribute("listFollow", dao.searchUsers(req.getParameter("query")));
+            } else {
+                req.setAttribute("listFollow", dao.selectAll());
+            }
             req.getRequestDispatcher(REPERTORY + "listeUser.jsp").forward(req, res);
         }
         if (pathInfo.equals("/")) {

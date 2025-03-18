@@ -51,6 +51,9 @@ public class MessageServlet extends HttpServlet {
         res.setCharacterEncoding("UTF-8");
         String pathInfo = req.getPathInfo();
         if (pathInfo == null || pathInfo.equals("/")) {
+            if(req.getParameter("query") != null){
+                req.setAttribute("listUser", uDao.searchUsers(req.getParameter("query")));
+            }
             req.getRequestDispatcher(REPERTORY + "messages.jsp").forward(req, res);
             return;
         }

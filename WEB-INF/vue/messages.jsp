@@ -24,25 +24,20 @@ int User_ID = (int) request.getSession().getAttribute("uid");
 
         <aside class="col-md-4">
             <h2 class="text-primary">Messages</h2>
+            <form class="mb-4" method="get" action="${pageContext.request.contextPath}/messages">
+                <div class="input-group">
+                    <input type="text" name="query" class="form-control" placeholder="Rechercher un utilisateur..." required>
+                    <button class="btn btn-primary" type="submit">Rechercher</button>
+                </div>
+            </form>
             <ul class="list-group">
                 <%
                 List<User> list = (List<User>) request.getAttribute("listUser");
                 if (list != null) {
                     for(User u : list){
-                %>
-                <li class="border list-group-item d-flex align-items-center btn-outline-success">
-                    <img src="${pageContext.request.contextPath}/<%= u.getPdp() %>" alt="<%= u.getPdp() %>" class="rounded-circle me-2" width="40">
-                    <a href="${pageContext.request.contextPath}/messages/<%= u.getIdPseudo() %>" class="stretched-link text-decoration-none text-white"><%= u.getPseudo() %></a>
-                </li>
-                <% }} %>
-            </ul>
-
-            <h2 class="text-primary mt-4">Follows</h2>
-            <ul class="list-group">
-                <%
-                List<User> listFollows = (List<User>) request.getAttribute("follows");
-                if (listFollows != null) {
-                    for(User u : listFollows){
+                        if(u.getUid() == User_ID){
+                            continue;
+                        }
                 %>
                 <li class="border list-group-item d-flex align-items-center btn-outline-success">
                     <img src="${pageContext.request.contextPath}/<%= u.getPdp() %>" alt="<%= u.getPdp() %>" class="rounded-circle me-2" width="40">

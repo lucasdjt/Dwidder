@@ -55,7 +55,7 @@
                 <div class="btn-group">
                     <button type="button" class="btn btn-outline-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                         <% if(listReactionsUser.containsKey(post.getPid())) { %>
-                            <%= listReactionsUser.get(post.getPid()) %><%= post.getNbLikes() %> 
+                            <%= listReactionsUser.get(post.getPid()) %> <%= post.getNbLikes() %> 
                         <% } else { %>
                             Ajouter une Réaction <%= post.getNbLikes() %>
                         <% } %>

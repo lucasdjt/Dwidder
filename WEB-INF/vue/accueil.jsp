@@ -42,8 +42,11 @@ List<Integer> listFollowersUser = (List<Integer>) request.getSession().getAttrib
         <%
         List<User> users = (ArrayList<User>) request.getAttribute("users");
         if (users != null) {
-            for(User u : users){
+            int limite = 5;
+            for (int i = 0; i < users.size() && i < limite; i++) {
+                User u = users.get(i);
                 if (u.getUid() == User_ID) {
+                    limite++;
                     continue;
                 }
         %>
