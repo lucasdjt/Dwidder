@@ -13,15 +13,6 @@ public class Favori {
         this.dfavori = dfavori;
     }
 
-    public Favori() {
-        dfavori = null;
-    }
-
-    @Override
-    public String toString() {
-        return "Favori [uid=" + uid + ", pid=" + pid + ", dfavori=" + dfavori + "]";
-    }
-
     public int getUid() {
         return uid;
     }

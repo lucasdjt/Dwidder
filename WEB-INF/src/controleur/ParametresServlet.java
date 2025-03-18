@@ -77,7 +77,12 @@ public class ParametresServlet extends HttpServlet {
         if(pdp != null){
             user.setPdp(pdp);
         }
-        user.setDnaiss(LocalDate.parse(req.getParameter("dnaiss")));
+        String dnaiss = req.getParameter("dnaiss");
+        if (dnaiss != null && !dnaiss.isEmpty()) {
+            user.setDnaiss(LocalDate.parse(dnaiss));
+        } else {
+            user.setDnaiss(null);
+        }
         user.setLoca(req.getParameter("loca"));
         String referer = req.getHeader("Referer");
         UsersDAO uDao = new UsersDAO();

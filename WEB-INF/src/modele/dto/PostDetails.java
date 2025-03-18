@@ -12,7 +12,6 @@ public class PostDetails {
     private String media;
     private LocalDateTime dpub;
     private LocalDateTime dfin;
-    private long duree;
     private String pdp;
     private String pseudo;
     private int uid;
@@ -22,7 +21,7 @@ public class PostDetails {
     private String idPseudo;
     
     public PostDetails(int pid, Integer gid, String nomGrp, Integer pidParent, String contenu, String media,
-            LocalDateTime dpub, LocalDateTime dfin, long duree, String pdp, String pseudo, int uid, int uidAdmin, int nbLikes,
+            LocalDateTime dpub, LocalDateTime dfin, String pdp, String pseudo, int uid, int uidAdmin, int nbLikes,
             int nbComm, String idPseudo) {
         this.pid = pid;
         this.gid = gid;
@@ -32,7 +31,6 @@ public class PostDetails {
         this.media = media;
         this.dpub = dpub;
         this.dfin = dfin;
-        this.duree = duree;
         this.pdp = pdp;
         this.pseudo = pseudo;
         this.uid = uid;
@@ -40,15 +38,6 @@ public class PostDetails {
         this.nbLikes = nbLikes;
         this.nbComm = nbComm;
         this.idPseudo = idPseudo;
-    }
-
-    
-    @Override
-    public String toString() {
-        return "PostDetails [pid=" + pid + ", gid=" + gid + ", nomGrp=" + nomGrp + ", pidParent=" + pidParent
-                + ", contenu=" + contenu + ", media=" + media + ", dpub=" + dpub + ", dfin=" + dfin + ", duree=" + duree
-                + ", pdp=" + pdp + ", pseudo=" + pseudo + ", uid=" + uid + ", nbLikes=" + nbLikes
-                + ", nbComm=" + nbComm + ", idPseudo=" + idPseudo + "]";
     }
 
     public int getPid() {
@@ -127,14 +116,6 @@ public class PostDetails {
         this.dfin = dfin;
     }
 
-    public long getDuree() {
-        return duree;
-    }
-
-    public void setDuree(long duree) {
-        this.duree = duree;
-    }
-
     public String getPdp() {
         return pdp;
     }
@@ -193,5 +174,9 @@ public class PostDetails {
 
     public void setIdPseudo(String idPseudo) {
         this.idPseudo = idPseudo;
+    }
+
+    public long getDuree(){
+        return (dfin != null) ? java.time.Duration.between(dpub, dfin).toHours() : 1000;
     }
 }

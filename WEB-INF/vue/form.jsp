@@ -17,7 +17,7 @@
     }
 %>
 <form class="mb-3" action="${pageContext.request.contextPath}/posts" method="post" enctype="multipart/form-data">
-    <textarea class="form-control bg-dark text-white mb-2" name="contenu" rows="3" maxlength="150" placeholder="Exprimez-vous..." required></textarea>
+    <textarea class="form-control bg-dark text-white mb-2" name="contenu" rows="3" maxlength="150" placeholder="Exprimez-vous..."></textarea>
     <input type="file" class="form-control bg-dark text-white mb-2" name="image" accept="image/*">
     <label for="duration" class="form-label text-white">Durée du post</label>
         <div class="input-group mb-2">

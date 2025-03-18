@@ -82,15 +82,16 @@ killall java
 ## CONSIGNES
 
 Optimisation / Qualité / Simplification :
-- Gestion des permissions pour chaque servlet + Gestion des affichage des nulls (groupe ...)
-- Simplifier les requêtes
-- Optimiser la base de données
-- Vérifier tous les DTO, DAO, Servlet, JSP
-- Vérifier si les "SELECT *" sont obligatoires dans le DAO
-- Ajout des vérifications de l'API
-- Ajouter une Page ADMIN permettant de modifier toute la base de données (au minimum nécessaire) à sa guise.
-- Créer un utilisateur bidon avant l'admin
-- Configurer 2 scripts : Un script pour remplir au minimum / un script pour remplir au maximum
+- Vérifier si les "SELECT *" sont obligatoires (DAO)
+- Simplifier les requêtes (DAO)
+- Clean-Up DAO
+- Clean-Up Servlet
+- Gestion les permissions d'y accéder (Servlet)
+- Clean-Up JSP
+
+++
+- Ajout de la sécurité de l'API (Servlet)
+- Ajouter une Page ADMIN permettant de modifier toute la base de données (au minimum nécessaire) à sa guise (Servlet/JSP)
 - Amélioration de l'interface avec BootStrap
 
 Réalisez en Markdown une documentation de votre application contenant au minimum :
@@ -101,5 +102,8 @@ Réalisez en Markdown une documentation de votre application contenant au minimu
 - La liste des entrées du/des controleurs avec leur fonctionalité
 - Les points techniques difficiles et comment ils ont été réglés.
 
+(Configurer :)
+- Créer un utilisateur bidon avant l'admin
+- Configurer 2 scripts : Un script pour remplir au minimum / un script pour remplir au maximum
 - Réaliser un Guide textuel permettant d'utiliser le réseau social
 - Réaliser un Guide vidéo permettant d'utiliser le réseau social

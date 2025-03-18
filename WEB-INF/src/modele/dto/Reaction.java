@@ -1,28 +1,14 @@
 package modele.dto;
 
-import java.time.LocalDateTime;
-
 public class Reaction {
     private int uid;
     private int pid;
     private String type;
-    private LocalDateTime dreact;
     
-    public Reaction(int uid, int pid, String type, LocalDateTime dreact) {
+    public Reaction(int uid, int pid, String type) {
         this.uid = uid;
         this.pid = pid;
         this.type = type;
-        this.dreact = dreact;
-    }
-
-    public Reaction() {
-        type = null;
-        dreact = null;
-    }
-
-    @Override
-    public String toString() {
-        return "Reaction [uid=" + uid + ", pid=" + pid + ", type=" + type + ", dreact=" + dreact + "]";
     }
 
     public int getUid() {
@@ -68,14 +54,6 @@ public class Reaction {
 
     public void setType(String type) {
         this.type = type;
-    }
-
-    public LocalDateTime getDreact() {
-        return dreact;
-    }
-
-    public void setDreact(LocalDateTime dreact) {
-        this.dreact = dreact;
     }
 }
 

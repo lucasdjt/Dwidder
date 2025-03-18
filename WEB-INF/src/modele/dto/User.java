@@ -34,29 +34,7 @@ public class User {
         this.loca = loca;
         this.admin = admin;
     }
-
-    public User(){
-        this.idPseudo = null;
-        this.pseudo = null;
-        this.prenom = null;
-        this.nomUser = null;
-        this.email = null;
-        this.mdp = null;
-        this.bio = null;
-        this.pdp = null;
-        this.dinsc = LocalDateTime.now();
-        this.dnaiss = null;
-        this.loca = null;
-        this.admin = false;
-    }
-
-    @Override
-    public String toString() {
-        return "User [uid=" + uid + ", idPseudo=" + idPseudo + ", pseudo=" + pseudo + ", prenom=" + prenom
-                + ", nomUser=" + nomUser + ", email=" + email + ", mdp=" + mdp + ", bio=" + bio + ", pdp=" + pdp
-                + ", dinsc=" + dinsc + ", dnaiss=" + dnaiss + ", loca=" + loca + ", admin=" + admin + "]";
-    }
-
+    
     public int getUid() {
         return uid;
     }

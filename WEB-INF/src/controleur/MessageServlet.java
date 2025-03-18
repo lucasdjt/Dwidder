@@ -106,6 +106,10 @@ public class MessageServlet extends HttpServlet {
             Files.copy(fileContent, file.toPath());
             }
         }
+        if (imgMess == null && (corps == null || corps.isEmpty())) {
+            res.sendRedirect(req.getContextPath() + "/messages?error=1");
+            return;
+        }
         LocalDateTime dmess = LocalDateTime.now();
         MessagesDAO dao = new MessagesDAO();
         String referer = req.getHeader("Referer");

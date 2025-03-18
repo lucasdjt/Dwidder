@@ -21,18 +21,6 @@ public class Groupe {
         this.dcreat = dcreat;
     }
 
-    public Groupe() {
-        nomGrp = null;
-        description = null;
-        dcreat = null;
-    }
-
-    @Override
-    public String toString() {
-        return "Groupe [gid=" + gid + ", uid=" + uid + ", pdpGrp=" + pdpGrp + ", nomGrp=" + nomGrp + ", description="
-                + description + ", dcreat=" + dcreat + "]";
-    }
-
     public int getGid() {
         return gid;
     }

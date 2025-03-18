@@ -102,7 +102,10 @@ public class PostServlet extends HttpServlet {
             Files.copy(fileContent, file.toPath());
             }
         }
-
+        if (media == null && (contenu == null || contenu.isEmpty())) {
+            res.sendRedirect(req.getContextPath() + "/accueil?error=1");
+            return;
+        }
         LocalDateTime dpub = LocalDateTime.now();
         String dureeStr = req.getParameter("duree");
         String dureeUnite = req.getParameter("dureeUnite");

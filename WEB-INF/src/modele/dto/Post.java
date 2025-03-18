@@ -25,21 +25,6 @@ public class Post {
         this.dpub = dpub;
         this.dfin = dfin;
     }
-
-    public Post() {
-        gid = null;
-        pidParent = null;
-        contenu = null;
-        media = null;
-        dpub = null;
-        dfin = null;
-    }
-
-    @Override
-    public String toString() {
-        return "Post [pid=" + pid + ", uid=" + uid + ", gid=" + gid + ", pidParent=" + pidParent + ", contenu="
-                + contenu + ", media=" + media + ", dpub=" + dpub + ", dfin=" + dfin + "]";
-    }
     
     public int getPid() {
         return pid;

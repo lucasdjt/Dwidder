@@ -1,7 +1,6 @@
 package controleur;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,7 +37,7 @@ public class AddLikeServlet extends HttpServlet {
             reactionsDAO.delete(existingReaction);
         } else {
             if (existingReaction == null) {
-                Reaction newReaction = new Reaction(uid, pid, reaction, LocalDateTime.now());
+                Reaction newReaction = new Reaction(uid, pid, reaction);
                 reactionsDAO.insert(newReaction);
             } else {
                 existingReaction.setType(reaction);

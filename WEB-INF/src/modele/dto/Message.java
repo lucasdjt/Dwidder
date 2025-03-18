@@ -22,16 +22,6 @@ public class Message {
         this.dmess = dmess;
     }
 
-    public Message() {
-        corps = null;
-        dmess = null;
-    }
-
-    @Override
-    public String toString() {
-        return "Message [mid=" + mid + ", uidEnvoyeur=" + uidEnvoyeur + ", uidReceveur=" + uidReceveur + ", corps=" + corps + ", dmess=" + dmess + "]";
-    }
-
     public int getMid() {
         return mid;
     }

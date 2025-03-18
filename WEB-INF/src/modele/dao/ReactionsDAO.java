@@ -1,6 +1,5 @@
 package modele.dao;
 
-import java.time.*;
 import java.sql.*;
 import java.util.*;
 
@@ -23,8 +22,7 @@ public class ReactionsDAO {
                     int uid = rs.getInt("uid");
                     int pid = rs.getInt("pid");
                     String type = rs.getString("type");
-                    LocalDateTime dreact = BAO.conversion(rs.getTimestamp("dreact"));
-                    reactions.add(new Reaction(uid, pid, type, dreact));
+                    reactions.add(new Reaction(uid, pid, type));
                 }
             }
         } catch (Exception e) {
@@ -39,12 +37,11 @@ public class ReactionsDAO {
      */
     public void insert(Reaction reaction) {
         try (Connection con = DS.getConnection()) {
-            String requetePrepare = "INSERT INTO Reactions (uid, pid, type, dreact) VALUES (?, ?, ?, ?)";
+            String requetePrepare = "INSERT INTO Reactions (uid, pid, type) VALUES (?, ?, ?)";
             try (PreparedStatement pstmt = con.prepareStatement(requetePrepare)) {
                 pstmt.setInt(1, reaction.getUid());
                 pstmt.setInt(2, reaction.getPid());
                 pstmt.setString(3, reaction.getType());
-                pstmt.setTimestamp(4, BAO.conversion(reaction.getDreact()));
                 pstmt.executeUpdate();
             }
         } catch (Exception e) {
@@ -103,8 +100,7 @@ public class ReactionsDAO {
                 try (ResultSet rs = pstmt.executeQuery()) {
                     if (rs.next()) {
                         String type = rs.getString("type");
-                        LocalDateTime dreact = BAO.conversion(rs.getTimestamp("dreact"));
-                        reaction = new Reaction(uid, pid, type, dreact);
+                        reaction = new Reaction(uid, pid, type);
                     }
                 }
             }

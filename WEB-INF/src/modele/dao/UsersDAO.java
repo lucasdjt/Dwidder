@@ -441,16 +441,13 @@ public class UsersDAO {
                         String media = rs.getString("media");
                         LocalDateTime dpub = BAO.conversion(rs.getTimestamp("dpub"));
                         LocalDateTime dfin = BAO.conversion(rs.getTimestamp("dfin"));
-                        long duree = (dfin != null) ? Duration.between(dpub, dfin).toHours() : 720;
                         String pdp = rs.getString("pdp");
                         String pseudo = rs.getString("pseudo");
                         int uidAdmin = rs.getInt("uidAdmin");
                         int nbLikes = rs.getInt("nbLikes");
                         int nbComm = rs.getInt("nbComm");
                         String idPseudo = rs.getString("idPseudo");
-                        if(duree > 0){
-                            posts.add(new PostDetails(pid, gid, nomGrp, pidParent, contenu, media, dpub, dfin, duree, pdp, pseudo, uid, uidAdmin, nbLikes, nbComm, idPseudo));
-                        }
+                        posts.add(new PostDetails(pid, gid, nomGrp, pidParent, contenu, media, dpub, dfin, pdp, pseudo, uid, uidAdmin, nbLikes, nbComm, idPseudo));
                     }
                 }
             }
@@ -470,8 +467,7 @@ public class UsersDAO {
                     while (rs.next()) {
                         int pid = rs.getInt("pid");
                         String type = rs.getString("type");
-                        LocalDateTime dreact = BAO.conversion(rs.getTimestamp("dreact"));
-                        reaction.add(new Reaction(uid, pid, type, dreact));
+                        reaction.add(new Reaction(uid, pid, type));
                     }
                 }
             }
