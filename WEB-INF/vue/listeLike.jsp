@@ -44,7 +44,7 @@ Integer pid = (Integer) session.getAttribute("pidReaction");
                     <p class="mb-1"><%= u.getBio() %></p>
                 </div>
                 <div class="ms-auto">
-                        <a href="${pageContext.request.contextPath}/addReaction?pid=<%= pid %>&uid=<%= u.getUid() %>&supprimer=1" class="btn btn-outline-danger btn-sm">
+                        <a href="${pageContext.request.contextPath}/reaction/delete?pid=<%= pid %>&uid=<%= u.getUid() %>" class="btn btn-outline-danger btn-sm">
                             <%= e.getValue() %>
                         </a>
                         <% if(u.getUid() != User_ID){ %>

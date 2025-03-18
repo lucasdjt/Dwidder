@@ -81,14 +81,6 @@ killall java
 
 ### OPTIMISATION
 
-FavoriServlet "/favori/*" :
-- AddFavoriServlet "/addFavori" doGet ==> /favori/add
-- FavorisServlet "/favoris" doGet ==> /favori
-
-ReactionServlet "/reaction/*" :
-- AddLikeServlet "/addReaction" doGet ==> /reaction/add
-- LikeServlet "/reactions/*" doGet ==> /reaction
-
 AbonnementServlet "/follow/*" :
 - AddFollowServlet "/addFollow" doGet ==> /follow/add
 - FollowerServlet "/followers/*" doGet ==> /follow/followers

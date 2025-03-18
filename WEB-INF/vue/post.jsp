@@ -9,7 +9,7 @@
     List<Integer> listFollowUser = (List<Integer>) session.getAttribute("me_listFollow");
     List<Integer> listFollowersUser = (List<Integer>) session.getAttribute("me_listFollowers");
     Map<Integer, String> listReactionsUser = (Map<Integer, String>) session.getAttribute("me_listReactions");
-    List<PostDetails> listeDesPosts = (ArrayList<PostDetails>) session.getAttribute("listeDesPosts");
+    List<PostDetails> listeDesPosts = (List<PostDetails>) session.getAttribute("listeDesPosts");
     if (listeDesPosts != null) {
         for(PostDetails post : listeDesPosts){
 %>
@@ -37,7 +37,7 @@
                         <a href="${pageContext.request.contextPath}/addFollow?follow=<%= post.getUid() %>&follower=<%= User_ID %>" class="btn btn-sm btn-outline-danger">Ne plus suivre</a>
                     <% } %>
                 <% } else { %>
-                    <a href="${pageContext.request.contextPath}/reactions/<%= post.getPid() %>" class="btn btn-sm btn-outline-primary">Voir les réactions</a>
+                    <a href="${pageContext.request.contextPath}/reaction/<%= post.getPid() %>" class="btn btn-sm btn-outline-primary">Voir les réactions</a>
                 <% } %>
                 <% if (post.getUid() == User_ID  || post.getUidAdmin() == User_ID) { %>
                     <a href="${pageContext.request.contextPath}/delPost/<%= post.getPid() %>" class="btn btn-sm btn-outline-danger">Supprimer le post</a>
@@ -63,21 +63,21 @@
                         <% } %>
                     </button>
                     <ul class="dropdown-menu" style="min-width: auto;">
-                        <li><a class="dropdown-item d-flex align-items-center" href="${pageContext.request.contextPath}/addReaction?pid=<%= post.getPid() %>&uid=<%= User_ID %>&type=LIKES">👍</a></li>
-                        <li><a class="dropdown-item d-flex align-items-center" href="${pageContext.request.contextPath}/addReaction?pid=<%= post.getPid() %>&uid=<%= User_ID %>&type=LOVES">❤️</a></li>
-                        <li><a class="dropdown-item d-flex align-items-center" href="${pageContext.request.contextPath}/addReaction?pid=<%= post.getPid() %>&uid=<%= User_ID %>&type=FIRES">🔥</a></li>
-                        <li><a class="dropdown-item d-flex align-items-center" href="${pageContext.request.contextPath}/addReaction?pid=<%= post.getPid() %>&uid=<%= User_ID %>&type=JOYYY">😂</a></li>
-                        <li><a class="dropdown-item d-flex align-items-center" href="${pageContext.request.contextPath}/addReaction?pid=<%= post.getPid() %>&uid=<%= User_ID %>&type=SADDD">😢</a></li>
-                        <li><a class="dropdown-item d-flex align-items-center" href="${pageContext.request.contextPath}/addReaction?pid=<%= post.getPid() %>&uid=<%= User_ID %>&type=ANGER">😡</a></li>
-                        <li><a class="dropdown-item d-flex align-items-center" href="${pageContext.request.contextPath}/addReaction?pid=<%= post.getPid() %>&uid=<%= User_ID %>&type=THIFT">🤔</a></li>
-                        <li><a class="dropdown-item d-flex align-items-center" href="${pageContext.request.contextPath}/addReaction?pid=<%= post.getPid() %>&uid=<%= User_ID %>&supprimer=1">❌</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="${pageContext.request.contextPath}/reaction/add?pid=<%= post.getPid() %>&uid=<%= User_ID %>&type=LIKES">👍</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="${pageContext.request.contextPath}/reaction/add?pid=<%= post.getPid() %>&uid=<%= User_ID %>&type=LOVES">❤️</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="${pageContext.request.contextPath}/reaction/add?pid=<%= post.getPid() %>&uid=<%= User_ID %>&type=FIRES">🔥</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="${pageContext.request.contextPath}/reaction/add?pid=<%= post.getPid() %>&uid=<%= User_ID %>&type=JOYYY">😂</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="${pageContext.request.contextPath}/reaction/add?pid=<%= post.getPid() %>&uid=<%= User_ID %>&type=SADDD">😢</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="${pageContext.request.contextPath}/reaction/add?pid=<%= post.getPid() %>&uid=<%= User_ID %>&type=ANGER">😡</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="${pageContext.request.contextPath}/reaction/add?pid=<%= post.getPid() %>&uid=<%= User_ID %>&type=THIFT">🤔</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="${pageContext.request.contextPath}/reaction/delete?pid=<%= post.getPid() %>&uid=<%= User_ID %>">❌</a></li>
                     </ul>
                 </div>
                 <a href="${pageContext.request.contextPath}/posts/<%= post.getPid() %>" class="btn btn-outline-secondary btn-sm">💬 <%= post.getNbComm() %></a>
                 <% if (!listFavoriUser.contains(post.getPid())) { %>
-                    <a href="${pageContext.request.contextPath}/addFavori?pid=<%= post.getPid() %>&uid=<%= User_ID %>" class="btn btn-outline-warning btn-sm">⭐ Favoris</a>
+                    <a href="${pageContext.request.contextPath}/favori/change?pid=<%= post.getPid() %>" class="btn btn-outline-warning btn-sm">⭐ Favoris</a>
                 <% } else { %>
-                    <a href="${pageContext.request.contextPath}/addFavori?pid=<%= post.getPid() %>&uid=<%= User_ID %>" class="btn btn-outline-danger btn-sm">❌ Retirer des favoris</a>
+                    <a href="${pageContext.request.contextPath}/favori/change?pid=<%= post.getPid() %>" class="btn btn-outline-danger btn-sm">❌ Retirer des favoris</a>
                 <% } %>
             </footer>
     </article>
