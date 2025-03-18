@@ -49,9 +49,9 @@ Map<Integer, String> listReactionsUser = (Map<Integer, String>) session.getAttri
                     <div class="ms-auto">
                         <% if (post.getUid() != User_ID) { %>
                             <% if (!listFollowUser.contains(post.getUid())) { %>
-                                <a href="${pageContext.request.contextPath}/addFollow?follow=<%= post.getUid() %>&follower=<%= User_ID %>" class="btn btn-sm btn-outline-success">+ Suivre</a>
+                                <a href="${pageContext.request.contextPath}/follow/addFollow/<%= post.getUid() %>" class="btn btn-sm btn-outline-success">+ Suivre</a>
                             <% } else { %>
-                                <a href="${pageContext.request.contextPath}/addFollow?follow=<%= post.getUid() %>&follower=<%= User_ID %>" class="btn btn-sm btn-outline-danger">Ne plus suivre</a>
+                                <a href="${pageContext.request.contextPath}/follow/addFollow/<%= post.getUid() %>" class="btn btn-sm btn-outline-danger">Ne plus suivre</a>
                             <% } %>
                         <% } else { %>
                             <a href="${pageContext.request.contextPath}/reaction/<%= post.getPid() %>" class="btn btn-sm btn-outline-primary">Voir les réactions</a>

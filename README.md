@@ -81,11 +81,6 @@ killall java
 
 ### OPTIMISATION
 
-AbonnementServlet "/follow/*" :
-- AddFollowServlet "/addFollow" doGet ==> /follow/add
-- FollowerServlet "/followers/*" doGet ==> /follow/followers
-- FollowServlet "/follows/*" doGet ==> /follow/follow
-
 PostServlet : "post/*" :
 DeletePostServlet "/delPost/*" doGet ==> /post/delete
 PostServlet "/posts/*" doGet doPost ==> /post && /post/add

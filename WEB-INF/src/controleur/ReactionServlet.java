@@ -22,8 +22,7 @@ import utils.BAO;
 @WebServlet("/reaction/*")
 public class ReactionServlet extends HttpServlet {
 
-    protected void doGet(HttpServletRequest req, HttpServletResponse res)
-        throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         res.setContentType("text/html; charset=UTF-8");
         res.setCharacterEncoding("UTF-8");
         

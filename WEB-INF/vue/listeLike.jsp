@@ -49,9 +49,9 @@ Integer pid = (Integer) session.getAttribute("pidReaction");
                         </a>
                         <% if(u.getUid() != User_ID){ %>
                         <% if (!listFollowUser.contains(u.getUid())) { %>
-                            <a href="${pageContext.request.contextPath}/addFollow?follow=<%= u.getUid() %>&follower=<%= User_ID %>" class="btn btn-sm btn-outline-success">+ Suivre</a>
+                            <a href="${pageContext.request.contextPath}/follow/addFollow/<%= u.getUid() %>" class="btn btn-sm btn-outline-success">+ Suivre</a>
                         <% } else { %>
-                            <a href="${pageContext.request.contextPath}/addFollow?follow=<%= u.getUid() %>&follower=<%= User_ID %>" class="btn btn-sm btn-outline-danger">Ne plus suivre</a>
+                            <a href="${pageContext.request.contextPath}/follow/addFollow/<%= u.getUid() %>" class="btn btn-sm btn-outline-danger">Ne plus suivre</a>
                         <% } %>
                         <% } %>
                 </div>
