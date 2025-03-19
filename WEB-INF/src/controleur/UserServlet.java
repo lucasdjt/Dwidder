@@ -2,6 +2,8 @@ package controleur;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
@@ -12,6 +14,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import modele.dao.LogsDAO;
 import modele.dao.UsersDAO;
+import modele.dto.PostDetails;
 import modele.dto.User;
 import utils.BAO;
 
@@ -86,7 +89,18 @@ public class UserServlet extends HttpServlet {
             }
 
             session.setAttribute("userSearch", user);
-            session.setAttribute("listeDesPosts", uDao.getListPostsOfUser(user.getUid(), (boolean) session.getAttribute("me_tri")));
+            
+            List<Integer> userGroups = new ArrayList<>();
+            List<PostDetails> listPosts = new ArrayList<>();
+
+            uDao.getUserGroups((int)session.getAttribute("me_uid")).forEach(group -> userGroups.add(group.getGid()));
+            for (PostDetails post : uDao.getListPostsOfUser(user.getUid(), (boolean) session.getAttribute("me_tri"))) {
+                if(post.getGid() == null || post.getGid() == 0 || (post.getGid() != null && userGroups.contains(post.getGid()))){
+                    listPosts.add(post);
+                }
+            }
+
+            session.setAttribute("listeDesPosts", listPosts);
             session.setAttribute("nombreFollows", uDao.getListFollowsOfUser(user.getUid()).size());
             session.setAttribute("nombreFollowers", uDao.getListFollowersOfUser(user.getUid()).size());
 

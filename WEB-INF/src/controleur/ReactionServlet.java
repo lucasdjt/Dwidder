@@ -73,7 +73,7 @@ public class ReactionServlet extends HttpServlet {
             for (Reaction r : uDao.getListReactionsOfUser(uid)) listReactionsUser.put(r.getPid(), r.getTypeEmoji());
 
             session.setAttribute("me_listReactions", listReactionsUser);
-            res.sendRedirect(referer);
+            res.sendRedirect(referer + "#post" + pid);
             return;
         }
 

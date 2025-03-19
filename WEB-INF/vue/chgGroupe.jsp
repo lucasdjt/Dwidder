@@ -40,7 +40,7 @@ Groupe gSelect = (Groupe) session.getAttribute("groupeSelect");
             if (listUsers != null) {
                 for(User u : listUsers){
             %>
-                <li class="border list-group-item d-flex align-items-center">
+                <li class="border list-group-item d-flex align-items-center" id="user_<%= u.getIdPseudo()%>">
                     <img src="${pageContext.request.contextPath}/<%= u.getPdp() %>" alt="<%= u.getPseudo() %>" class="rounded-circle me-2" width="40">
                     <div>
                         <a href="${pageContext.request.contextPath}/user/<%= u.getIdPseudo() %>" class="text-decoration-none text-white"><%= u.getPseudo() %></a>

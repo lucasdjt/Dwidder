@@ -75,7 +75,8 @@ public class PostServlet extends HttpServlet {
                 return;
             }
 
-            if(post.getGid() != null){
+            System.out.println(post.getGid());
+            if(post.getGid() != null && post.getGid() != 0){
                 if(!gDao.getListUsersOfAGroup(post.getGid()).contains((User)session.getAttribute("me_user"))){
                     session.setAttribute("error", "Vous n'avez pas accès à ce post");
                     res.sendRedirect(req.getContextPath() + "/accueil");

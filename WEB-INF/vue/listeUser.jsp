@@ -36,7 +36,7 @@ List<Integer> listFollowersUser = (List<Integer>) session.getAttribute("me_listF
                 if (list != null) {
                     for(User u : list){
             %>
-            <li class="border list-group-item d-flex align-items-center">
+            <li class="border list-group-item d-flex align-items-center" id="user_<%= u.getIdPseudo()%>">
                 <img src="${pageContext.request.contextPath}/<%= u.getPdp() %>" alt="<%= u.getPdp() %>" class="rounded-circle me-2" width="40">
                 <div>
                     <a href="${pageContext.request.contextPath}/user/<%= u.getIdPseudo() %>" class="text-decoration-none text-white"><h6 class="mb-0"><%= u.getPseudo() %></h6></a>

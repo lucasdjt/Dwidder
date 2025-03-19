@@ -85,7 +85,7 @@ public class AbonnementServlet extends HttpServlet {
             req.getSession().setAttribute("me_listFollow", listFollowUser);
             req.getSession().setAttribute("me_listFollowers", listFollowersUser);
 
-            res.sendRedirect(referer);
+            res.sendRedirect(referer + "#user_" + uDao.findUserByUid(uidFollowed).getIdPseudo());
         }
     }
 }

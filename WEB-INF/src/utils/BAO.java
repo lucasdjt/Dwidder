@@ -65,7 +65,7 @@ public class BAO {
 
         
     public static String uploadImage(Part filePart, String servPath) throws IOException {
-        String UPLOAD_DIR = "img";
+        String UPLOAD_DIR = "imgStock";
         String SEP = "/";
         if (filePart == null || servPath == null || filePart.getSubmittedFileName() == null) {
             throw new IllegalArgumentException("Invalid filePart or servPath");

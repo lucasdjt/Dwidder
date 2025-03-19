@@ -76,7 +76,7 @@ public class FavoriServlet extends HttpServlet {
             uDAO.getListFavorisOfUser((int) req.getSession().getAttribute("me_uid")).forEach(favori -> listFavoriUser.add(favori.getPid()));
             
             req.getSession().setAttribute("me_listFavori", listFavoriUser);
-            res.sendRedirect(referer);
+            res.sendRedirect(referer + "#post" + pid);
         }
     }
 }

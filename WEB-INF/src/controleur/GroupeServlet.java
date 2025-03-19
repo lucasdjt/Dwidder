@@ -239,6 +239,11 @@ public class GroupeServlet extends HttpServlet {
             }
 
             try {
+                if(gDao.getListUsersOfAGroup(gid).contains(user)){
+                    session.setAttribute("error", "Cette personne est déjà dans le groupe.");
+                    res.sendRedirect(referer);
+                    return;
+                }
                 mDao.insert(new Membre(user.getUid(), gid, LocalDateTime.now()));
                 LogsDAO.insert(req.getSession().getAttribute("me_pseudo").toString(), "Ajout du membre " + user.getUid() + " du groupe " + gid);
                 session.setAttribute("success", user.getIdPseudo() + " a été ajouté au groupe");

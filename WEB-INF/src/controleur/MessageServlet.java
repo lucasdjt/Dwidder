@@ -61,9 +61,6 @@ public class MessageServlet extends HttpServlet {
             res.sendRedirect(req.getContextPath() + "/accueil");
         }
 
-        System.out.println("PathInfo: " + pathInfo);
-        System.out.println("Utilisateur en session avant recherche: " + session.getAttribute("userMess"));
-        System.out.println("Requête utilisateur pour pseudo: " + pathParts[1]);
         try {
             User user = uDao.findUserByPseudo(pathParts[1]);
             if (user == null) {

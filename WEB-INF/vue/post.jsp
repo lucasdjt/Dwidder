@@ -13,7 +13,7 @@
     if (listeDesPosts != null) {
         for(PostDetails post : listeDesPosts){
 %>
-    <article class="card mb-3">
+    <article class="card mb-3" id="post<%= post.getPid() %>">
         <header class="card-header d-flex align-items-center">
             <img src="${pageContext.request.contextPath}/<%= post.getPdp() %>" alt="Pdp de <%= post.getIdPseudo() %>" class="rounded-circle me-2" width="40">
                 <div>
