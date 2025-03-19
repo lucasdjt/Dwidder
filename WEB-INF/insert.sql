@@ -12,14 +12,15 @@ INSERT INTO Users (idPseudo, pseudo, prenom, nomUser, email, mdp, bio, dinsc, dn
 ('bob', 'Bob', 'Bob', 'Marley', 'bob@gmail.com', 'bob', 'Musician', DEFAULT, DEFAULT, 'London', FALSE),
 ('charlie', 'Charlie', 'Charlie', 'Chaplin', 'charlie@gmail.com', 'charlie', 'Je suis charlie', DEFAULT, DEFAULT, 'France', FALSE),
 ('mario', 'Mario', 'Mario', DEFAULT, 'mario@gmail.com', 'mario', 'Luigi', DEFAULT, DEFAULT, DEFAULT, FALSE),
-('hack', '<h1>HACKEUR</h1>', '<script>alert("PRENOM")</script>', '<script>alert("NOM")</script>', 'hack@gmail.com', 'hack', '<p color="red">HACK RED</p>', DEFAULT, DEFAULT, '<div style="background:url(javascript:alert(\'XSS\'))">', FALSE); -- XSS
+('mario2', '2', 'Mario2', DEFAULT, 'mario2@gmail.com', 'mario2', 'Luigi', DEFAULT, DEFAULT, DEFAULT, FALSE),
+('hack', '<h1>HACK</h1>', 't', 'e', 'hack@gmail.com', 'hack', '<script>alert("PRENOM")</script>', DEFAULT, DEFAULT, '<div style="background:url(javascript:alert("XSS"))">', FALSE); -- XSS
 
 \echo '2/ Création de Groupes'
 INSERT INTO Groupes (uid, nomGrp, description, dcreat) VALUES
 (1, 'DraggasCorp', 'Communaute de Draggas', DEFAULT), 
 (2, 'Private', 'Groupe prive', DEFAULT),
 (3, 'Test', DEFAULT, '2000-01-01'), -- LE PLUS VIEUX
-(4, 'Test2', 'Groupe de test par Tom', '2030-01-01'); -- DANS LE FUTUR
+(4, 'Test2', 'Groupe de test par Tom', '2030-01-01'), -- DANS LE FUTUR
 (10, '<script>alert("HACK")</script>', '<h1>ATTAQUER PAR DU XSS</h1>', '2030-01-01'); -- XSS
 
 \echo '3/ Création des Membres'
@@ -54,15 +55,15 @@ INSERT INTO Messages (uidEnvoyeur, uidReceveur, corps, dmess) VALUES
 (1, 2, 'Slt Draggas, c est Lucas y a 1h', NOW() - INTERVAL '1 hour'),
 (2, 1, 'Slt Lucas, c est Draggas mtn', DEFAULT),
 (1, 3, 'Slt John, c est DRAGGAS', DEFAULT),
-(4, 1, 'Slt Draggas, c est TOM', DEFAULT);
-(10, 1, '<script>alert("SALUT")</script>', DEFAULT), -- XSS
+(4, 1, 'Slt Draggas, c est TOM', DEFAULT),
+(10, 1, '<script>alert("SALUT")</script>', DEFAULT); -- XSS
 
 \echo '6/ Création d abonnements'
 INSERT INTO Abonnements (uidAbonne, uidAbonnement, dabonnement) VALUES
 (3, 1, DEFAULT),
 (4, 1, DEFAULT),
 (5, 1, DEFAULT),
-(6, 1, DEFAULT);
+(6, 1, DEFAULT),
 (7, 1, DEFAULT),
 (8, 1, DEFAULT),
 (9, 1, DEFAULT),
@@ -72,7 +73,7 @@ INSERT INTO Abonnements (uidAbonne, uidAbonnement, dabonnement) VALUES
 (2, 4, DEFAULT),
 (2, 5, DEFAULT),
 (2, 6, DEFAULT),
-(2, 7, DEFAULT);
+(2, 7, DEFAULT),
 (2, 8, DEFAULT),
 (2, 9, DEFAULT),
 (2, 10, DEFAULT);
@@ -96,33 +97,3 @@ INSERT INTO Reactions (uid, pid, type) VALUES
 (5, 1, 'JOYYY'),
 (6, 1, 'SADDD'),
 (7, 1, 'ANGER');
-
-\echo '------------------------------------------------------'
-\echo '------------------------[VIEW]------------------------'
-\echo '------------------------------------------------------'
-
-\echo 'Création de la vue PostDetails'
-CREATE VIEW PostDetails AS
-SELECT 
-    p.pid,
-    p.gid,
-    g.nomGrp,
-    g.uid AS uidAdmin,
-    p.pidParent,
-    p.contenu,
-    p.media,
-    p.dpub,
-    p.dfin,
-    u.pdp,
-    u.pseudo,
-    u.uid,
-    u.idPseudo,
-    (SELECT COUNT(*) FROM Reactions r WHERE r.pid = p.pid) AS nbLikes,
-    (SELECT COUNT(*) FROM Posts c WHERE c.pidParent = p.pid) AS nbComm
-FROM 
-    Posts p
-LEFT JOIN 
-    Users u ON p.uid = u.uid
-LEFT JOIN 
-    Groupes g ON p.gid = g.gid
-WHERE p.dfin IS NULL OR p.dfin > NOW();
