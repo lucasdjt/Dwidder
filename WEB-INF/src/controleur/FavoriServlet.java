@@ -15,12 +15,12 @@ import modele.dao.PostsDAO;
 import modele.dao.UsersDAO;
 import modele.dto.Favori;
 import modele.dto.PostDetails;
+import utils.BAO;
 import modele.dao.FavorisDAO;
 import modele.dao.LogsDAO;
 
 @WebServlet("/favori/*")
 public class FavoriServlet extends HttpServlet {
-    private static final String REPERTORY = "/WEB-INF/vue/";
 
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         res.setContentType("text/html; charset=UTF-8");
@@ -48,7 +48,7 @@ public class FavoriServlet extends HttpServlet {
                                         .map(f -> pDAO.findPostDetails(f.getPid()))
                                         .toList();
             session.setAttribute("listeDesPosts", list);
-            req.getRequestDispatcher(REPERTORY + "listeFavoris.jsp").forward(req, res);
+            req.getRequestDispatcher(BAO.getRepertory() + "listeFavoris.jsp").forward(req, res);
             return;
         }
         String[] pathParts = pathInfo.split("/");

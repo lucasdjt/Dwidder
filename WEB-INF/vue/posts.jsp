@@ -41,7 +41,7 @@ Map<Integer, String> listReactionsUser = (Map<Integer, String>) session.getAttri
                                 <% } %>
                             </small>
                             <% if(post.getPidParent() != null && post.getPidParent() != 0){ %>
-                                <blockquote class="text-muted small">Ce post répond à ce <a href="${pageContext.request.contextPath}/posts/<%= post.getPidParent() %>">post</a></blockquote>
+                                <blockquote class="text-muted small">Ce post répond à ce <a href="${pageContext.request.contextPath}/post/<%= post.getPidParent() %>">post</a></blockquote>
                             <% } else if(post.getNomGrp() != null){ %>
                                 <blockquote class="text-muted small">Ce post vient du groupe <em><%= post.getNomGrp() %></em></blockquote>
                             <% } %>
@@ -55,9 +55,6 @@ Map<Integer, String> listReactionsUser = (Map<Integer, String>) session.getAttri
                             <% } %>
                         <% } else { %>
                             <a href="${pageContext.request.contextPath}/reaction/<%= post.getPid() %>" class="btn btn-sm btn-outline-primary">Voir les réactions</a>
-                        <% } %>
-                        <% if (post.getUid() == User_ID  || post.getUidAdmin() == User_ID) { %>
-                            <a href="${pageContext.request.contextPath}/delPost/<%= post.getPid() %>" class="btn btn-sm btn-outline-danger">Supprimer le post</a>
                         <% } %>
                     </div>
                 </header>
@@ -90,7 +87,7 @@ Map<Integer, String> listReactionsUser = (Map<Integer, String>) session.getAttri
                                 <li><a class="dropdown-item d-flex align-items-center" href="${pageContext.request.contextPath}/reaction/delete?pid=<%= post.getPid() %>&uid=<%= User_ID %>">❌</a></li>
                             </ul>
                         </div>
-                        <a href="${pageContext.request.contextPath}/posts/<%= post.getPid() %>" class="btn btn-outline-secondary btn-sm">💬 <%= post.getNbComm() %></a>
+                        <a href="${pageContext.request.contextPath}/post/<%= post.getPid() %>" class="btn btn-outline-secondary btn-sm">💬 <%= post.getNbComm() %></a>
                         <% if (!listFavoriUser.contains(post.getPid())) { %>
                             <a href="${pageContext.request.contextPath}/addFavori?pid=<%= post.getPid() %>&uid=<%= User_ID %>" class="btn btn-outline-warning btn-sm">⭐ Favoris</a>
                         <% } else { %>

@@ -91,6 +91,15 @@
 <jsp:include page="footer.jsp" />
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="script/main.js"></script>
+<script>
+document.getElementById('togglePassword').addEventListener('click', function () {
+    let passwordInput = document.getElementById('password');
+    if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+    } else {
+        passwordInput.type = 'password';
+    }
+});
+</script>
 </body>
 </html>

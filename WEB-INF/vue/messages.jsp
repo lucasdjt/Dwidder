@@ -26,7 +26,7 @@ int User_ID = (int) session.getAttribute("me_uid");
         <aside class="col-md-4">
             <h2 class="text-primary">Messages</h2>
             <jsp:include page="popUp.jsp" />
-            <form class="mb-4" method="get" action="${pageContext.request.contextPath}/messages">
+            <form class="mb-4" method="get" action="${pageContext.request.contextPath}/message">
                 <div class="input-group">
                     <input type="text" name="query" class="form-control" placeholder="Rechercher un utilisateur...">
                     <button class="btn btn-primary" type="submit">Rechercher</button>
@@ -43,7 +43,7 @@ int User_ID = (int) session.getAttribute("me_uid");
                 %>
                 <li class="border list-group-item d-flex align-items-center btn-outline-success">
                     <img src="${pageContext.request.contextPath}/<%= u.getPdp() %>" alt="<%= u.getPdp() %>" class="rounded-circle me-2" width="40">
-                    <a href="${pageContext.request.contextPath}/messages/<%= u.getIdPseudo() %>" class="stretched-link text-decoration-none text-white"><%= u.getPseudo() %></a>
+                    <a href="${pageContext.request.contextPath}/message/<%= u.getIdPseudo() %>" class="stretched-link text-decoration-none text-white"><%= u.getPseudo() %></a>
                 </li>
                 <% }} %>
             </ul>
@@ -52,6 +52,7 @@ int User_ID = (int) session.getAttribute("me_uid");
         <section class="col-md-8 d-flex flex-column">
                 <%
                 User user = (User) session.getAttribute("userMess");
+                session.removeAttribute("userMess");
                 if (user != null) {
                 %>
             <header class="card d-flex align-items-center p-3 border">
@@ -67,6 +68,7 @@ int User_ID = (int) session.getAttribute("me_uid");
                     <div class="d-flex flex-column">
                         <%
                         List<Message> listMess = (List<Message>) session.getAttribute("listeDesMessages");
+                        session.removeAttribute("listeDesMessages");
                         if (listMess != null) {
                             for(Message m : listMess){
                                 if(m.getUidEnvoyeur() != User_ID){
@@ -89,10 +91,9 @@ int User_ID = (int) session.getAttribute("me_uid");
                     </div>
                 </div>
                 <div class="card-footer">
-                    <form class="d-flex" action="messages" method="post" enctype="multipart/form-data">
+                    <form class="d-flex" action="message" method="post" enctype="multipart/form-data">
                         <input type="text" class="form-control me-2" name="corps" placeholder="Écrire un message...">
                         <input type="file" class="form-control bg-dark text-white mb-2" name="imgMess" accept="image/*">
-                        <input type="hidden" name="uidEnvoyeur" value="<%= User_ID %>">
                         <input type="hidden" name="uidReceveur" value="<%= user.getUid() %>">
                         <button class="btn btn-primary">Envoyer</button>
                     </form>
@@ -107,11 +108,14 @@ int User_ID = (int) session.getAttribute("me_uid");
 <jsp:include page="footer.jsp" />
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="script/main.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const conversation = document.getElementById("conversation");
+    conversation.scrollTop = conversation.scrollHeight;
+});
+</script>
 </body>
 </html>
 <%
 session.removeAttribute("listDesUtilisateurs");
-session.removeAttribute("userMess");
-session.removeAttribute("listeDesMessages");
 %>
