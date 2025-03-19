@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS Users (
     admin BOOLEAN NOT NULL
 );
 
-\echo '3/ Création de la table Groupes'
+\echo '2/ Création de la table Groupes'
 CREATE TABLE IF NOT EXISTS Groupes (
     gid serial PRIMARY KEY,
     uid int NOT NULL,
@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS Groupes (
 );
 CREATE INDEX idx_groupes_uid_admin ON Groupes(uid);
 
-\echo '2/ Création de la table Posts'
+\echo '3/ Création de la table Posts'
 CREATE TABLE IF NOT EXISTS Posts (
     pid serial PRIMARY KEY,
     uid int NOT NULL,
@@ -65,7 +65,7 @@ CREATE INDEX idx_posts_uid ON Posts(uid);
 CREATE INDEX idx_posts_gid ON Posts(gid);
 CREATE INDEX idx_posts_pidParent ON Posts(pidParent);
 
-\echo '5/ Création de la table Messages'
+\echo '4/ Création de la table Messages'
 CREATE TABLE IF NOT EXISTS Messages (
     mid serial PRIMARY KEY,
     uidEnvoyeur int NOT NULL,
@@ -80,7 +80,7 @@ CREATE TABLE IF NOT EXISTS Messages (
 CREATE INDEX idx_messages_env ON Messages(uidEnvoyeur);
 CREATE INDEX idx_messages_rec ON Messages(uidReceveur);
 
-\echo '6/ Création de la table Abonnements'
+\echo '5/ Création de la table Abonnements'
 CREATE TABLE IF NOT EXISTS Abonnements (
     uidAbonne int NOT NULL,
     uidAbonnement int NOT NULL,
@@ -92,7 +92,7 @@ CREATE TABLE IF NOT EXISTS Abonnements (
 CREATE INDEX idx_abonnements_abonne ON Abonnements(uidAbonne);
 CREATE INDEX idx_abonnements_abonnement ON Abonnements(uidAbonnement);
 
-\echo '7/ Création de la table Favoris'
+\echo '6/ Création de la table Favoris'
 CREATE TABLE IF NOT EXISTS Favoris (
     uid int NOT NULL,
     pid int NOT NULL,
@@ -104,7 +104,7 @@ CREATE TABLE IF NOT EXISTS Favoris (
 CREATE INDEX idx_favoris_uid ON Favoris(uid);
 CREATE INDEX idx_favoris_pid ON Favoris(pid);
 
-\echo '8/ Création de la table Reactions'
+\echo '7/ Création de la table Reactions'
 CREATE TABLE IF NOT EXISTS Reactions (
     uid int NOT NULL,
     pid int NOT NULL,
@@ -117,7 +117,7 @@ CREATE TABLE IF NOT EXISTS Reactions (
 CREATE INDEX idx_reactions_uid ON Reactions(uid);
 CREATE INDEX idx_reactions_pid ON Reactions(pid);
 
-\echo '9/ Création de la table Membres'
+\echo '8/ Création de la table Membres'
 CREATE TABLE IF NOT EXISTS Membres (
     uid int NOT NULL,
     gid int NOT NULL,
@@ -129,7 +129,7 @@ CREATE TABLE IF NOT EXISTS Membres (
 CREATE INDEX idx_membres_uid ON Membres(uid);
 CREATE INDEX idx_membres_gid ON Membres(gid);
 
-\echo '10/ Création de la table Logs'
+\echo '9/ Création de la table Logs'
 CREATE TABLE IF NOT EXISTS Logs (
     lid serial PRIMARY KEY,
     daction TIMESTAMP NOT NULL DEFAULT NOW(),
@@ -149,14 +149,14 @@ INSERT INTO Users (idPseudo, pseudo, prenom, nomUser, email, mdp, bio, dinsc, dn
 ('tom', 'Tom', DEFAULT, DEFAULT, 'tom@gmail.com', 'tom', DEFAULT, '2030-01-01', '1950-01-01', DEFAULT, FALSE), -- DANS LE FUTUR / Compte Test
 ('clara', 'Clara', 'Clara', 'Dupont', 'clara@gmail.com', 'clara', 'Graphiste', DEFAULT, '1950-01-01', 'Paris', FALSE); -- Compte Test
 
-\echo '3/ Création de Groupes'
+\echo '2/ Création de Groupes'
 INSERT INTO Groupes (uid, nomGrp, description, dcreat) VALUES
 (1, 'DraggasCorp', 'Communauté Draggas', DEFAULT), 
 (2, 'Private', 'Groupe privé', DEFAULT), -- Groupe Test
 (3, 'Test', DEFAULT, '2000-01-01'), -- LE PLUS VIEUX / Groupe Test
 (4, 'Test2', 'Groupe de test par Tom', '2030-01-01'); -- DANS LE FUTUR / Groupe Test
 
-\echo '9/ Création des Membres'
+\echo '3/ Création des Membres'
 INSERT INTO Membres (uid, gid, djoin) VALUES
 (1, 1, DEFAULT), -- Ajout draggas, DraggasCorp
 (2, 1, DEFAULT), -- Ajout lucasdjt, DraggasCorp
@@ -168,7 +168,7 @@ INSERT INTO Membres (uid, gid, djoin) VALUES
 (4, 3, '2030-01-01'), -- Ajout tom, Test - DANS LE FUTUR
 (4, 4, DEFAULT); -- Ajout tom, Test2
 
-\echo '2/ Création de Posts'
+\echo '4/ Création de Posts'
 INSERT INTO Posts (uid, gid, pidParent, contenu, media, dpub, dfin) VALUES
 (1, 1, NULL, 'Post 1 du groupe DraggasCorp, plus disponible dans 7j', 'img/post1.jpg', DEFAULT, NOW() + INTERVAL '7 days'), -- Post Draggas avec toutes les infos sans parent au groupe DraggasCorp
 (2, NULL, NULL, 'Post 2 public', NULL, DEFAULT, NULL), -- Post Lucas sans grp, ni parent

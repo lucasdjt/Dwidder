@@ -63,11 +63,16 @@ public class AbonnementServlet extends HttpServlet {
             } catch (NumberFormatException e) {
                 res.sendRedirect(req.getContextPath() + "/accueil");
             }
+            return;
         }
 
-        if("addFollow".equals(pathParts[1])){
+        if("addFollow".equals(pathParts[1]) || "addFollowers".equals(pathParts[1])){
             int uidFollowed = Integer.parseInt(pathParts[2]);
             int uidFollowers = (int) session.getAttribute("me_uid");
+            if("addFollowers".equals(pathParts[1])){
+                uidFollowed = (int) session.getAttribute("me_uid");
+                uidFollowers = Integer.parseInt(pathParts[2]);
+            }
             Abonnement existingAbonnement = aDao.findAbonnement(uidFollowers, uidFollowed);
             if (existingAbonnement == null) {
                 aDao.insert(new Abonnement(uidFollowers, uidFollowed, LocalDateTime.now()));

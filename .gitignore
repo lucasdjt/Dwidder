@@ -1,5 +1,5 @@
 .vscode/
-WEB-INF/classes/
-*.prop
-WEB-INF/src/utils/DS.java
+WEB-INF/classes/controleur/
+WEB-INF/classes/modele/
+WEB-INF/classes/utils/*.class
 imgStock/

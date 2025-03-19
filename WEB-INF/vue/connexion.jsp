@@ -19,7 +19,7 @@
 <main class="container d-flex justify-content-center align-items-center vh-100">
     <div class="card bg-dark text-white p-4" style="max-width: 400px; width: 100%;">
         <h2 class="text-center text-white">Connexion</h2>
-        <jsp:include page="popUp.jsp" />
+        <jsp:include page="include_popUp.jsp" />
         <form action="${pageContext.request.contextPath}/connexion" method="post">
             <div class="mb-3">
                 <label for="identifier" class="form-label">Email ou Pseudo</label>

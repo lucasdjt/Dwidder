@@ -21,11 +21,11 @@ Map<User, String> reactions = (Map<User, String>) session.getAttribute("listeDes
 Integer pid = (Integer) session.getAttribute("pidReaction");
 %>
 
-<jsp:include page="header.jsp" />
+<jsp:include page="include_header.jsp" />
 
 <main class="container mt-4">
         <h2 class="text-primary">Liste de compte</h2>
-        <jsp:include page="popUp.jsp" />
+        <jsp:include page="include_popUp.jsp" />
         <ul class="list-group">
             <%
                 if (reactions != null) {
@@ -60,7 +60,7 @@ Integer pid = (Integer) session.getAttribute("pidReaction");
         </ul>
 </main>
 
-<jsp:include page="footer.jsp" />
+<jsp:include page="include_footer.jsp" />
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>

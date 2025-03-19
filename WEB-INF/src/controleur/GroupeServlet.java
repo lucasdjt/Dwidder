@@ -96,7 +96,7 @@ public class GroupeServlet extends HttpServlet {
 
                 session.setAttribute("groupeSelect", groupe);
                 session.setAttribute("membreGrp", gDao.getListUsersOfAGroup(gid));
-                req.getRequestDispatcher(BAO.getRepertory() + "chgGroupe.jsp").forward(req, res);
+                req.getRequestDispatcher(BAO.getRepertory() + "modificationGroupe.jsp").forward(req, res);
             } catch (NumberFormatException e) {
                 res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid");
             }

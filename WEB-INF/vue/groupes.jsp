@@ -17,13 +17,13 @@
 int User_ID = (int) session.getAttribute("me_uid");
 %>
 
-<jsp:include page="header.jsp" />
+<jsp:include page="include_header.jsp" />
 
 <main class="container mt-5 pt-4">
     <div class="row">
         <aside class="col-md-4">
             <h2 class="text-primary">Groupes</h2>
-            <jsp:include page="popUp.jsp" />
+            <jsp:include page="include_popUp.jsp" />
             <a href="${pageContext.request.contextPath}/groupe/add" class="btn btn-outline-success mt-2 w-100">Créer un Groupe</a>
             <ul class="list-group">
             <%
@@ -66,14 +66,14 @@ int User_ID = (int) session.getAttribute("me_uid");
 
             <% if (gSelect != null) { %>
             <h3>Ajouter un Post au groupe</h3>
-            <jsp:include page="form.jsp" />
+            <jsp:include page="include_form.jsp" />
             <% } %>
         </section>
 
     </div>
 </main>
 
-<jsp:include page="footer.jsp" />
+<jsp:include page="include_footer.jsp" />
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>

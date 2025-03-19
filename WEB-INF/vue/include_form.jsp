@@ -25,7 +25,7 @@
     <% } %>
     <button type="submit" class="btn btn-primary w-100">Publier</button>
 </form>
-<jsp:include page="post.jsp" />
+<jsp:include page="include_post.jsp" />
 <%
 session.removeAttribute("post");
 session.removeAttribute("groupe");

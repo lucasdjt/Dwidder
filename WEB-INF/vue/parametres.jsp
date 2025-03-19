@@ -13,11 +13,11 @@
 </head>
 <body>
 
-<jsp:include page="header.jsp" />
+<jsp:include page="include_header.jsp" />
 
 <main class="container mt-4">
     <h2 class="text-primary text-center">Paramètres du compte</h2>
-    <jsp:include page="popUp.jsp" />
+    <jsp:include page="include_popUp.jsp" />
 
     <form class="card bg-dark text-white p-4" action="${pageContext.request.contextPath}/user" method="post" enctype="multipart/form-data">
         <%
@@ -88,7 +88,7 @@
     </div>
 </main>
 
-<jsp:include page="footer.jsp" />
+<jsp:include page="include_footer.jsp" />
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>

@@ -19,11 +19,11 @@ List<Integer> listFollowUser = (List<Integer>) session.getAttribute("me_listFoll
 List<Integer> listFollowersUser = (List<Integer>) session.getAttribute("me_listFollowers");
 %>
 
-<jsp:include page="header.jsp" />
+<jsp:include page="include_header.jsp" />
 
 <main class="container mt-4">
         <h2 class="text-primary">Liste d'utilisateurs</h2>
-        <jsp:include page="popUp.jsp" />
+        <jsp:include page="include_popUp.jsp" />
         <form class="mb-4" method="get" action="${pageContext.request.contextPath}/user">
             <div class="input-group">
                 <input type="text" name="query" class="form-control" placeholder="Rechercher un utilisateur...">
@@ -49,6 +49,9 @@ List<Integer> listFollowersUser = (List<Integer>) session.getAttribute("me_listF
                 </div>
                 <% if(u.getUid() != User_ID){ %>
                 <div class="ms-auto">
+                        <% if (listFollowersUser.contains(u.getUid())) { %>
+                            <a href="${pageContext.request.contextPath}/follow/addFollowers/<%= u.getUid() %>" class="btn btn-sm btn-outline-danger">Supprimer l'abonné</a>
+                        <% } %>
                         <% if (!listFollowUser.contains(u.getUid())) { %>
                             <a href="${pageContext.request.contextPath}/follow/addFollow/<%= u.getUid() %>" class="btn btn-sm btn-outline-success">+ Suivre</a>
                         <% } else { %>
@@ -61,7 +64,7 @@ List<Integer> listFollowersUser = (List<Integer>) session.getAttribute("me_listF
         </ul>
 </main>
 
-<jsp:include page="footer.jsp" />
+<jsp:include page="include_footer.jsp" />
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>

@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.util.ArrayList, java.util.List, modele.dto.PostDetails, java.util.Map" %>
 
-<meta http-equiv="refresh" content="15">
+<meta http-equiv="refresh" content="30">
 
 <% 
     int User_ID = (int) session.getAttribute("me_uid");

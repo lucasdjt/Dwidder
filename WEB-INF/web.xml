@@ -1,4 +1,0 @@
-<servlet-mapping>
-    <servlet-name>default</servlet-name>
-    <url-pattern>/script/*</url-pattern>
-</servlet-mapping>

@@ -19,13 +19,13 @@ List<Integer> listFollowersUser = (List<Integer>) session.getAttribute("me_listF
 Groupe gSelect = (Groupe) session.getAttribute("groupeSelect");
 %>
 
-<jsp:include page="header.jsp" />
+<jsp:include page="include_header.jsp" />
 
 <main class="container mt-5 pt-4">
     <div class="row">
         <aside class="col-md-4">
             <h2 class="text-primary">Ajouter un utilisateur</h2>
-            <jsp:include page="popUp.jsp" />
+            <jsp:include page="include_popUp.jsp" />
             <form action="${pageContext.request.contextPath}/groupe/member" method="post" class="mt-2">
                 <div class="input-group">
                     <input type="hidden" name="gid" value="<%= gSelect.getGid() %>">
@@ -100,7 +100,7 @@ Groupe gSelect = (Groupe) session.getAttribute("groupeSelect");
     </div>
 </main>
 
-<jsp:include page="footer.jsp" />
+<jsp:include page="include_footer.jsp" />
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>

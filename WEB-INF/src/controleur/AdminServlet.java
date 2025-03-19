@@ -34,7 +34,7 @@ public class AdminServlet extends HttpServlet {
         session.setAttribute("listeDesUsers", dao.listUsers());
         session.setAttribute("listeDesLogs", LogsDAO.selectAll());
 
-        req.getRequestDispatcher(BAO.getRepertory() + "admin.jsp").forward(req, res);
+        req.getRequestDispatcher(BAO.getRepertory() + "gestionAdmin.jsp").forward(req, res);
     }
 
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {

@@ -17,7 +17,7 @@
 int User_ID = (int) session.getAttribute("me_uid");
 %>
 
-<jsp:include page="header.jsp" />
+<jsp:include page="include_header.jsp" />
 
 
 <main class="container mt-5 pt-4">
@@ -58,13 +58,13 @@ int User_ID = (int) session.getAttribute("me_uid");
 
         <section class="col-md-8">
             <h2 class="text-primary">Profil de <%= u.getPseudo() %></h2>
-            <jsp:include page="popUp.jsp" />
-            <jsp:include page="post.jsp" />
+            <jsp:include page="include_popUp.jsp" />
+            <jsp:include page="include_post.jsp" />
         </section>
     </div>
 </main>
 
-<jsp:include page="footer.jsp" />
+<jsp:include page="include_footer.jsp" />
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>

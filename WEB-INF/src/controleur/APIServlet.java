@@ -16,19 +16,7 @@ import utils.BAO;
 import java.io.PrintWriter;
 import java.util.Base64;
 import java.util.List;
-/*
- * /api/post/{uid} : un post en particulier à moi
- * cmd > curl -i -X GET http://localhost:8080/Dwidder/api/post/1 -u draggas:draggas
- * 
- * /api/post : liste des posts publics
- * cmd > curl -i -X GET http://localhost:8080/Dwidder/api/post
- * 
- * /api/user : liste de nos posts
- * cmd > curl -i -X GET http://localhost:8080/Dwidder/api/user -u draggas:draggas
- * 
- * /api/group/{gid} : liste des posts d'un groupe données
- * cmd > curl -i -X GET http://localhost:8080/Dwidder/api/group/1 -u draggas:draggas
- */
+
 @WebServlet("/api/*")
 public class APIServlet extends HttpServlet {
     

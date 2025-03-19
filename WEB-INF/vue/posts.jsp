@@ -21,7 +21,7 @@ List<Integer> listFollowersUser = (List<Integer>) session.getAttribute("me_listF
 Map<Integer, String> listReactionsUser = (Map<Integer, String>) session.getAttribute("me_listReactions");
 %>
 
-<jsp:include page="header.jsp" />
+<jsp:include page="include_header.jsp" />
 
 <main class="container mt-5 pt-4">
     <div class="row">
@@ -102,14 +102,14 @@ Map<Integer, String> listReactionsUser = (Map<Integer, String>) session.getAttri
         
         <section class="col-md-8">
             <h3>Ajouter un post réponse</h3>
-            <jsp:include page="popUp.jsp" />
-            <jsp:include page="form.jsp" />
+            <jsp:include page="include_popUp.jsp" />
+            <jsp:include page="include_form.jsp" />
         </section>
 
     </div>
 </main>
 
-<jsp:include page="footer.jsp" />
+<jsp:include page="include_footer.jsp" />
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>

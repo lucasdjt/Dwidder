@@ -17,7 +17,7 @@ int User_ID = (int) session.getAttribute("me_uid");
 
 <main class="container mt-4">
     <h2 class="text-primary">Panneau d'Administration</h2>
-    <jsp:include page="popUp.jsp" />
+    <jsp:include page="include_popUp.jsp" />
 
     <section class="mb-4">
         <h3 class="text-secondary">Gérer les utilisateurs</h3>

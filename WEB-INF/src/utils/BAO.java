@@ -12,7 +12,7 @@ import java.lang.reflect.Field;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-// Boîte à outil permettant de convertisseur les SQL <--> TIME
+// Boîte à outil
 public class BAO {
 
     public static Timestamp conversion(LocalDateTime ldt) { return ldt == null ? null : Timestamp.valueOf(ldt); }

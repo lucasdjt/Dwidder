@@ -18,14 +18,14 @@
 int User_ID = (int) session.getAttribute("me_uid");
 %>
 
-<jsp:include page="header.jsp" />
+<jsp:include page="include_header.jsp" />
 
 <main class="container mt-5 pt-4">
     <div class="row">
 
         <aside class="col-md-4">
             <h2 class="text-primary">Messages</h2>
-            <jsp:include page="popUp.jsp" />
+            <jsp:include page="include_popUp.jsp" />
             <form class="mb-4" method="get" action="${pageContext.request.contextPath}/message">
                 <div class="input-group">
                     <input type="text" name="query" class="form-control" placeholder="Rechercher un utilisateur...">
@@ -105,7 +105,7 @@ int User_ID = (int) session.getAttribute("me_uid");
     </div>
 </main>
 
-<jsp:include page="footer.jsp" />
+<jsp:include page="include_footer.jsp" />
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>

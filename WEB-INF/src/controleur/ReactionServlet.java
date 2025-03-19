@@ -86,7 +86,7 @@ public class ReactionServlet extends HttpServlet {
             session.setAttribute("listeDesReactions", userReactions);
             session.setAttribute("pidReaction", pid);
             
-            req.getRequestDispatcher(BAO.getRepertory() + "listeLike.jsp").forward(req, res);
+            req.getRequestDispatcher(BAO.getRepertory() + "listeReactions.jsp").forward(req, res);
         } catch (NumberFormatException e) {
             session.setAttribute("error", "Le lien est invalide");
             res.sendRedirect(req.getContextPath() + "/accueil");

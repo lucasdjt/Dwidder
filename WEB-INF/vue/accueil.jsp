@@ -19,14 +19,14 @@ List<Integer> listFollowUser = (List<Integer>) session.getAttribute("me_listFoll
 List<Integer> listFollowersUser = (List<Integer>) session.getAttribute("me_listFollowers");
 %>
 
-<jsp:include page="header.jsp" />
+<jsp:include page="include_header.jsp" />
 
 <main class="container mt-4">
     <div class="row">
         <section class="col-md-8">
             <h2 class="text-primary">Accueil</h2>
-            <jsp:include page="popUp.jsp" />
-            <jsp:include page="form.jsp" />
+            <jsp:include page="include_popUp.jsp" />
+            <jsp:include page="include_form.jsp" />
         </section>
 
         <aside class="col-md-4">
@@ -67,7 +67,7 @@ List<Integer> listFollowersUser = (List<Integer>) session.getAttribute("me_listF
     </div>
 </main>
 
-<jsp:include page="footer.jsp" />
+<jsp:include page="include_footer.jsp" />
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
