@@ -4,8 +4,8 @@
 
 \echo '1/ Création de Comptes utilisateurs'
 INSERT INTO Users (idPseudo, pseudo, prenom, nomUser, email, mdp, bio, dinsc, dnaiss, loca, admin) VALUES
-('lucasdjt', 'Lucas', 'Lucas', 'DJT', 'lucasdjtpro@gmail.com', 'lucas', 'Etudiant en informatique - 8/1', DEFAULT, NULL, 'Lille', FALSE),
 ('draggas', 'Draggas', 'Lucas', 'De Jesus Teixeira', 'draggaspro@gmail.com', 'draggas', 'Admin - 1/8', DEFAULT, '2005-05-10', 'Isbergues', TRUE), -- ADMIN
+('lucasdjt', 'Lucas', 'Lucas', 'DJT', 'lucasdjtpro@gmail.com', 'lucas', 'Etudiant en informatique - 8/1', DEFAULT, NULL, 'Lille', FALSE),
 ('johndoe', 'John', DEFAULT, DEFAULT, 'john.doe@gmail.com', 'john', DEFAULT, '2000-01-01', '1950-01-01', DEFAULT, FALSE), -- LE PLUS VIEUX
 ('tom', 'Tom', DEFAULT, DEFAULT, 'tom@gmail.com', 'tom', DEFAULT, NOW() + INTERVAL '1 day', '2006-05-10', DEFAULT, FALSE), -- DANS LE FUTUR
 ('clara', 'Clara', 'Clara', 'Dupont', 'clara@gmail.com', 'clara', 'Graphiste', DEFAULT, DEFAULT, 'Paris', FALSE),

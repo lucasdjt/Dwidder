@@ -65,7 +65,7 @@
             </div>
             <div class="mb-3">
                 <label for="dnaiss" class="form-label">Date de naissance *</label>
-                <input type="date" class="form-control bg-dark text-white" name="dnaiss" required>
+                <input type="date" class="form-control bg-dark text-white" name="dnaiss">
             </div>
             <div class="mb-3">
                 <label for="loca" class="form-label">Localisation</label>

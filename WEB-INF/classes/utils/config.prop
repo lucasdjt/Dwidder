@@ -1,6 +1,4 @@
 driver=org.postgresql.Driver
-urlHOME=jdbc:postgresql://psqlserv/but2
-loginHOME=lucasdejesusteixeiraetu
-urlIUT=jdbc:postgresql://psqlserv/but2
-loginIUT=lucasdejesusteixeiraetu
-password=moi
+url=jdbc:postgresql://psqlserv/but2 # A changer selon vos configurations de base de données
+login=lucasdejesusteixeiraetu # A changer selon vos configurations de base de données
+password=moi # A changer selon vos configurations de base de données

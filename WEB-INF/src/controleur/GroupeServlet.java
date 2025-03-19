@@ -98,7 +98,8 @@ public class GroupeServlet extends HttpServlet {
                 session.setAttribute("membreGrp", gDao.getListUsersOfAGroup(gid));
                 req.getRequestDispatcher(BAO.getRepertory() + "modificationGroupe.jsp").forward(req, res);
             } catch (NumberFormatException e) {
-                res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid");
+                session.setAttribute("error", "Vous avez entré un mauvais lien.");
+                res.sendRedirect(req.getContextPath() + "/accueil");
             }
         }
 

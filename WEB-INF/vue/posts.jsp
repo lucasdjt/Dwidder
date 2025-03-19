@@ -30,7 +30,7 @@ Map<Integer, String> listReactionsUser = (Map<Integer, String>) session.getAttri
             PostDetails post = (PostDetails) session.getAttribute("post");
             if (post != null) {
             %>
-            <article class="card mb-3">
+            <article class="card mb-3" id="post<%= post.getPid() %>">
                 <header class="card-header d-flex align-items-center">
                     <img src="${pageContext.request.contextPath}/<%= post.getPdp() %>" alt="Pdp de <%= post.getIdPseudo() %>" class="rounded-circle me-2" width="40">
                         <div>
@@ -89,9 +89,9 @@ Map<Integer, String> listReactionsUser = (Map<Integer, String>) session.getAttri
                         </div>
                         <a href="${pageContext.request.contextPath}/post/<%= post.getPid() %>" class="btn btn-outline-secondary btn-sm">💬 <%= post.getNbComm() %></a>
                         <% if (!listFavoriUser.contains(post.getPid())) { %>
-                            <a href="${pageContext.request.contextPath}/addFavori?pid=<%= post.getPid() %>&uid=<%= User_ID %>" class="btn btn-outline-warning btn-sm">⭐ Favoris</a>
+                            <a href="${pageContext.request.contextPath}/favori/change?pid=<%= post.getPid() %>" class="btn btn-outline-warning btn-sm">⭐ Favoris</a>
                         <% } else { %>
-                            <a href="${pageContext.request.contextPath}/addFavori?pid=<%= post.getPid() %>&uid=<%= User_ID %>" class="btn btn-outline-danger btn-sm">❌ Retirer des favoris</a>
+                            <a href="${pageContext.request.contextPath}/favori/change?pid=<%= post.getPid() %>" class="btn btn-outline-danger btn-sm">❌ Retirer des favoris</a>
                         <% } %>
                     </footer>
             </article>

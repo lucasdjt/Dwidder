@@ -52,7 +52,7 @@ Pratique > Théorique.
 ### Pré-requis
 
 - **Java JDK 8+**  
-- **Apache Tomcat v10**  
+- **Apache Tomcat v10+**  
 - **PostgreSQL**  
 
 ---
@@ -60,6 +60,7 @@ Pratique > Théorique.
 ### Installation
 
 1. **Cloner le projet**  
+   Cloner le dossier `Dwidder` dans le répertoire `webapps` de votre Tomcat.  
    ```bash
    git clone https://github.com/lucasdjt/Dwidder.git
    cd Dwidder
@@ -67,29 +68,28 @@ Pratique > Théorique.
 
 2. **Configurer la base de données**  
    - Lancez votre serveur PostgreSQL et exécutez le fichier `setup.sql` (situé dans le répertoire `WEB-INF`).  
-   - Modifiez les fichiers `config.prop` situés dans `WEB-INF/classes/utils/` et `WEB-INF/src/utils/`.  
-   - Ajoutez les ajustements nécessaires dans le fichier `DS.java`.
+   - Ajustez les fichiers `config.prop` situés dans `WEB-INF/classes/utils/` et `WEB-INF/src/utils/` et la méthode `configProp du fichier DS.java` pour réussir la connexion avec votre base de données.
+   - Vous avez un disposition une classe Test.java dans `WEB-INF/classes/utils/` pour vérifier que tout est bien configuré. (Ajoutez dans votre CLASSPATH `tomcat/lib/postgres.jar` pour que la classe n'échoue pas)
 
-3. **Déployer sur Tomcat**  
-   - Copiez le dossier `Dwidder` dans le répertoire `webapps` de Tomcat.  
-   - Compilez les fichiers avec les scripts de configuration fournis (`remove` et `compile`) situés dans `WEB-INF/classes`.  
-   - Démarrez le serveur Tomcat.  
-   - Accédez au lien `/Dwidder` et découvrez mon application !
+3. **Déployer sur Tomcat**   
+   - Compilez les fichiers avec les scripts de configuration fournis (`remove` et `compile`) situés dans `WEB-INF/classes`.
+   - Démarrez le serveur Tomcat. [Utilisez `startup` ou `catalina run` dans `tomcat/bin`]  
+   - Accédez au lien [http://localhost:8080/Dwidder](http://localhost:8080/Dwidder) et découvrez mon application !
 
 ---
 
 ### Utiliser l'API REST
 
-L'application propose une API REST avec les fonctionnalités suivantes (en supposant un hôte par défaut : `localhost:8000`) :
+L'application propose une API REST avec les fonctionnalités suivantes (en supposant un hôte par défaut : `localhost:8080`) :
 
 - **Récupérer tous les posts publics**  
    ```bash
-   curl -i -X GET http://localhost:8000/Dwidder/api/post
+   curl -i -X GET http://localhost:8080/Dwidder/api/post
    ```
 
 - **Récupérer un post spécifique**  
    ```bash
-   curl -i -X GET http://localhost:8000/Dwidder/api/post/{pidDuPost} -u identifiant:mdp
+   curl -i -X GET http://localhost:8080/Dwidder/api/post/{pidDuPost} -u identifiant:mdp
    ```
 
 - **Récupérer la liste de vos posts**  

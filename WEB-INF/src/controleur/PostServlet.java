@@ -71,11 +71,11 @@ public class PostServlet extends HttpServlet {
             PostDetails post = pDao.findPostDetails(pid);
 
             if (post == null) {
-                res.sendError(HttpServletResponse.SC_NOT_FOUND, "Post not found");
+                session.setAttribute("error", "Le post n'existe pas");
+                res.sendRedirect(req.getContextPath() + "/accueil");
                 return;
             }
 
-            System.out.println(post.getGid());
             if(post.getGid() != null && post.getGid() != 0){
                 if(!gDao.getListUsersOfAGroup(post.getGid()).contains((User)session.getAttribute("me_user"))){
                     session.setAttribute("error", "Vous n'avez pas accès à ce post");

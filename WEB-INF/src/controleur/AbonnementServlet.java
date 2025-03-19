@@ -40,10 +40,6 @@ public class AbonnementServlet extends HttpServlet {
         AbonnementsDAO aDao = new AbonnementsDAO();
 
         String pathInfo = req.getPathInfo();
-        if (pathInfo == null || pathInfo.equals("/")) {
-            res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid user IdPseudo");
-            return;
-        }
         if (pathInfo == null || pathInfo.equals("/") || pathInfo.split("/").length < 2) {
             session.setAttribute("error", "Vous avez entré un mauvais lien.");
             res.sendRedirect(req.getContextPath() + "/accueil");

@@ -40,7 +40,9 @@ int User_ID = (int) session.getAttribute("me_uid");
         
                     <ul class="list-group mt-3 text-start">
                         <li class="list-group-item"><strong>Nom : </strong><%= u.getNomUser() %> <%= u.getPrenom() %></li>
+                        <% if (u.getDnaiss() != null) { %>
                         <li class="list-group-item"><strong>Date de naissance : </strong><%= u.getDnaiss() %></li>
+                        <% } %>
                         <li class="list-group-item"><strong>Localisation : </strong><%= u.getLoca() %></li>
                         <li class="list-group-item"><strong>Date d'inscription : </strong><%= u.getDinscAsDate() %></li>
                     </ul>
