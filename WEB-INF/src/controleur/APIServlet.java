@@ -16,7 +16,19 @@ import utils.BAO;
 import java.io.PrintWriter;
 import java.util.Base64;
 import java.util.List;
-
+/*
+ * /api/post/{uid} : un post en particulier à moi
+ * cmd > curl -i -X GET http://localhost:8080/Dwidder/api/post/1 -u draggas:draggas
+ * 
+ * /api/post : liste des posts publics
+ * cmd > curl -i -X GET http://localhost:8080/Dwidder/api/post
+ * 
+ * /api/user : liste de nos posts
+ * cmd > curl -i -X GET http://localhost:8080/Dwidder/api/user -u draggas:draggas
+ * 
+ * /api/group/{gid} : liste des posts d'un groupe données
+ * cmd > curl -i -X GET http://localhost:8080/Dwidder/api/group/1 -u draggas:draggas
+ */
 @WebServlet("/api/*")
 public class APIServlet extends HttpServlet {
     
@@ -37,12 +49,6 @@ public class APIServlet extends HttpServlet {
         
         try (PrintWriter out = res.getWriter()) {
             switch (pathParts[1]) {
-                /*
-                * /api/post/{uid} : un post en particulier à moi
-                * cmd > curl -i -X GET http://localhost:8080/ReseauSocial/api/post/1 -u draggas:draggas
-                * /api/post : liste des posts publics
-                * cmd > curl -i -X GET http://localhost:8080/ReseauSocial/api/post
-                */
                 case "post":
                     if (pathParts.length == 3) {
                         if (!isAuthenticated(req, res)) {
@@ -66,10 +72,6 @@ public class APIServlet extends HttpServlet {
                         LogsDAO.insert("API", "API GET post public");
                     }
                     break;
-                /*
-                * /api/user : liste de nos posts
-                * cmd > curl -i -X GET http://localhost:8080/ReseauSocial/api/user -u draggas:draggas
-                */
                 case "user":
                     if (!isAuthenticated(req, res)) {
                         return;
@@ -80,10 +82,6 @@ public class APIServlet extends HttpServlet {
                     out.print(listToString(uDao.getListPostsOfUser(user.getUid(), true)));
                     LogsDAO.insert("API", "API GET post user");
                     break;
-                /*
-                * /api/group/{gid} : liste des posts d'un groupe données
-                * cmd > curl -i -X GET http://localhost:8080/ReseauSocial/api/group/1 -u draggas:draggas
-                */
                 case "group":
                     if (pathParts.length != 3) {
                         res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Group name required");

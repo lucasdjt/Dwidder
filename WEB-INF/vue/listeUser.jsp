@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Liste des Users - Dwidder</title>
+    <title>Liste des Utilisateurs - Dwidder</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="icon" href="${pageContext.request.contextPath}/img/logo.ico">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
@@ -22,7 +22,7 @@ List<Integer> listFollowersUser = (List<Integer>) session.getAttribute("me_listF
 <jsp:include page="header.jsp" />
 
 <main class="container mt-4">
-        <h2 class="text-primary">Liste de compte</h2>
+        <h2 class="text-primary">Liste d'utilisateurs</h2>
         <jsp:include page="popUp.jsp" />
         <form class="mb-4" method="get" action="${pageContext.request.contextPath}/user">
             <div class="input-group">

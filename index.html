@@ -1,41 +1,92 @@
-<!-- Test.html -->
 <!DOCTYPE HTML>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="Exemple/img/logo.ico">
-    <title>Redirection...</title>
-    <style>
-      body {
-         display: flex;
-         justify-content: center;
-         align-items: center;
-         flex-direction: column;
-         height: 100vh;
-         background-color: #121212;
-         color: white;
-         font-family: Arial, sans-serif;
-         text-align: center;
-      }
-      img {
-         width: 100px;
-         height: 100px;
-         margin-bottom: 20px;
-      }
-      a {
-        color:white;
-      }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="refresh" content="5;url=/Dwidder/connexion">
+  <link rel="icon" href="Exemple/img/logo.ico">
+  <title>Bienvenue sur Dwidder</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      height: 100vh;
+      background: linear-gradient(120deg, #1d3557, #457b9d, #1d4ed8);
+      background-size: 300% 300%;
+      color: white;
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+      overflow: hidden;
+      animation: backgroundGradient 6s ease-in-out infinite alternate, fadeInBlur 2s ease-in-out forwards;
+    }
+
+    @keyframes backgroundGradient {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 100% 50%; }
+    }
+
+    @keyframes fadeInBlur {
+      0% { opacity: 0; filter: blur(10px); }
+      100% { opacity: 1; filter: blur(0); }
+    }
+
+    .logo {
+      width: 240px;
+      height: 240px;
+      margin-bottom: 20px;
+      animation: ultraFastSpin 2s linear infinite;
+    }
+
+    @keyframes ultraFastSpin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    .text {
+      font-size: 20px;
+      opacity: 0;
+      animation: textFade 3s ease-in-out forwards;
+    }
+
+    @keyframes textFade {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .loading {
+      display: flex;
+      gap: 5px;
+      margin-top: 10px;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      background-color: white;
+      border-radius: 50%;
+      animation: blink 1.5s infinite;
+    }
+
+    .dot:nth-child(2) { animation-delay: 0.2s; }
+    .dot:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes blink {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 1; }
+    }
+  </style>
 </head>
 <body>
-    <img src="Annexe/loading.gif" alt="Chargement...">
-    
-    <p>
-      <a href="accueil">Si vous êtes sur Tomcat et vous avez configuré la base de données, vous pouvez explorer la version actuelle du projet</a>
-      <br><br><br>
-      <a href="Annexe/Exemple/accueil.html">Sinon vous pouvez consulter cet exemple</a>
-    </p>
-
-
-</body></html>
+  <img src="img/pdp.png" alt="Logo" class="logo">
+  <br>
+  <br>
+  <p class="text">Bienvenue sur <strong>Dwidder</strong>, le réseau social nouvelle génération</p>
+  <div class="loading">
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+  </div>
+</body>
+</html>
