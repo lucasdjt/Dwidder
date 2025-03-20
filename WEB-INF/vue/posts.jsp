@@ -117,3 +117,5 @@ Map<Integer, String> listReactionsUser = (Map<Integer, String>) session.getAttri
 <%
 session.removeAttribute("post");
 %>
+<input type="hidden" name="author" value="Lucas DE JESUS TEIXEIRA">
+<input type="hidden" name="github" value="https://github.com/lucasdjt">

@@ -45,3 +45,5 @@ int User_ID = (int) session.getAttribute("me_uid");
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+<input type="hidden" name="author" value="Lucas DE JESUS TEIXEIRA">
+<input type="hidden" name="github" value="https://github.com/lucasdjt">

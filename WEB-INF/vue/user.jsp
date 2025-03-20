@@ -76,3 +76,5 @@ session.removeAttribute("userSearch");
 session.removeAttribute("nombreFollowers");
 session.removeAttribute("nombreFollows");
 %>
+<input type="hidden" name="author" value="Lucas DE JESUS TEIXEIRA">
+<input type="hidden" name="github" value="https://github.com/lucasdjt">

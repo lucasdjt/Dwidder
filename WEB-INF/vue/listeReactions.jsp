@@ -68,3 +68,5 @@ Integer pid = (Integer) session.getAttribute("pidReaction");
 <%
 session.removeAttribute("pidReaction");
 %>
+<input type="hidden" name="author" value="Lucas DE JESUS TEIXEIRA">
+<input type="hidden" name="github" value="https://github.com/lucasdjt">

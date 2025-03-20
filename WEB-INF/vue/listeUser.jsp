@@ -72,3 +72,5 @@ List<Integer> listFollowersUser = (List<Integer>) session.getAttribute("me_listF
 <%
 session.removeAttribute("listUsers");
 %>
+<input type="hidden" name="author" value="Lucas DE JESUS TEIXEIRA">
+<input type="hidden" name="github" value="https://github.com/lucasdjt">

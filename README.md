@@ -1,14 +1,24 @@
 # DWIDDER - Réseau Social en JEE
 
+![Image de DWIDDER](img/DwidderBanner.png)
+
+## Informations
+- **GitHub** : [https://github.com/lucasdjt](https://github.com/lucasdjt)
+- **Vidéo de présentation du projet** : [Lien YouTube](https://youtu.be/yf-XB1rcDR0)
+- **Email** : lucasdjtpro@gmail.com
+- **LINKEDIN** : [lucasdjt](https://www.linkedin.com/in/lucasdjt/)
+- **Nom** : Lucas DE JESUS TEIXEIRA
+
 ## SOMMAIRE
 1. [Description du projet](#description-du-projet)
 2. [Fonctionnalités](#fonctionnalités)
 3. [Technologies Utilisées](#technologies-utilisées)
 4. [Installation et configuration](#installation-et-configuration)
-5. [Structure du projet](#structure-du-projet)
-6. [Base de données](#base-de-données)
-7. [Points techniques difficiles](#points-techniques-difficiles)
-8. [Crédits](#crédits)
+5. [Guide du projet](#guide-du-projet)
+6. [Structure du projet](#structure-du-projet)
+7. [Base de données](#base-de-données)
+8. [Points techniques difficiles](#points-techniques-difficiles)
+9. [Crédits](#crédits)
 
 ---
 
@@ -101,6 +111,12 @@ L'application propose une API REST avec les fonctionnalités suivantes (en suppo
    ```bash
    curl -i -X GET http://localhost:8080/Dwidder/api/group/{gidDuGroupe} -u identifiant:mdp
    ```
+
+## Guide du Projet
+
+Vous pouvez trouver le guide du projet expliquant comment utiliser le projet depuis ce lien :
+
+[Guide du projet](./GuideDuProjet.md)
 
 ---
 

@@ -82,3 +82,5 @@ int User_ID = (int) session.getAttribute("me_uid");
 session.removeAttribute("listeDesUsers");
 session.removeAttribute("listeDesLogs");
 %>
+<input type="hidden" name="author" value="Lucas DE JESUS TEIXEIRA">
+<input type="hidden" name="github" value="https://github.com/lucasdjt">

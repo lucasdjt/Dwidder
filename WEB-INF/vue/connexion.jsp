@@ -53,3 +53,5 @@ document.getElementById('togglePassword').addEventListener('click', function () 
 
 </body>
 </html>
+<input type="hidden" name="author" value="Lucas DE JESUS TEIXEIRA">
+<input type="hidden" name="github" value="https://github.com/lucasdjt">
